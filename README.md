@@ -84,6 +84,7 @@ call-graph inventory --help
        --project-root ghidra-projects `
        --metadata-root data/raw/windows_inventory `
        --pdb-root data/external/pdbs `
+       --symbol-cache data/external/pdbs `
        --output-dir data/interim/call_graphs `
        --overwrite
    ```
@@ -96,8 +97,15 @@ call-graph inventory --help
        --metadata-root data/raw/windows_inventory `
        --windows-root C:\Windows `
        --output-dir data/interim/call_graphs `
-       --pdb-root data/external/pdbs
+       --pdb-root data/external/pdbs `
+       --symbol-cache data/external/pdbs
    ```
+
+   Note: by default the CLI builds a symbol path of the form
+   `srv*<symbol-cache>*https://msdl.microsoft.com/download/symbols` for on-demand
+   PDB downloads. Use `--symbol-path` to override, `--symbol-server-url` to point
+   at a different server, or `--no-use-symbol-server` to rely solely on a local
+   cache.
 
 4. **Generate analytics and reports**
 
@@ -160,7 +168,9 @@ call-graph inventory --help
    output, drop the `--module` flags to process the full data set. If some
    imports cannot be resolved yet (e.g., CRT helpers or DLLs that have not been
    extracted), the command logs warnings but still writes the unified graph so
-   the outstanding gaps are captured.
+   the outstanding gaps are captured. By default the unified graph keeps only
+   imported and exported functions (stable names across DLLs); add
+   `--include-internal` if you want the full function set instead.
 
 8. **Launch the Dash explorer**
 
@@ -401,7 +411,7 @@ writes the results to `data/interim/call_graphs/<relative_path>.callgraph.json`.
 
 ```powershell
 python -m call_graph_win11.cli callgraph-batch `
-    --ghidra-headless "C:\Users\Baha\Tools\ghidra\ghidra_11.4.2_PUBLIC\support\analyzeHeadless.bat" `
+    --ghidra-headless "C:\Path\To\Ghidra\support\analyzeHeadless.bat" `
     --project-root ghidra-projects `
     --project-name win_batch `
     --overwrite

@@ -18,6 +18,7 @@ from call_graph_win11.analysis.graph_audit import (
 from call_graph_win11.analysis.graph_loader import (
     export_generic_graph,
     load_call_graph,
+    load_generic_graph,
     merge_call_graphs,
     to_igraph,
 )
@@ -269,6 +270,11 @@ def callgraph_unify(
     output: Path = typer.Option(Path("data/interim/unified/unified.callgraph.json"), help="Destination JSON for the unified graph."),
     limit: Optional[int] = typer.Option(None, help="Optional limit on the number of call graphs to process."),
     module: List[str] = typer.Option([], "--module", "-m", help="Restrict to these module names (e.g., kernel32.dll)."),
+    include_internal: bool = typer.Option(
+        False,
+        "--include-internal",
+        help="Include internal (non-import, non-export) functions. Default focuses on imports/exports only.",
+    ),
 ) -> None:
     """Build the unified cross-DLL call graph and emit igraph-compatible JSON."""
 
@@ -305,7 +311,7 @@ def callgraph_unify(
     if limit is not None:
         paths = paths[:limit]
 
-    builder = UnifiedGraphBuilder(metadata_root)
+    builder = UnifiedGraphBuilder(metadata_root, include_internal=include_internal)
     typer.echo(f"Building unified graph from {len(paths)} artefacts...")
     builder.build(paths)
     builder.export(output)
@@ -416,7 +422,12 @@ def ghidra_callgraph(
     metadata_root: Path = typer.Option(Path("data/raw/windows_inventory"), help="Inventory metadata root (JSON files)."),
     pdb_root: Path = typer.Option(Path("data/external/pdbs"), help="Root of downloaded PDB symbol store."),
     windows_root: Path = typer.Option(Path(r"C:\Windows"), help="Windows directory used when building the inventory."),
-    symbol_path: Optional[Path] = typer.Option(None, help="Explicit symbol search path passed to Ghidra (-symbolPath)."),
+    symbol_path: Optional[str] = typer.Option(None, help="Explicit symbol search path passed to Ghidra (-symbolPath)."),
+    symbol_cache: Path = typer.Option(Path("data/external/pdbs"), help="Local cache used when building a symbol server chain."),
+    use_symbol_server: bool = typer.Option(
+        True, help="Use the Microsoft public symbol server with the provided cache."
+    ),
+    symbol_server_url: str = typer.Option("https://msdl.microsoft.com/download/symbols", help="Symbol server URL."),
 ) -> None:
     """Run the Ghidra call graph exporter for the provided binaries."""
 
@@ -427,12 +438,24 @@ def ghidra_callgraph(
     metadata_root = metadata_root.expanduser().resolve()
     pdb_root = pdb_root.expanduser().resolve()
     windows_root = windows_root.expanduser().resolve()
-    symbol_store = None
+    symbol_store: str | Path | None = None
+    cache_root = symbol_cache.expanduser().resolve()
     if symbol_path is not None:
-        symbol_path = symbol_path.expanduser().resolve()
-        if not symbol_path.exists():
-            raise typer.BadParameter(f"Symbol path not found: {symbol_path}")
-        symbol_store = symbol_path
+        # allow srv* chains as raw strings
+        try:
+            sp = Path(symbol_path)
+            if sp.drive or sp.root:
+                sp = sp.expanduser().resolve()
+            if sp.exists():
+                symbol_store = sp
+            else:
+                # accept non-existent path if caller passed srv* chain
+                symbol_store = symbol_path
+        except Exception:
+            symbol_store = symbol_path
+    elif use_symbol_server:
+        cache_root.mkdir(parents=True, exist_ok=True)
+        symbol_store = f"srv*{cache_root}*{symbol_server_url}"
 
     if not script_path.exists():
         raise typer.BadParameter(f"Ghidra script not found: {script_path}")
@@ -498,7 +521,12 @@ def callgraph_batch(
     output_dir: Path = typer.Option(Path("data/interim/call_graphs"), help="Directory for call graph JSON outputs."),
     overwrite: bool = typer.Option(False, help="Overwrite existing call graph exports."),
     pdb_root: Path = typer.Option(Path("data/external/pdbs"), help="Root of downloaded PDB symbol store."),
-    symbol_path: Optional[Path] = typer.Option(None, help="Explicit symbol search path passed to Ghidra (-symbolPath)."),
+    symbol_path: Optional[str] = typer.Option(None, help="Explicit symbol search path passed to Ghidra (-symbolPath)."),
+    symbol_cache: Path = typer.Option(Path("data/external/pdbs"), help="Local cache used when building a symbol server chain."),
+    use_symbol_server: bool = typer.Option(
+        True, help="Use the Microsoft public symbol server with the provided cache."
+    ),
+    symbol_server_url: str = typer.Option("https://msdl.microsoft.com/download/symbols", help="Symbol server URL."),
 ) -> None:
     """Run the call graph exporter for all binaries under the selected Windows subdirectories."""
 
@@ -514,10 +542,22 @@ def callgraph_batch(
         raise typer.BadParameter(f"Metadata root not found: {metadata_root}")
     if not script_path.exists():
         raise typer.BadParameter(f"Ghidra script not found: {script_path}")
+    symbol_store: str | Path | None = None
+    cache_root = symbol_cache.expanduser().resolve()
     if symbol_path is not None:
-        symbol_path = symbol_path.expanduser().resolve()
-        if not symbol_path.exists():
-            raise typer.BadParameter(f"Symbol path not found: {symbol_path}")
+        try:
+            sp = Path(symbol_path)
+            if sp.drive or sp.root:
+                sp = sp.expanduser().resolve()
+            if sp.exists():
+                symbol_store = sp
+            else:
+                symbol_store = symbol_path
+        except Exception:
+            symbol_store = symbol_path
+    elif use_symbol_server:
+        cache_root.mkdir(parents=True, exist_ok=True)
+        symbol_store = f"srv*{cache_root}*{symbol_server_url}"
 
     include_prefixes: list[Path] = []
     for entry in include:
@@ -559,11 +599,8 @@ def callgraph_batch(
     output_dir.mkdir(parents=True, exist_ok=True)
     project_root.mkdir(parents=True, exist_ok=True)
 
-    symbol_store = None
-    if symbol_path is not None:
-        symbol_store = symbol_path
-    elif not pdb_root.exists():
-        typer.secho(f"Warning: PDB root {pdb_root} does not exist; proceeding without symbol path.", fg=typer.colors.YELLOW)
+    if not pdb_root.exists():
+        typer.secho(f"Warning: PDB root {pdb_root} does not exist; proceeding without local PDBs.", fg=typer.colors.YELLOW)
         pdb_root = None
 
     typer.echo(f"Processing {len(binaries)} binaries with project '{project_name}'...")
@@ -609,7 +646,16 @@ def callgraph_visualize(
     if not input_path.exists():
         raise typer.BadParameter(f"Call graph file not found: {input_path}")
 
-    graph = load_call_graph(input_path)
+    # Detect format: per-DLL exporter vs generic/unified (nodes/edges).
+    with input_path.open("r", encoding="utf-8") as handle:
+        payload_preview = json.load(handle)
+    if "functions" in payload_preview:
+        graph = load_call_graph(input_path)
+    elif "nodes" in payload_preview and "edges" in payload_preview:
+        graph = load_generic_graph(input_path)
+    else:
+        raise typer.BadParameter("Unsupported graph format: expected exporter JSON or unified graph with nodes/edges.")
+
     default_output = Path("data/interim/figures") / f"{input_path.stem}.png"
     output_path = (output or default_output).expanduser().resolve()
 

@@ -223,7 +223,7 @@ class MetadataIndex:
 class UnifiedGraphBuilder:
     """Compose individual call graphs into a single cross-DLL graph."""
 
-    def __init__(self, metadata_root: Path) -> None:
+    def __init__(self, metadata_root: Path, *, include_internal: bool = False) -> None:
         self.metadata_index = MetadataIndex(metadata_root)
         self.graph = nx.DiGraph(name="Unified Windows Call Graph")
         self.edge_set: set[Tuple[str, str, str]] = set()
@@ -231,6 +231,7 @@ class UnifiedGraphBuilder:
         self.function_sources: dict[str, dict[str, dict]] = {}
         self.dll_records: dict[str, dict] = {}
         self.unresolved_imports: list[tuple[str, str]] = []
+        self.include_internal = include_internal
         self.windows_info = {
             "platform": platform.platform(),
             "version": platform.version(),
@@ -243,6 +244,10 @@ class UnifiedGraphBuilder:
         functions = payload.get("functions", [])
         address_map: dict[str, str] = {}
         source_map: dict[str, dict] = {}
+        meta = self.metadata_index.get_module_record(program)
+        exported_names: set[str] = set()
+        if meta:
+            exported_names = {name.upper() for name in meta.exports}
 
         for fn in functions:
             symbol = _symbol_name(fn)
@@ -251,14 +256,19 @@ class UnifiedGraphBuilder:
             if node_id in self.graph.nodes:
                 # ensure unique by suffixing address
                 node_id = _node_id(program, f"{symbol}@{address}")
+            is_imported = fn.get("source") == "IMPORTED"
+            is_exported = symbol.upper() in exported_names
+            if not (is_imported or is_exported or self.include_internal):
+                continue
+            record_source = fn.get("source") or ("EXPORTED" if is_exported else None)
             record = NodeRecord(
                 node_id=node_id,
                 program=program,
                 name=symbol,
                 address=address,
-                is_external=bool(fn.get("source") == "IMPORTED"),
+                is_external=bool(is_imported),
                 calling_convention=fn.get("calling_convention"),
-                source=fn.get("source"),
+                source=record_source,
             )
             self._add_or_update_node(record)
             if address:
@@ -267,7 +277,6 @@ class UnifiedGraphBuilder:
         self.address_maps[program] = address_map
         self.function_sources[program] = source_map
 
-        meta = self.metadata_index.get_module_record(program)
         if meta:
             self.dll_records[program] = {
                 "program": program,

@@ -24,7 +24,7 @@ from dash import Dash, Input, Output, State, dcc, html
 import networkx as nx
 import igraph as ig
 
-from call_graph_win11.analysis.graph_loader import load_call_graph, to_igraph
+from call_graph_win11.analysis.graph_loader import load_call_graph, load_generic_graph, to_igraph
 
 
 
@@ -77,8 +77,14 @@ def _list_graph_files(base_dir: Path, excluded: set[Path] | None = None) -> List
 @lru_cache(maxsize=256)
 
 def _load_graph(path: str) -> Tuple["ig.Graph", nx.DiGraph]:
-
-    nx_graph = load_call_graph(Path(path))
+    path_obj = Path(path)
+    with path_obj.open("r", encoding="utf-8") as handle:
+        payload = handle.read(1024)
+    # Cheap sniffing to support unified nodes/edges graphs in the UI.
+    if "\"functions\"" in payload:
+        nx_graph = load_call_graph(path_obj)
+    else:
+        nx_graph = load_generic_graph(path_obj)
     ig_graph = to_igraph(nx_graph)
     return ig_graph, nx_graph
 
@@ -90,9 +96,24 @@ def _subset_graph(graph: "ig.Graph", limit: int | None) -> Tuple["ig.Graph", set
     if limit is None or graph.vcount() <= limit:
         return graph, set(graph.vs["node_id"])
 
-    degrees = graph.degree()
-    ranked_indices = sorted(range(len(degrees)), key=lambda idx: degrees[idx], reverse=True)[:limit]
-    subgraph = graph.subgraph(ranked_indices)
+    # Balance nodes across programs to avoid single-DLL dominance when limit is small.
+    programs = {}
+    for idx, program in enumerate(graph.vs["program"]):
+        programs.setdefault(program, []).append(idx)
+
+    per_program_quota = max(1, math.ceil(limit / max(1, len(programs))))
+    selected: list[int] = []
+    for idxs in programs.values():
+        ranked = sorted(idxs, key=lambda i: graph.degree(i), reverse=True)
+        selected.extend(ranked[:per_program_quota])
+
+    if len(selected) < limit:
+        remaining = [i for i in range(graph.vcount()) if i not in selected]
+        remaining_ranked = sorted(remaining, key=lambda i: graph.degree(i), reverse=True)
+        selected.extend(remaining_ranked[: max(0, limit - len(selected))])
+
+    selected = selected[:limit]
+    subgraph = graph.subgraph(selected)
     if subgraph.vcount() == 0:
         return subgraph, set()
 
@@ -133,7 +154,6 @@ def _vertex_attr(vertex: "ig.Vertex", attr: str, default=None):
 def _create_elements(
     graph: "ig.Graph",
     colors: Dict[str, str],
-    search_term: str,
     highlight_nodes: Iterable[str],
     highlight_edges: Iterable[Tuple[str, str]],
     size_map: Optional[Dict[str, float]] = None,
@@ -142,7 +162,6 @@ def _create_elements(
 ) -> Tuple[List[dict], List[dict]]:
     nodes: List[dict] = []
     edges: List[dict] = []
-    term_lower = (search_term or "").strip().lower()
     highlight_node_set = set(highlight_nodes)
     highlight_edge_set = set(highlight_edges)
     size_lookup = size_map or {}
@@ -164,6 +183,8 @@ def _create_elements(
             or _vertex_attr(vertex, "address")
             or node_id
         )
+        if label and len(label) > 48:
+            label = label[:45] + "..."
         if prefix_program and program:
             label = f"{program}:{label}"
         size_value = size_lookup.get(node_id, 22.0)
@@ -178,7 +199,6 @@ def _create_elements(
                     "calling_convention": _vertex_attr(vertex, "calling_convention"),
                     "is_external": bool(_vertex_attr(vertex, "is_external")),
                     "color": colors.get(program, colors["unknown"]),
-                    "search_match": term_lower in label.lower() if term_lower else False,
                     "path_highlight": node_id in highlight_node_set,
                     "path_focus": node_id in focus_nodes,
                     "size": size_value,
@@ -323,45 +343,24 @@ def create_app(data_dir: Path, *, default_limit: int = 320, excluded_paths: set[
                             html.Label("Max nodes"),
 
                             dcc.Slider(
-
                                 id="node-limit",
-
-                                min=50,
-
-                                max=1500,
-
-                                step=50,
-
-                                value=default_limit,
-
+                                min=300,
+                                max=1000,
+                                step=None,
+                                marks={300: "300", 500: "500", 700: "700", 900: "900", 1000: "1000"},
+                                value=500,
                                 tooltip={"placement": "bottom", "always_visible": True},
-
                             ),
 
-                        ],
-
-                        className="control",
-
-                    ),
-
-                    html.Div(
-
-                        [
-
-                            html.Label("Highlight"),
-
+                            html.Label("Custom nodes"),
                             dcc.Input(
-
-                                id="search-term",
-
-                                type="text",
-
-                                placeholder="Function name fragment...",
-
+                                id="node-limit-custom",
+                                type="number",
+                                min=1,
+                                step=50,
+                                placeholder="Enter node cap (e.g., 20000)",
                                 debounce=True,
-
-                                style={"zIndex": 1100},
-
+                                style={"marginTop": "6px", "width": "100%"},
                             ),
 
                         ],
@@ -451,11 +450,9 @@ def create_app(data_dir: Path, *, default_limit: int = 320, excluded_paths: set[
                                 id="focus-depth",
 
                                 min=1,
-
                                 max=6,
-
-                                step=1,
-
+                                step=None,
+                                marks={1: "1", 2: "2", 3: "3", 4: "4", 5: "5", 6: "6"},
                                 value=3,
 
                                 tooltip={"placement": "bottom", "always_visible": True},
@@ -540,10 +537,17 @@ def create_app(data_dir: Path, *, default_limit: int = 320, excluded_paths: set[
                                     "style": {
                                         "label": "data(label)",
                                         "background-color": "data(color)",
-                                        "color": "#e2e8f0",
-                                        "text-outline-color": "rgba(15,23,42,0.85)",
-                                        "text-outline-width": "2px",
-                                        "font-size": "9px",
+                                        "color": "#0b1224",
+                                        "text-wrap": "wrap",
+                                        "text-max-width": "220px",
+                                        "text-overflow": "ellipsis",
+                                        "text-background-color": "rgba(248,250,252,0.92)",
+                                        "text-background-opacity": 0.92,
+                                        "text-background-padding": "4px",
+                                        "text-background-shape": "roundrectangle",
+                                        "font-size": "12px",
+                                        "min-zoomed-font-size": "10px",
+                                        "text-outline-width": "0px",
                                         "width": "data(size)",
                                         "height": "data(size)",
                                         "border-width": "1px",
@@ -557,16 +561,6 @@ def create_app(data_dir: Path, *, default_limit: int = 320, excluded_paths: set[
                                 {
                                     "selector": "node[hub = true]",
                                     "style": {"border-width": 3, "border-color": "#38bdf8"},
-                                },
-                                {
-                                    "selector": "node[search_match = true]",
-                                    "style": {
-                                        "border-width": 4,
-                                        "border-color": "#facc15",
-                                        "shadow-blur": 16,
-                                        "shadow-color": "rgba(250, 204, 21, 0.8)",
-                                        "shadow-opacity": 1.0,
-                                    },
                                 },
                             {
                                 "selector": "node[path_highlight = true]",
@@ -623,7 +617,7 @@ def create_app(data_dir: Path, *, default_limit: int = 320, excluded_paths: set[
         Output("path-end", "value"),
         Input("graph-file", "value"),
         Input("node-limit", "value"),
-        Input("search-term", "value"),
+        Input("node-limit-custom", "value"),
         Input("filters", "value"),
         Input("layout-mode", "value"),
         Input("node-size-mode", "value"),
@@ -635,7 +629,7 @@ def create_app(data_dir: Path, *, default_limit: int = 320, excluded_paths: set[
     def update_graph(
         path_value: str,
         node_limit: int,
-        search_term: str,
+        node_limit_custom: int | None,
         filters: List[str],
         layout_mode: str,
         size_mode: str,
@@ -655,8 +649,18 @@ def create_app(data_dir: Path, *, default_limit: int = 320, excluded_paths: set[
         str | None,
     ]:
         ig_graph, nx_graph = _load_graph(path_value)
-        subset_graph, subset_nodes = _subset_graph(ig_graph, node_limit)
-        filtered_graph, filtered_node_ids = _filter_graph(subset_graph, filters or [])
+        # Prefer custom node cap if provided
+        limit_value = node_limit_custom if node_limit_custom is not None else node_limit
+        try:
+            limit_value = int(limit_value)
+        except (TypeError, ValueError):
+            limit_value = node_limit
+        # Ensure we always render at least one node and cap to graph size
+        node_limit = max(1, min(limit_value, ig_graph.vcount()))
+
+        # Filter first, then subset for rendering
+        filtered_graph, filtered_node_ids = _filter_graph(ig_graph, filters or [])
+        subset_graph, subset_nodes = _subset_graph(filtered_graph, node_limit)
 
         colors = _program_colors(_vertex_attr(vertex, "program", "unknown") for vertex in filtered_graph.vs)
 
@@ -787,22 +791,27 @@ def create_app(data_dir: Path, *, default_limit: int = 320, excluded_paths: set[
         elif end_node:
             path_text = "Select a start function to compute a path."
 
+        # Render on subset nodes plus any path nodes to avoid hiding cross-DLL paths.
+        render_nodes: set[str] = set(subset_nodes) if subset_nodes else set(filtered_node_ids)
+        render_nodes.update(path_node_ids)
+        render_indices = [vertex_index[n] for n in render_nodes if n in vertex_index]
+        graph_for_render = filtered_graph.subgraph(render_indices) if render_indices else filtered_graph
+
         if path_node_ids:
             highlight_nodes.update(path_node_ids)
             highlight_edges.update((path_node_ids[i], path_node_ids[i + 1]) for i in range(len(path_node_ids) - 1))
 
         focus_nodes = set(path_node_ids)
 
-        graph_for_render = filtered_graph
         if path_only and path_node_ids:
             indices = [vertex_index[n] for n in path_node_ids if n in vertex_index]
             graph_for_render = filtered_graph.subgraph(indices)
 
-        prefix_program = len(colors.keys()) > 1
+        # Always prefix program for clarity, especially when multiple DLLs are shown.
+        prefix_program = True
         nodes, edges = _create_elements(
             graph_for_render,
             colors,
-            search_term or "",
             highlight_nodes,
             highlight_edges,
             size_map=size_map,
@@ -830,7 +839,7 @@ def create_app(data_dir: Path, *, default_limit: int = 320, excluded_paths: set[
         layout_config = dict(LAYOUT_PRESETS.get(layout_mode, LAYOUT_PRESETS["cose"]))
         layout_config.setdefault("padding", 30)
         if layout_config.get("name") == "cose":
-            layout_config.setdefault("animate", True)
+            layout_config.setdefault("animate", False)
             layout_config.setdefault("randomize", False)
 
         return (

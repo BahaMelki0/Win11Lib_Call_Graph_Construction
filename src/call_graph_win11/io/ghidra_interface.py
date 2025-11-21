@@ -19,7 +19,7 @@ def run_headless(
     overwrite: bool = False,
     pre_scripts: Sequence[tuple[Path, Sequence[str]]] | None = None,
     extra_args: Sequence[str] | None = None,
-    symbol_path: Path | None = None,
+    symbol_path: str | Path | None = None,
 ) -> subprocess.CompletedProcess[str]:
     """
     Execute a Ghidra headless script.
@@ -48,9 +48,13 @@ def run_headless(
         cmd.extend(extra_args)
 
     if symbol_path:
-        symbol_path = symbol_path.expanduser().resolve()
-        if symbol_path.exists():
+        # Accept srv* chain strings or concrete filesystem paths.
+        if isinstance(symbol_path, Path):
+            symbol_path = symbol_path.expanduser().resolve()
+            symbol_path.mkdir(parents=True, exist_ok=True)
             cmd.extend(["-symbolPath", str(symbol_path)])
+        else:
+            cmd.extend(["-symbolPath", symbol_path])
 
     cmd.extend(["-import", script_args[0]])
 

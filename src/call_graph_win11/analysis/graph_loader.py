@@ -125,6 +125,36 @@ def export_generic_graph(graph: nx.DiGraph, destination: Path) -> None:
         json.dump(payload, handle, indent=2)
 
 
+def load_generic_graph(path: Path) -> nx.DiGraph:
+    """
+    Load a generic graph JSON that contains `nodes` and `edges` entries (e.g., unified graph output).
+    """
+
+    with Path(path).open("r", encoding="utf-8") as handle:
+        payload = json.load(handle)
+
+    graph = nx.DiGraph(name=payload.get("graph", Path(path).stem))
+
+    for entry in payload.get("nodes", []):
+        node_id = entry.get("id") or entry.get("node_id")
+        if not node_id:
+            continue
+        attrs = {k: v for k, v in entry.items() if k not in {"id", "node_id"}}
+        graph.add_node(node_id, **attrs)
+
+    for edge in payload.get("edges", []):
+        source = edge.get("source")
+        target = edge.get("target")
+        if not source or not target:
+            continue
+        attrs = {k: v for k, v in edge.items() if k not in {"source", "target"}}
+        graph.add_edge(source, target, **attrs)
+
+    graph.graph["node_count"] = graph.number_of_nodes()
+    graph.graph["edge_count"] = graph.number_of_edges()
+    return graph
+
+
 def to_igraph(graph: nx.DiGraph) -> "ig.Graph":
     """Convert a networkx graph into an igraph.Graph."""
 
@@ -159,7 +189,4 @@ def to_igraph(graph: nx.DiGraph) -> "ig.Graph":
     return ig_graph
 
 
-__all__ = ["load_call_graph", "merge_call_graphs", "export_generic_graph", "to_igraph"]
-
-
-__all__ = ["load_call_graph", "merge_call_graphs", "export_generic_graph"]
+__all__ = ["load_call_graph", "merge_call_graphs", "export_generic_graph", "load_generic_graph", "to_igraph"]

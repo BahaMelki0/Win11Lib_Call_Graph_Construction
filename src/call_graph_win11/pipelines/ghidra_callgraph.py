@@ -117,7 +117,7 @@ def export_call_graphs(
     pdb_root: Path | None = None,
     pdb_script: Path = Path("scripts/ghidra/set_pdb_path.py"),
     windows_root: Path = Path(r"C:\Windows"),
-    symbol_store: Path | None = None,
+    symbol_store: str | Path | None = None,
 ) -> List[CallGraphRunResult]:
     """
     Invoke the Ghidra headless exporter for the provided binaries.
