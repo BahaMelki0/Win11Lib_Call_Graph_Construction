@@ -1,0 +1,2756 @@
+[
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\07409496-a423-4a3e-b620-2cfb01a9318d_HyperV-ComputeNetwork.dll.callgraph.json",
+    "relative_path": "System32\\07409496-a423-4a3e-b620-2cfb01a9318d_HyperV-ComputeNetwork.dll.callgraph.json",
+    "program": "07409496-a423-4a3e-b620-2cfb01a9318d_HyperV-ComputeNetwork.dll",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\0ae3b998-9a38-4b72-a4c4-06849441518d_Servicing-Stack.dll.callgraph.json",
+    "relative_path": "System32\\0ae3b998-9a38-4b72-a4c4-06849441518d_Servicing-Stack.dll.callgraph.json",
+    "program": "0ae3b998-9a38-4b72-a4c4-06849441518d_Servicing-Stack.dll",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\1029\\VsGraphicsResources.dll.callgraph.json",
+    "relative_path": "System32\\1029\\VsGraphicsResources.dll.callgraph.json",
+    "program": "VsGraphicsResources.dll",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\1029\\vsjitdebuggerui.dll.callgraph.json",
+    "relative_path": "System32\\1029\\vsjitdebuggerui.dll.callgraph.json",
+    "program": "vsjitdebuggerui.dll",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\1033\\msodbcsqlr17.rll.callgraph.json",
+    "relative_path": "System32\\1033\\msodbcsqlr17.rll.callgraph.json",
+    "program": "msodbcsqlr17.rll",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\1033\\msoledbsqlr.rll.callgraph.json",
+    "relative_path": "System32\\1033\\msoledbsqlr.rll.callgraph.json",
+    "program": "msoledbsqlr.rll",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\3bc29097-7317-41d3-93b9-38a48f99d48a_mssrch.dll.callgraph.json",
+    "relative_path": "System32\\3bc29097-7317-41d3-93b9-38a48f99d48a_mssrch.dll.callgraph.json",
+    "program": "3bc29097-7317-41d3-93b9-38a48f99d48a_mssrch.dll",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\4545ffe2-0dc4-4df4-9d02-299ef204635e_hvsocket.dll.callgraph.json",
+    "relative_path": "System32\\4545ffe2-0dc4-4df4-9d02-299ef204635e_hvsocket.dll.callgraph.json",
+    "program": "4545ffe2-0dc4-4df4-9d02-299ef204635e_hvsocket.dll",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\69fe178f-26e7-43a9-aa7d-2b616b672dde_eventlogservice.dll.callgraph.json",
+    "relative_path": "System32\\69fe178f-26e7-43a9-aa7d-2b616b672dde_eventlogservice.dll.callgraph.json",
+    "program": "69fe178f-26e7-43a9-aa7d-2b616b672dde_eventlogservice.dll",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\6bea57fb-8dfb-4177-9ae8-42e8b3529933_RuntimeDeviceInstall.dll.callgraph.json",
+    "relative_path": "System32\\6bea57fb-8dfb-4177-9ae8-42e8b3529933_RuntimeDeviceInstall.dll.callgraph.json",
+    "program": "6bea57fb-8dfb-4177-9ae8-42e8b3529933_RuntimeDeviceInstall.dll",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\activeds.tlb.callgraph.json",
+    "relative_path": "System32\\activeds.tlb.callgraph.json",
+    "program": "activeds.tlb",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\adtschema.dll.callgraph.json",
+    "relative_path": "System32\\adtschema.dll.callgraph.json",
+    "program": "adtschema.dll",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\advapi32res.dll.callgraph.json",
+    "relative_path": "System32\\advapi32res.dll.callgraph.json",
+    "program": "advapi32res.dll",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\aeevts.dll.callgraph.json",
+    "relative_path": "System32\\aeevts.dll.callgraph.json",
+    "program": "aeevts.dll",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\af-ZA\\comctl32.dll.mui.callgraph.json",
+    "relative_path": "System32\\af-ZA\\comctl32.dll.mui.callgraph.json",
+    "program": "comctl32.dll.mui",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\af-ZA\\comdlg32.dll.mui.callgraph.json",
+    "relative_path": "System32\\af-ZA\\comdlg32.dll.mui.callgraph.json",
+    "program": "comdlg32.dll.mui",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\af-ZA\\fms.dll.mui.callgraph.json",
+    "relative_path": "System32\\af-ZA\\fms.dll.mui.callgraph.json",
+    "program": "fms.dll.mui",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\af-ZA\\mlang.dll.mui.callgraph.json",
+    "relative_path": "System32\\af-ZA\\mlang.dll.mui.callgraph.json",
+    "program": "mlang.dll.mui",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\af-ZA\\SyncRes.dll.mui.callgraph.json",
+    "relative_path": "System32\\af-ZA\\SyncRes.dll.mui.callgraph.json",
+    "program": "SyncRes.dll.mui",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\af-ZA\\windows.ui.xaml.dll.mui.callgraph.json",
+    "relative_path": "System32\\af-ZA\\windows.ui.xaml.dll.mui.callgraph.json",
+    "program": "windows.ui.xaml.dll.mui",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\af-ZA\\WWAHost.exe.mui.callgraph.json",
+    "relative_path": "System32\\af-ZA\\WWAHost.exe.mui.callgraph.json",
+    "program": "WWAHost.exe.mui",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\amcompat.tlb.callgraph.json",
+    "relative_path": "System32\\amcompat.tlb.callgraph.json",
+    "program": "amcompat.tlb",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\APHostRes.dll.callgraph.json",
+    "relative_path": "System32\\APHostRes.dll.callgraph.json",
+    "program": "APHostRes.dll",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\apisetschema.dll.callgraph.json",
+    "relative_path": "System32\\apisetschema.dll.callgraph.json",
+    "program": "apisetschema.dll",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\ar-SA\\cdosys.dll.mui.callgraph.json",
+    "relative_path": "System32\\ar-SA\\cdosys.dll.mui.callgraph.json",
+    "program": "cdosys.dll.mui",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\ar-SA\\msimsg.dll.mui.callgraph.json",
+    "relative_path": "System32\\ar-SA\\msimsg.dll.mui.callgraph.json",
+    "program": "msimsg.dll.mui",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\ar-SA\\Windows.Media.Speech.UXRes.dll.mui.callgraph.json",
+    "relative_path": "System32\\ar-SA\\Windows.Media.Speech.UXRes.dll.mui.callgraph.json",
+    "program": "Windows.Media.Speech.UXRes.dll.mui",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\ar-SA\\xpsrchvw.exe.mui.callgraph.json",
+    "relative_path": "System32\\ar-SA\\xpsrchvw.exe.mui.callgraph.json",
+    "program": "xpsrchvw.exe.mui",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\asferror.dll.callgraph.json",
+    "relative_path": "System32\\asferror.dll.callgraph.json",
+    "program": "asferror.dll",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\AuthFWSnapin.dll.callgraph.json",
+    "relative_path": "System32\\AuthFWSnapin.dll.callgraph.json",
+    "program": "AuthFWSnapin.dll",
+    "node_count": 6432,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no edges"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\AuthFWWizFwk.dll.callgraph.json",
+    "relative_path": "System32\\AuthFWWizFwk.dll.callgraph.json",
+    "program": "AuthFWWizFwk.dll",
+    "node_count": 407,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no edges"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\BlbEvents.dll.callgraph.json",
+    "relative_path": "System32\\BlbEvents.dll.callgraph.json",
+    "program": "BlbEvents.dll",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\blbres.dll.callgraph.json",
+    "relative_path": "System32\\blbres.dll.callgraph.json",
+    "program": "blbres.dll",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\Boot\\en-US\\winload.efi.mui.callgraph.json",
+    "relative_path": "System32\\Boot\\en-US\\winload.efi.mui.callgraph.json",
+    "program": "winload.efi.mui",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\Boot\\en-US\\winload.exe.mui.callgraph.json",
+    "relative_path": "System32\\Boot\\en-US\\winload.exe.mui.callgraph.json",
+    "program": "winload.exe.mui",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\Boot\\en-US\\winresume.efi.mui.callgraph.json",
+    "relative_path": "System32\\Boot\\en-US\\winresume.efi.mui.callgraph.json",
+    "program": "winresume.efi.mui",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\Boot\\en-US\\winresume.exe.mui.callgraph.json",
+    "relative_path": "System32\\Boot\\en-US\\winresume.exe.mui.callgraph.json",
+    "program": "winresume.exe.mui",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\bootstr.dll.callgraph.json",
+    "relative_path": "System32\\bootstr.dll.callgraph.json",
+    "program": "bootstr.dll",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\bridgeres.dll.callgraph.json",
+    "relative_path": "System32\\bridgeres.dll.callgraph.json",
+    "program": "bridgeres.dll",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\c4d66f00-b6f0-4439-ac9b-c5ea13fe54d7_HyperV-ComputeCore.dll.callgraph.json",
+    "relative_path": "System32\\c4d66f00-b6f0-4439-ac9b-c5ea13fe54d7_HyperV-ComputeCore.dll.callgraph.json",
+    "program": "c4d66f00-b6f0-4439-ac9b-c5ea13fe54d7_HyperV-ComputeCore.dll",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\CBDiskevtmsg.dll.callgraph.json",
+    "relative_path": "System32\\CBDiskevtmsg.dll.callgraph.json",
+    "program": "CBDiskevtmsg.dll",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\cbfsevtmsg.dll.callgraph.json",
+    "relative_path": "System32\\cbfsevtmsg.dll.callgraph.json",
+    "program": "cbfsevtmsg.dll",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\cero.rs.callgraph.json",
+    "relative_path": "System32\\cero.rs.callgraph.json",
+    "program": "cero.rs",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\cliconfg.rll.callgraph.json",
+    "relative_path": "System32\\cliconfg.rll.callgraph.json",
+    "program": "cliconfg.rll",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\cob-au.rs.callgraph.json",
+    "relative_path": "System32\\cob-au.rs.callgraph.json",
+    "program": "cob-au.rs",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\Com\\en-US\\comrepl.exe.mui.callgraph.json",
+    "relative_path": "System32\\Com\\en-US\\comrepl.exe.mui.callgraph.json",
+    "program": "comrepl.exe.mui",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\Com\\en-US\\MigRegDB.exe.mui.callgraph.json",
+    "relative_path": "System32\\Com\\en-US\\MigRegDB.exe.mui.callgraph.json",
+    "program": "MigRegDB.exe.mui",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\Com\\mtsadmin.tlb.callgraph.json",
+    "relative_path": "System32\\Com\\mtsadmin.tlb.callgraph.json",
+    "program": "mtsadmin.tlb",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\computelibeventlog.dll.callgraph.json",
+    "relative_path": "System32\\computelibeventlog.dll.callgraph.json",
+    "program": "computelibeventlog.dll",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\comres.dll.callgraph.json",
+    "relative_path": "System32\\comres.dll.callgraph.json",
+    "program": "comres.dll",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\CoreMmRes.dll.callgraph.json",
+    "relative_path": "System32\\CoreMmRes.dll.callgraph.json",
+    "program": "CoreMmRes.dll",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\cs-CZ\\APHostRes.dll.mui.callgraph.json",
+    "relative_path": "System32\\cs-CZ\\APHostRes.dll.mui.callgraph.json",
+    "program": "APHostRes.dll.mui",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\cs-CZ\\msprivs.dll.mui.callgraph.json",
+    "relative_path": "System32\\cs-CZ\\msprivs.dll.mui.callgraph.json",
+    "program": "msprivs.dll.mui",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\cs-CZ\\xpsfilt.dll.mui.callgraph.json",
+    "relative_path": "System32\\cs-CZ\\xpsfilt.dll.mui.callgraph.json",
+    "program": "xpsfilt.dll.mui",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\csrr.rs.callgraph.json",
+    "relative_path": "System32\\csrr.rs.callgraph.json",
+    "program": "csrr.rs",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\d4d78066-e6db-44b7-b5cd-2eb82dce620c_HyperV-ComputeLegacy.dll.callgraph.json",
+    "relative_path": "System32\\d4d78066-e6db-44b7-b5cd-2eb82dce620c_HyperV-ComputeLegacy.dll.callgraph.json",
+    "program": "d4d78066-e6db-44b7-b5cd-2eb82dce620c_HyperV-ComputeLegacy.dll",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\defragres.dll.callgraph.json",
+    "relative_path": "System32\\defragres.dll.callgraph.json",
+    "program": "defragres.dll",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\Dism\\en-US\\AppxProvider.dll.mui.callgraph.json",
+    "relative_path": "System32\\Dism\\en-US\\AppxProvider.dll.mui.callgraph.json",
+    "program": "AppxProvider.dll.mui",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\Dism\\en-US\\AssocProvider.dll.mui.callgraph.json",
+    "relative_path": "System32\\Dism\\en-US\\AssocProvider.dll.mui.callgraph.json",
+    "program": "AssocProvider.dll.mui",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\Dism\\en-US\\CbmrProvider.dll.mui.callgraph.json",
+    "relative_path": "System32\\Dism\\en-US\\CbmrProvider.dll.mui.callgraph.json",
+    "program": "CbmrProvider.dll.mui",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\Dism\\en-US\\CbsProvider.dll.mui.callgraph.json",
+    "relative_path": "System32\\Dism\\en-US\\CbsProvider.dll.mui.callgraph.json",
+    "program": "CbsProvider.dll.mui",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\Dism\\en-US\\DismCore.dll.mui.callgraph.json",
+    "relative_path": "System32\\Dism\\en-US\\DismCore.dll.mui.callgraph.json",
+    "program": "DismCore.dll.mui",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\Dism\\en-US\\DismProv.dll.mui.callgraph.json",
+    "relative_path": "System32\\Dism\\en-US\\DismProv.dll.mui.callgraph.json",
+    "program": "DismProv.dll.mui",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\Dism\\en-US\\DmiProvider.dll.mui.callgraph.json",
+    "relative_path": "System32\\Dism\\en-US\\DmiProvider.dll.mui.callgraph.json",
+    "program": "DmiProvider.dll.mui",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\Dism\\en-US\\EdgeProvider.dll.mui.callgraph.json",
+    "relative_path": "System32\\Dism\\en-US\\EdgeProvider.dll.mui.callgraph.json",
+    "program": "EdgeProvider.dll.mui",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\Dism\\en-US\\FfuProvider.dll.mui.callgraph.json",
+    "relative_path": "System32\\Dism\\en-US\\FfuProvider.dll.mui.callgraph.json",
+    "program": "FfuProvider.dll.mui",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\Dism\\en-US\\FolderProvider.dll.mui.callgraph.json",
+    "relative_path": "System32\\Dism\\en-US\\FolderProvider.dll.mui.callgraph.json",
+    "program": "FolderProvider.dll.mui",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\Dism\\en-US\\GenericProvider.dll.mui.callgraph.json",
+    "relative_path": "System32\\Dism\\en-US\\GenericProvider.dll.mui.callgraph.json",
+    "program": "GenericProvider.dll.mui",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\Dism\\en-US\\IBSProvider.dll.mui.callgraph.json",
+    "relative_path": "System32\\Dism\\en-US\\IBSProvider.dll.mui.callgraph.json",
+    "program": "IBSProvider.dll.mui",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\Dism\\en-US\\ImagingProvider.dll.mui.callgraph.json",
+    "relative_path": "System32\\Dism\\en-US\\ImagingProvider.dll.mui.callgraph.json",
+    "program": "ImagingProvider.dll.mui",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\Dism\\en-US\\IntlProvider.dll.mui.callgraph.json",
+    "relative_path": "System32\\Dism\\en-US\\IntlProvider.dll.mui.callgraph.json",
+    "program": "IntlProvider.dll.mui",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\Dism\\en-US\\LogProvider.dll.mui.callgraph.json",
+    "relative_path": "System32\\Dism\\en-US\\LogProvider.dll.mui.callgraph.json",
+    "program": "LogProvider.dll.mui",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\Dism\\en-US\\MsiProvider.dll.mui.callgraph.json",
+    "relative_path": "System32\\Dism\\en-US\\MsiProvider.dll.mui.callgraph.json",
+    "program": "MsiProvider.dll.mui",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\Dism\\en-US\\MsuProvider.dll.mui.callgraph.json",
+    "relative_path": "System32\\Dism\\en-US\\MsuProvider.dll.mui.callgraph.json",
+    "program": "MsuProvider.dll.mui",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\Dism\\en-US\\OfflineSetupProvider.dll.mui.callgraph.json",
+    "relative_path": "System32\\Dism\\en-US\\OfflineSetupProvider.dll.mui.callgraph.json",
+    "program": "OfflineSetupProvider.dll.mui",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\Dism\\en-US\\OSProvider.dll.mui.callgraph.json",
+    "relative_path": "System32\\Dism\\en-US\\OSProvider.dll.mui.callgraph.json",
+    "program": "OSProvider.dll.mui",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\Dism\\en-US\\ProvProvider.dll.mui.callgraph.json",
+    "relative_path": "System32\\Dism\\en-US\\ProvProvider.dll.mui.callgraph.json",
+    "program": "ProvProvider.dll.mui",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\Dism\\en-US\\SetupPlatformProvider.dll.mui.callgraph.json",
+    "relative_path": "System32\\Dism\\en-US\\SetupPlatformProvider.dll.mui.callgraph.json",
+    "program": "SetupPlatformProvider.dll.mui",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\Dism\\en-US\\SmiProvider.dll.mui.callgraph.json",
+    "relative_path": "System32\\Dism\\en-US\\SmiProvider.dll.mui.callgraph.json",
+    "program": "SmiProvider.dll.mui",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\Dism\\en-US\\SysprepProvider.dll.mui.callgraph.json",
+    "relative_path": "System32\\Dism\\en-US\\SysprepProvider.dll.mui.callgraph.json",
+    "program": "SysprepProvider.dll.mui",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\Dism\\en-US\\TransmogProvider.dll.mui.callgraph.json",
+    "relative_path": "System32\\Dism\\en-US\\TransmogProvider.dll.mui.callgraph.json",
+    "program": "TransmogProvider.dll.mui",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\Dism\\en-US\\UnattendProvider.dll.mui.callgraph.json",
+    "relative_path": "System32\\Dism\\en-US\\UnattendProvider.dll.mui.callgraph.json",
+    "program": "UnattendProvider.dll.mui",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\Dism\\en-US\\VhdProvider.dll.mui.callgraph.json",
+    "relative_path": "System32\\Dism\\en-US\\VhdProvider.dll.mui.callgraph.json",
+    "program": "VhdProvider.dll.mui",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\Dism\\en-US\\WimProvider.dll.mui.callgraph.json",
+    "relative_path": "System32\\Dism\\en-US\\WimProvider.dll.mui.callgraph.json",
+    "program": "WimProvider.dll.mui",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\djctq.rs.callgraph.json",
+    "relative_path": "System32\\djctq.rs.callgraph.json",
+    "program": "djctq.rs",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\DMAppsRes.dll.callgraph.json",
+    "relative_path": "System32\\DMAppsRes.dll.callgraph.json",
+    "program": "DMAppsRes.dll",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\dmdskres.dll.callgraph.json",
+    "relative_path": "System32\\dmdskres.dll.callgraph.json",
+    "program": "dmdskres.dll",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\dmdskres2.dll.callgraph.json",
+    "relative_path": "System32\\dmdskres2.dll.callgraph.json",
+    "program": "dmdskres2.dll",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\DocumentPerformanceEvents.dll.callgraph.json",
+    "relative_path": "System32\\DocumentPerformanceEvents.dll.callgraph.json",
+    "program": "DocumentPerformanceEvents.dll",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\downlevel\\api-ms-win-base-util-l1-1-0.dll.callgraph.json",
+    "relative_path": "System32\\downlevel\\api-ms-win-base-util-l1-1-0.dll.callgraph.json",
+    "program": "api-ms-win-base-util-l1-1-0.dll",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\downlevel\\api-ms-win-core-com-l1-1-0.dll.callgraph.json",
+    "relative_path": "System32\\downlevel\\api-ms-win-core-com-l1-1-0.dll.callgraph.json",
+    "program": "api-ms-win-core-com-l1-1-0.dll",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\downlevel\\api-ms-win-core-comm-l1-1-0.dll.callgraph.json",
+    "relative_path": "System32\\downlevel\\api-ms-win-core-comm-l1-1-0.dll.callgraph.json",
+    "program": "api-ms-win-core-comm-l1-1-0.dll",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\downlevel\\api-ms-win-core-console-l1-1-0.dll.callgraph.json",
+    "relative_path": "System32\\downlevel\\api-ms-win-core-console-l1-1-0.dll.callgraph.json",
+    "program": "api-ms-win-core-console-l1-1-0.dll",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\downlevel\\api-ms-win-core-datetime-l1-1-0.dll.callgraph.json",
+    "relative_path": "System32\\downlevel\\api-ms-win-core-datetime-l1-1-0.dll.callgraph.json",
+    "program": "api-ms-win-core-datetime-l1-1-0.dll",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\downlevel\\api-ms-win-core-datetime-l1-1-1.dll.callgraph.json",
+    "relative_path": "System32\\downlevel\\api-ms-win-core-datetime-l1-1-1.dll.callgraph.json",
+    "program": "api-ms-win-core-datetime-l1-1-1.dll",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\downlevel\\api-ms-win-core-debug-l1-1-0.dll.callgraph.json",
+    "relative_path": "System32\\downlevel\\api-ms-win-core-debug-l1-1-0.dll.callgraph.json",
+    "program": "api-ms-win-core-debug-l1-1-0.dll",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\downlevel\\api-ms-win-core-debug-l1-1-1.dll.callgraph.json",
+    "relative_path": "System32\\downlevel\\api-ms-win-core-debug-l1-1-1.dll.callgraph.json",
+    "program": "api-ms-win-core-debug-l1-1-1.dll",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\downlevel\\api-ms-win-core-delayload-l1-1-0.dll.callgraph.json",
+    "relative_path": "System32\\downlevel\\api-ms-win-core-delayload-l1-1-0.dll.callgraph.json",
+    "program": "api-ms-win-core-delayload-l1-1-0.dll",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\downlevel\\api-ms-win-core-errorhandling-l1-1-0.dll.callgraph.json",
+    "relative_path": "System32\\downlevel\\api-ms-win-core-errorhandling-l1-1-0.dll.callgraph.json",
+    "program": "api-ms-win-core-errorhandling-l1-1-0.dll",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\downlevel\\api-ms-win-core-errorhandling-l1-1-1.dll.callgraph.json",
+    "relative_path": "System32\\downlevel\\api-ms-win-core-errorhandling-l1-1-1.dll.callgraph.json",
+    "program": "api-ms-win-core-errorhandling-l1-1-1.dll",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\downlevel\\api-ms-win-core-fibers-l1-1-0.dll.callgraph.json",
+    "relative_path": "System32\\downlevel\\api-ms-win-core-fibers-l1-1-0.dll.callgraph.json",
+    "program": "api-ms-win-core-fibers-l1-1-0.dll",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\downlevel\\api-ms-win-core-fibers-l1-1-1.dll.callgraph.json",
+    "relative_path": "System32\\downlevel\\api-ms-win-core-fibers-l1-1-1.dll.callgraph.json",
+    "program": "api-ms-win-core-fibers-l1-1-1.dll",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\downlevel\\api-ms-win-core-file-l1-1-0.dll.callgraph.json",
+    "relative_path": "System32\\downlevel\\api-ms-win-core-file-l1-1-0.dll.callgraph.json",
+    "program": "api-ms-win-core-file-l1-1-0.dll",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\downlevel\\api-ms-win-core-file-l1-2-0.dll.callgraph.json",
+    "relative_path": "System32\\downlevel\\api-ms-win-core-file-l1-2-0.dll.callgraph.json",
+    "program": "api-ms-win-core-file-l1-2-0.dll",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\downlevel\\api-ms-win-core-file-l1-2-1.dll.callgraph.json",
+    "relative_path": "System32\\downlevel\\api-ms-win-core-file-l1-2-1.dll.callgraph.json",
+    "program": "api-ms-win-core-file-l1-2-1.dll",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\downlevel\\API-MS-Win-core-file-l2-1-0.dll.callgraph.json",
+    "relative_path": "System32\\downlevel\\API-MS-Win-core-file-l2-1-0.dll.callgraph.json",
+    "program": "API-MS-Win-core-file-l2-1-0.dll",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\downlevel\\API-MS-Win-core-file-l2-1-1.dll.callgraph.json",
+    "relative_path": "System32\\downlevel\\API-MS-Win-core-file-l2-1-1.dll.callgraph.json",
+    "program": "API-MS-Win-core-file-l2-1-1.dll",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\downlevel\\api-ms-win-core-handle-l1-1-0.dll.callgraph.json",
+    "relative_path": "System32\\downlevel\\api-ms-win-core-handle-l1-1-0.dll.callgraph.json",
+    "program": "api-ms-win-core-handle-l1-1-0.dll",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\downlevel\\api-ms-win-core-heap-l1-1-0.dll.callgraph.json",
+    "relative_path": "System32\\downlevel\\api-ms-win-core-heap-l1-1-0.dll.callgraph.json",
+    "program": "api-ms-win-core-heap-l1-1-0.dll",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\downlevel\\API-MS-Win-Core-Heap-Obsolete-L1-1-0.dll.callgraph.json",
+    "relative_path": "System32\\downlevel\\API-MS-Win-Core-Heap-Obsolete-L1-1-0.dll.callgraph.json",
+    "program": "API-MS-Win-Core-Heap-Obsolete-L1-1-0.dll",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\downlevel\\api-ms-win-core-interlocked-l1-1-0.dll.callgraph.json",
+    "relative_path": "System32\\downlevel\\api-ms-win-core-interlocked-l1-1-0.dll.callgraph.json",
+    "program": "api-ms-win-core-interlocked-l1-1-0.dll",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\downlevel\\api-ms-win-core-io-l1-1-0.dll.callgraph.json",
+    "relative_path": "System32\\downlevel\\api-ms-win-core-io-l1-1-0.dll.callgraph.json",
+    "program": "api-ms-win-core-io-l1-1-0.dll",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\downlevel\\api-ms-win-core-io-l1-1-1.dll.callgraph.json",
+    "relative_path": "System32\\downlevel\\api-ms-win-core-io-l1-1-1.dll.callgraph.json",
+    "program": "api-ms-win-core-io-l1-1-1.dll",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\downlevel\\api-ms-win-core-kernel32-legacy-l1-1-0.dll.callgraph.json",
+    "relative_path": "System32\\downlevel\\api-ms-win-core-kernel32-legacy-l1-1-0.dll.callgraph.json",
+    "program": "api-ms-win-core-kernel32-legacy-l1-1-0.dll",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\downlevel\\api-ms-win-core-kernel32-legacy-l1-1-1.dll.callgraph.json",
+    "relative_path": "System32\\downlevel\\api-ms-win-core-kernel32-legacy-l1-1-1.dll.callgraph.json",
+    "program": "api-ms-win-core-kernel32-legacy-l1-1-1.dll",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\downlevel\\API-MS-Win-Core-Kernel32-Private-L1-1-0.dll.callgraph.json",
+    "relative_path": "System32\\downlevel\\API-MS-Win-Core-Kernel32-Private-L1-1-0.dll.callgraph.json",
+    "program": "API-MS-Win-Core-Kernel32-Private-L1-1-0.dll",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\downlevel\\API-MS-Win-Core-Kernel32-Private-L1-1-1.dll.callgraph.json",
+    "relative_path": "System32\\downlevel\\API-MS-Win-Core-Kernel32-Private-L1-1-1.dll.callgraph.json",
+    "program": "API-MS-Win-Core-Kernel32-Private-L1-1-1.dll",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\downlevel\\api-ms-win-core-libraryloader-l1-1-0.dll.callgraph.json",
+    "relative_path": "System32\\downlevel\\api-ms-win-core-libraryloader-l1-1-0.dll.callgraph.json",
+    "program": "api-ms-win-core-libraryloader-l1-1-0.dll",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\downlevel\\api-ms-win-core-libraryloader-l1-1-1.dll.callgraph.json",
+    "relative_path": "System32\\downlevel\\api-ms-win-core-libraryloader-l1-1-1.dll.callgraph.json",
+    "program": "api-ms-win-core-libraryloader-l1-1-1.dll",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\downlevel\\api-ms-win-core-localization-l1-2-0.dll.callgraph.json",
+    "relative_path": "System32\\downlevel\\api-ms-win-core-localization-l1-2-0.dll.callgraph.json",
+    "program": "api-ms-win-core-localization-l1-2-0.dll",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\downlevel\\api-ms-win-core-localization-l1-2-1.dll.callgraph.json",
+    "relative_path": "System32\\downlevel\\api-ms-win-core-localization-l1-2-1.dll.callgraph.json",
+    "program": "api-ms-win-core-localization-l1-2-1.dll",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\downlevel\\API-MS-Win-core-localization-obsolete-l1-2-0.dll.callgraph.json",
+    "relative_path": "System32\\downlevel\\API-MS-Win-core-localization-obsolete-l1-2-0.dll.callgraph.json",
+    "program": "API-MS-Win-core-localization-obsolete-l1-2-0.dll",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\downlevel\\api-ms-win-core-memory-l1-1-0.dll.callgraph.json",
+    "relative_path": "System32\\downlevel\\api-ms-win-core-memory-l1-1-0.dll.callgraph.json",
+    "program": "api-ms-win-core-memory-l1-1-0.dll",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\downlevel\\api-ms-win-core-memory-l1-1-1.dll.callgraph.json",
+    "relative_path": "System32\\downlevel\\api-ms-win-core-memory-l1-1-1.dll.callgraph.json",
+    "program": "api-ms-win-core-memory-l1-1-1.dll",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\downlevel\\api-ms-win-core-memory-l1-1-2.dll.callgraph.json",
+    "relative_path": "System32\\downlevel\\api-ms-win-core-memory-l1-1-2.dll.callgraph.json",
+    "program": "api-ms-win-core-memory-l1-1-2.dll",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\downlevel\\api-ms-win-core-namedpipe-l1-1-0.dll.callgraph.json",
+    "relative_path": "System32\\downlevel\\api-ms-win-core-namedpipe-l1-1-0.dll.callgraph.json",
+    "program": "api-ms-win-core-namedpipe-l1-1-0.dll",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\downlevel\\api-ms-win-core-privateprofile-l1-1-0.dll.callgraph.json",
+    "relative_path": "System32\\downlevel\\api-ms-win-core-privateprofile-l1-1-0.dll.callgraph.json",
+    "program": "api-ms-win-core-privateprofile-l1-1-0.dll",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\downlevel\\api-ms-win-core-privateprofile-l1-1-1.dll.callgraph.json",
+    "relative_path": "System32\\downlevel\\api-ms-win-core-privateprofile-l1-1-1.dll.callgraph.json",
+    "program": "api-ms-win-core-privateprofile-l1-1-1.dll",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\downlevel\\api-ms-win-core-processenvironment-l1-1-0.dll.callgraph.json",
+    "relative_path": "System32\\downlevel\\api-ms-win-core-processenvironment-l1-1-0.dll.callgraph.json",
+    "program": "api-ms-win-core-processenvironment-l1-1-0.dll",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\downlevel\\api-ms-win-core-processenvironment-l1-2-0.dll.callgraph.json",
+    "relative_path": "System32\\downlevel\\api-ms-win-core-processenvironment-l1-2-0.dll.callgraph.json",
+    "program": "api-ms-win-core-processenvironment-l1-2-0.dll",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\downlevel\\api-ms-win-core-processthreads-l1-1-0.dll.callgraph.json",
+    "relative_path": "System32\\downlevel\\api-ms-win-core-processthreads-l1-1-0.dll.callgraph.json",
+    "program": "api-ms-win-core-processthreads-l1-1-0.dll",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\downlevel\\api-ms-win-core-processthreads-l1-1-1.dll.callgraph.json",
+    "relative_path": "System32\\downlevel\\api-ms-win-core-processthreads-l1-1-1.dll.callgraph.json",
+    "program": "api-ms-win-core-processthreads-l1-1-1.dll",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\downlevel\\api-ms-win-core-processthreads-l1-1-2.dll.callgraph.json",
+    "relative_path": "System32\\downlevel\\api-ms-win-core-processthreads-l1-1-2.dll.callgraph.json",
+    "program": "api-ms-win-core-processthreads-l1-1-2.dll",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\downlevel\\api-ms-win-core-processtopology-obsolete-l1-1-0.dll.callgraph.json",
+    "relative_path": "System32\\downlevel\\api-ms-win-core-processtopology-obsolete-l1-1-0.dll.callgraph.json",
+    "program": "api-ms-win-core-processtopology-obsolete-l1-1-0.dll",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\downlevel\\api-ms-win-core-profile-l1-1-0.dll.callgraph.json",
+    "relative_path": "System32\\downlevel\\api-ms-win-core-profile-l1-1-0.dll.callgraph.json",
+    "program": "api-ms-win-core-profile-l1-1-0.dll",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\downlevel\\api-ms-win-core-realtime-l1-1-0.dll.callgraph.json",
+    "relative_path": "System32\\downlevel\\api-ms-win-core-realtime-l1-1-0.dll.callgraph.json",
+    "program": "api-ms-win-core-realtime-l1-1-0.dll",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\downlevel\\api-ms-win-core-registry-l1-1-0.dll.callgraph.json",
+    "relative_path": "System32\\downlevel\\api-ms-win-core-registry-l1-1-0.dll.callgraph.json",
+    "program": "api-ms-win-core-registry-l1-1-0.dll",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\downlevel\\api-ms-win-core-registry-l2-1-0.dll.callgraph.json",
+    "relative_path": "System32\\downlevel\\api-ms-win-core-registry-l2-1-0.dll.callgraph.json",
+    "program": "api-ms-win-core-registry-l2-1-0.dll",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\downlevel\\api-ms-win-core-rtlsupport-l1-1-0.dll.callgraph.json",
+    "relative_path": "System32\\downlevel\\api-ms-win-core-rtlsupport-l1-1-0.dll.callgraph.json",
+    "program": "api-ms-win-core-rtlsupport-l1-1-0.dll",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\downlevel\\api-ms-win-core-shlwapi-legacy-l1-1-0.dll.callgraph.json",
+    "relative_path": "System32\\downlevel\\api-ms-win-core-shlwapi-legacy-l1-1-0.dll.callgraph.json",
+    "program": "api-ms-win-core-shlwapi-legacy-l1-1-0.dll",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\downlevel\\api-ms-win-core-shlwapi-obsolete-l1-1-0.dll.callgraph.json",
+    "relative_path": "System32\\downlevel\\api-ms-win-core-shlwapi-obsolete-l1-1-0.dll.callgraph.json",
+    "program": "api-ms-win-core-shlwapi-obsolete-l1-1-0.dll",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\downlevel\\api-ms-win-core-shutdown-l1-1-0.dll.callgraph.json",
+    "relative_path": "System32\\downlevel\\api-ms-win-core-shutdown-l1-1-0.dll.callgraph.json",
+    "program": "api-ms-win-core-shutdown-l1-1-0.dll",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\downlevel\\api-ms-win-core-string-l1-1-0.dll.callgraph.json",
+    "relative_path": "System32\\downlevel\\api-ms-win-core-string-l1-1-0.dll.callgraph.json",
+    "program": "api-ms-win-core-string-l1-1-0.dll",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\downlevel\\API-MS-Win-core-string-l2-1-0.dll.callgraph.json",
+    "relative_path": "System32\\downlevel\\API-MS-Win-core-string-l2-1-0.dll.callgraph.json",
+    "program": "API-MS-Win-core-string-l2-1-0.dll",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\downlevel\\API-MS-Win-core-string-obsolete-l1-1-0.dll.callgraph.json",
+    "relative_path": "System32\\downlevel\\API-MS-Win-core-string-obsolete-l1-1-0.dll.callgraph.json",
+    "program": "API-MS-Win-core-string-obsolete-l1-1-0.dll",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\downlevel\\api-ms-win-core-stringansi-l1-1-0.dll.callgraph.json",
+    "relative_path": "System32\\downlevel\\api-ms-win-core-stringansi-l1-1-0.dll.callgraph.json",
+    "program": "api-ms-win-core-stringansi-l1-1-0.dll",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\downlevel\\api-ms-win-core-stringloader-l1-1-1.dll.callgraph.json",
+    "relative_path": "System32\\downlevel\\api-ms-win-core-stringloader-l1-1-1.dll.callgraph.json",
+    "program": "api-ms-win-core-stringloader-l1-1-1.dll",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\downlevel\\api-ms-win-core-synch-l1-1-0.dll.callgraph.json",
+    "relative_path": "System32\\downlevel\\api-ms-win-core-synch-l1-1-0.dll.callgraph.json",
+    "program": "api-ms-win-core-synch-l1-1-0.dll",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\downlevel\\api-ms-win-core-synch-l1-2-0.dll.callgraph.json",
+    "relative_path": "System32\\downlevel\\api-ms-win-core-synch-l1-2-0.dll.callgraph.json",
+    "program": "api-ms-win-core-synch-l1-2-0.dll",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\downlevel\\api-ms-win-core-sysinfo-l1-1-0.dll.callgraph.json",
+    "relative_path": "System32\\downlevel\\api-ms-win-core-sysinfo-l1-1-0.dll.callgraph.json",
+    "program": "api-ms-win-core-sysinfo-l1-1-0.dll",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\downlevel\\api-ms-win-core-sysinfo-l1-2-0.dll.callgraph.json",
+    "relative_path": "System32\\downlevel\\api-ms-win-core-sysinfo-l1-2-0.dll.callgraph.json",
+    "program": "api-ms-win-core-sysinfo-l1-2-0.dll",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\downlevel\\api-ms-win-core-sysinfo-l1-2-1.dll.callgraph.json",
+    "relative_path": "System32\\downlevel\\api-ms-win-core-sysinfo-l1-2-1.dll.callgraph.json",
+    "program": "api-ms-win-core-sysinfo-l1-2-1.dll",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\downlevel\\api-ms-win-core-threadpool-l1-2-0.dll.callgraph.json",
+    "relative_path": "System32\\downlevel\\api-ms-win-core-threadpool-l1-2-0.dll.callgraph.json",
+    "program": "api-ms-win-core-threadpool-l1-2-0.dll",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\downlevel\\api-ms-win-core-threadpool-legacy-l1-1-0.dll.callgraph.json",
+    "relative_path": "System32\\downlevel\\api-ms-win-core-threadpool-legacy-l1-1-0.dll.callgraph.json",
+    "program": "api-ms-win-core-threadpool-legacy-l1-1-0.dll",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\downlevel\\api-ms-win-core-threadpool-private-l1-1-0.dll.callgraph.json",
+    "relative_path": "System32\\downlevel\\api-ms-win-core-threadpool-private-l1-1-0.dll.callgraph.json",
+    "program": "api-ms-win-core-threadpool-private-l1-1-0.dll",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\downlevel\\api-ms-win-core-timezone-l1-1-0.dll.callgraph.json",
+    "relative_path": "System32\\downlevel\\api-ms-win-core-timezone-l1-1-0.dll.callgraph.json",
+    "program": "api-ms-win-core-timezone-l1-1-0.dll",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\downlevel\\api-ms-win-core-url-l1-1-0.dll.callgraph.json",
+    "relative_path": "System32\\downlevel\\api-ms-win-core-url-l1-1-0.dll.callgraph.json",
+    "program": "api-ms-win-core-url-l1-1-0.dll",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\downlevel\\api-ms-win-core-util-l1-1-0.dll.callgraph.json",
+    "relative_path": "System32\\downlevel\\api-ms-win-core-util-l1-1-0.dll.callgraph.json",
+    "program": "api-ms-win-core-util-l1-1-0.dll",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\downlevel\\api-ms-win-core-version-l1-1-0.dll.callgraph.json",
+    "relative_path": "System32\\downlevel\\api-ms-win-core-version-l1-1-0.dll.callgraph.json",
+    "program": "api-ms-win-core-version-l1-1-0.dll",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\downlevel\\api-ms-win-core-wow64-l1-1-0.dll.callgraph.json",
+    "relative_path": "System32\\downlevel\\api-ms-win-core-wow64-l1-1-0.dll.callgraph.json",
+    "program": "api-ms-win-core-wow64-l1-1-0.dll",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\downlevel\\api-ms-win-core-xstate-l1-1-0.dll.callgraph.json",
+    "relative_path": "System32\\downlevel\\api-ms-win-core-xstate-l1-1-0.dll.callgraph.json",
+    "program": "api-ms-win-core-xstate-l1-1-0.dll",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\downlevel\\API-MS-Win-core-xstate-l2-1-0.dll.callgraph.json",
+    "relative_path": "System32\\downlevel\\API-MS-Win-core-xstate-l2-1-0.dll.callgraph.json",
+    "program": "API-MS-Win-core-xstate-l2-1-0.dll",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\downlevel\\api-ms-win-crt-conio-l1-1-0.dll.callgraph.json",
+    "relative_path": "System32\\downlevel\\api-ms-win-crt-conio-l1-1-0.dll.callgraph.json",
+    "program": "api-ms-win-crt-conio-l1-1-0.dll",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\downlevel\\api-ms-win-crt-convert-l1-1-0.dll.callgraph.json",
+    "relative_path": "System32\\downlevel\\api-ms-win-crt-convert-l1-1-0.dll.callgraph.json",
+    "program": "api-ms-win-crt-convert-l1-1-0.dll",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\downlevel\\api-ms-win-crt-environment-l1-1-0.dll.callgraph.json",
+    "relative_path": "System32\\downlevel\\api-ms-win-crt-environment-l1-1-0.dll.callgraph.json",
+    "program": "api-ms-win-crt-environment-l1-1-0.dll",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\downlevel\\api-ms-win-crt-filesystem-l1-1-0.dll.callgraph.json",
+    "relative_path": "System32\\downlevel\\api-ms-win-crt-filesystem-l1-1-0.dll.callgraph.json",
+    "program": "api-ms-win-crt-filesystem-l1-1-0.dll",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\downlevel\\api-ms-win-crt-heap-l1-1-0.dll.callgraph.json",
+    "relative_path": "System32\\downlevel\\api-ms-win-crt-heap-l1-1-0.dll.callgraph.json",
+    "program": "api-ms-win-crt-heap-l1-1-0.dll",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\downlevel\\api-ms-win-crt-locale-l1-1-0.dll.callgraph.json",
+    "relative_path": "System32\\downlevel\\api-ms-win-crt-locale-l1-1-0.dll.callgraph.json",
+    "program": "api-ms-win-crt-locale-l1-1-0.dll",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\downlevel\\api-ms-win-crt-math-l1-1-0.dll.callgraph.json",
+    "relative_path": "System32\\downlevel\\api-ms-win-crt-math-l1-1-0.dll.callgraph.json",
+    "program": "api-ms-win-crt-math-l1-1-0.dll",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\downlevel\\api-ms-win-crt-multibyte-l1-1-0.dll.callgraph.json",
+    "relative_path": "System32\\downlevel\\api-ms-win-crt-multibyte-l1-1-0.dll.callgraph.json",
+    "program": "api-ms-win-crt-multibyte-l1-1-0.dll",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\downlevel\\api-ms-win-crt-private-l1-1-0.dll.callgraph.json",
+    "relative_path": "System32\\downlevel\\api-ms-win-crt-private-l1-1-0.dll.callgraph.json",
+    "program": "api-ms-win-crt-private-l1-1-0.dll",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\downlevel\\api-ms-win-crt-process-l1-1-0.dll.callgraph.json",
+    "relative_path": "System32\\downlevel\\api-ms-win-crt-process-l1-1-0.dll.callgraph.json",
+    "program": "api-ms-win-crt-process-l1-1-0.dll",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\downlevel\\api-ms-win-crt-runtime-l1-1-0.dll.callgraph.json",
+    "relative_path": "System32\\downlevel\\api-ms-win-crt-runtime-l1-1-0.dll.callgraph.json",
+    "program": "api-ms-win-crt-runtime-l1-1-0.dll",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\downlevel\\api-ms-win-crt-stdio-l1-1-0.dll.callgraph.json",
+    "relative_path": "System32\\downlevel\\api-ms-win-crt-stdio-l1-1-0.dll.callgraph.json",
+    "program": "api-ms-win-crt-stdio-l1-1-0.dll",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\downlevel\\api-ms-win-crt-string-l1-1-0.dll.callgraph.json",
+    "relative_path": "System32\\downlevel\\api-ms-win-crt-string-l1-1-0.dll.callgraph.json",
+    "program": "api-ms-win-crt-string-l1-1-0.dll",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\downlevel\\api-ms-win-crt-time-l1-1-0.dll.callgraph.json",
+    "relative_path": "System32\\downlevel\\api-ms-win-crt-time-l1-1-0.dll.callgraph.json",
+    "program": "api-ms-win-crt-time-l1-1-0.dll",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\downlevel\\api-ms-win-crt-utility-l1-1-0.dll.callgraph.json",
+    "relative_path": "System32\\downlevel\\api-ms-win-crt-utility-l1-1-0.dll.callgraph.json",
+    "program": "api-ms-win-crt-utility-l1-1-0.dll",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\downlevel\\API-MS-Win-devices-config-L1-1-0.dll.callgraph.json",
+    "relative_path": "System32\\downlevel\\API-MS-Win-devices-config-L1-1-0.dll.callgraph.json",
+    "program": "API-MS-Win-devices-config-L1-1-0.dll",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\downlevel\\API-MS-Win-devices-config-L1-1-1.dll.callgraph.json",
+    "relative_path": "System32\\downlevel\\API-MS-Win-devices-config-L1-1-1.dll.callgraph.json",
+    "program": "API-MS-Win-devices-config-L1-1-1.dll",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\downlevel\\API-MS-Win-Eventing-ClassicProvider-L1-1-0.dll.callgraph.json",
+    "relative_path": "System32\\downlevel\\API-MS-Win-Eventing-ClassicProvider-L1-1-0.dll.callgraph.json",
+    "program": "API-MS-Win-Eventing-ClassicProvider-L1-1-0.dll",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\downlevel\\api-ms-win-eventing-consumer-l1-1-0.dll.callgraph.json",
+    "relative_path": "System32\\downlevel\\api-ms-win-eventing-consumer-l1-1-0.dll.callgraph.json",
+    "program": "api-ms-win-eventing-consumer-l1-1-0.dll",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\downlevel\\API-MS-Win-Eventing-Controller-L1-1-0.dll.callgraph.json",
+    "relative_path": "System32\\downlevel\\API-MS-Win-Eventing-Controller-L1-1-0.dll.callgraph.json",
+    "program": "API-MS-Win-Eventing-Controller-L1-1-0.dll",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\downlevel\\API-MS-Win-Eventing-Legacy-L1-1-0.dll.callgraph.json",
+    "relative_path": "System32\\downlevel\\API-MS-Win-Eventing-Legacy-L1-1-0.dll.callgraph.json",
+    "program": "API-MS-Win-Eventing-Legacy-L1-1-0.dll",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\downlevel\\API-MS-Win-Eventing-Provider-L1-1-0.dll.callgraph.json",
+    "relative_path": "System32\\downlevel\\API-MS-Win-Eventing-Provider-L1-1-0.dll.callgraph.json",
+    "program": "API-MS-Win-Eventing-Provider-L1-1-0.dll",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\downlevel\\API-MS-Win-EventLog-Legacy-L1-1-0.dll.callgraph.json",
+    "relative_path": "System32\\downlevel\\API-MS-Win-EventLog-Legacy-L1-1-0.dll.callgraph.json",
+    "program": "API-MS-Win-EventLog-Legacy-L1-1-0.dll",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\downlevel\\api-ms-win-security-base-l1-1-0.dll.callgraph.json",
+    "relative_path": "System32\\downlevel\\api-ms-win-security-base-l1-1-0.dll.callgraph.json",
+    "program": "api-ms-win-security-base-l1-1-0.dll",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\downlevel\\api-ms-win-security-cryptoapi-l1-1-0.dll.callgraph.json",
+    "relative_path": "System32\\downlevel\\api-ms-win-security-cryptoapi-l1-1-0.dll.callgraph.json",
+    "program": "api-ms-win-security-cryptoapi-l1-1-0.dll",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\downlevel\\API-MS-Win-Security-Lsalookup-L2-1-0.dll.callgraph.json",
+    "relative_path": "System32\\downlevel\\API-MS-Win-Security-Lsalookup-L2-1-0.dll.callgraph.json",
+    "program": "API-MS-Win-Security-Lsalookup-L2-1-0.dll",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\downlevel\\API-MS-Win-Security-Lsalookup-L2-1-1.dll.callgraph.json",
+    "relative_path": "System32\\downlevel\\API-MS-Win-Security-Lsalookup-L2-1-1.dll.callgraph.json",
+    "program": "API-MS-Win-Security-Lsalookup-L2-1-1.dll",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\downlevel\\API-MS-Win-security-lsapolicy-l1-1-0.dll.callgraph.json",
+    "relative_path": "System32\\downlevel\\API-MS-Win-security-lsapolicy-l1-1-0.dll.callgraph.json",
+    "program": "API-MS-Win-security-lsapolicy-l1-1-0.dll",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\downlevel\\API-MS-Win-security-provider-L1-1-0.dll.callgraph.json",
+    "relative_path": "System32\\downlevel\\API-MS-Win-security-provider-L1-1-0.dll.callgraph.json",
+    "program": "API-MS-Win-security-provider-L1-1-0.dll",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\downlevel\\api-ms-win-security-sddl-l1-1-0.dll.callgraph.json",
+    "relative_path": "System32\\downlevel\\api-ms-win-security-sddl-l1-1-0.dll.callgraph.json",
+    "program": "api-ms-win-security-sddl-l1-1-0.dll",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\downlevel\\api-ms-win-service-core-l1-1-0.dll.callgraph.json",
+    "relative_path": "System32\\downlevel\\api-ms-win-service-core-l1-1-0.dll.callgraph.json",
+    "program": "api-ms-win-service-core-l1-1-0.dll",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\downlevel\\api-ms-win-service-core-l1-1-1.dll.callgraph.json",
+    "relative_path": "System32\\downlevel\\api-ms-win-service-core-l1-1-1.dll.callgraph.json",
+    "program": "api-ms-win-service-core-l1-1-1.dll",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\downlevel\\api-ms-win-service-management-l1-1-0.dll.callgraph.json",
+    "relative_path": "System32\\downlevel\\api-ms-win-service-management-l1-1-0.dll.callgraph.json",
+    "program": "api-ms-win-service-management-l1-1-0.dll",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\downlevel\\api-ms-win-service-management-l2-1-0.dll.callgraph.json",
+    "relative_path": "System32\\downlevel\\api-ms-win-service-management-l2-1-0.dll.callgraph.json",
+    "program": "api-ms-win-service-management-l2-1-0.dll",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\downlevel\\api-ms-win-service-private-l1-1-0.dll.callgraph.json",
+    "relative_path": "System32\\downlevel\\api-ms-win-service-private-l1-1-0.dll.callgraph.json",
+    "program": "api-ms-win-service-private-l1-1-0.dll",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\downlevel\\api-ms-win-service-private-l1-1-1.dll.callgraph.json",
+    "relative_path": "System32\\downlevel\\api-ms-win-service-private-l1-1-1.dll.callgraph.json",
+    "program": "api-ms-win-service-private-l1-1-1.dll",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\downlevel\\api-ms-win-service-winsvc-l1-1-0.dll.callgraph.json",
+    "relative_path": "System32\\downlevel\\api-ms-win-service-winsvc-l1-1-0.dll.callgraph.json",
+    "program": "api-ms-win-service-winsvc-l1-1-0.dll",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\downlevel\\api-ms-win-shcore-stream-l1-1-0.dll.callgraph.json",
+    "relative_path": "System32\\downlevel\\api-ms-win-shcore-stream-l1-1-0.dll.callgraph.json",
+    "program": "api-ms-win-shcore-stream-l1-1-0.dll",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\drivers\\en-US\\acpi.sys.mui.callgraph.json",
+    "relative_path": "System32\\drivers\\en-US\\acpi.sys.mui.callgraph.json",
+    "program": "acpi.sys.mui",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\drivers\\en-US\\afd.sys.mui.callgraph.json",
+    "relative_path": "System32\\drivers\\en-US\\afd.sys.mui.callgraph.json",
+    "program": "afd.sys.mui",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\drivers\\en-US\\agilevpn.sys.mui.callgraph.json",
+    "relative_path": "System32\\drivers\\en-US\\agilevpn.sys.mui.callgraph.json",
+    "program": "agilevpn.sys.mui",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\drivers\\en-US\\ataport.sys.mui.callgraph.json",
+    "relative_path": "System32\\drivers\\en-US\\ataport.sys.mui.callgraph.json",
+    "program": "ataport.sys.mui",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\drivers\\en-US\\bfs.sys.mui.callgraph.json",
+    "relative_path": "System32\\drivers\\en-US\\bfs.sys.mui.callgraph.json",
+    "program": "bfs.sys.mui",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\drivers\\en-US\\bthenum.sys.mui.callgraph.json",
+    "relative_path": "System32\\drivers\\en-US\\bthenum.sys.mui.callgraph.json",
+    "program": "bthenum.sys.mui",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\drivers\\en-US\\bthport.sys.mui.callgraph.json",
+    "relative_path": "System32\\drivers\\en-US\\bthport.sys.mui.callgraph.json",
+    "program": "bthport.sys.mui",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\drivers\\en-US\\BTHUSB.SYS.mui.callgraph.json",
+    "relative_path": "System32\\drivers\\en-US\\BTHUSB.SYS.mui.callgraph.json",
+    "program": "BTHUSB.SYS.mui",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\drivers\\en-US\\CAD.sys.mui.callgraph.json",
+    "relative_path": "System32\\drivers\\en-US\\CAD.sys.mui.callgraph.json",
+    "program": "CAD.sys.mui",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\drivers\\en-US\\cdrom.sys.mui.callgraph.json",
+    "relative_path": "System32\\drivers\\en-US\\cdrom.sys.mui.callgraph.json",
+    "program": "cdrom.sys.mui",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\drivers\\en-US\\cmimcext.sys.mui.callgraph.json",
+    "relative_path": "System32\\drivers\\en-US\\cmimcext.sys.mui.callgraph.json",
+    "program": "cmimcext.sys.mui",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\drivers\\en-US\\disk.sys.mui.callgraph.json",
+    "relative_path": "System32\\drivers\\en-US\\disk.sys.mui.callgraph.json",
+    "program": "disk.sys.mui",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\drivers\\en-US\\dmvsc.sys.mui.callgraph.json",
+    "relative_path": "System32\\drivers\\en-US\\dmvsc.sys.mui.callgraph.json",
+    "program": "dmvsc.sys.mui",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\drivers\\en-US\\dumpsd.sys.mui.callgraph.json",
+    "relative_path": "System32\\drivers\\en-US\\dumpsd.sys.mui.callgraph.json",
+    "program": "dumpsd.sys.mui",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\drivers\\en-US\\EhStorTcgDrv.sys.mui.callgraph.json",
+    "relative_path": "System32\\drivers\\en-US\\EhStorTcgDrv.sys.mui.callgraph.json",
+    "program": "EhStorTcgDrv.sys.mui",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\drivers\\en-US\\fltmgr.sys.mui.callgraph.json",
+    "relative_path": "System32\\drivers\\en-US\\fltmgr.sys.mui.callgraph.json",
+    "program": "fltmgr.sys.mui",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\drivers\\en-US\\fvevol.sys.mui.callgraph.json",
+    "relative_path": "System32\\drivers\\en-US\\fvevol.sys.mui.callgraph.json",
+    "program": "fvevol.sys.mui",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\drivers\\en-US\\hidbatt.sys.mui.callgraph.json",
+    "relative_path": "System32\\drivers\\en-US\\hidbatt.sys.mui.callgraph.json",
+    "program": "hidbatt.sys.mui",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\drivers\\en-US\\hidbth.sys.mui.callgraph.json",
+    "relative_path": "System32\\drivers\\en-US\\hidbth.sys.mui.callgraph.json",
+    "program": "hidbth.sys.mui",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\drivers\\en-US\\hidclass.sys.mui.callgraph.json",
+    "relative_path": "System32\\drivers\\en-US\\hidclass.sys.mui.callgraph.json",
+    "program": "hidclass.sys.mui",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\drivers\\en-US\\http.sys.mui.callgraph.json",
+    "relative_path": "System32\\drivers\\en-US\\http.sys.mui.callgraph.json",
+    "program": "http.sys.mui",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\drivers\\en-US\\HvService.sys.mui.callgraph.json",
+    "relative_path": "System32\\drivers\\en-US\\HvService.sys.mui.callgraph.json",
+    "program": "HvService.sys.mui",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\drivers\\en-US\\i8042prt.sys.mui.callgraph.json",
+    "relative_path": "System32\\drivers\\en-US\\i8042prt.sys.mui.callgraph.json",
+    "program": "i8042prt.sys.mui",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\drivers\\en-US\\IndirectKmd.sys.mui.callgraph.json",
+    "relative_path": "System32\\drivers\\en-US\\IndirectKmd.sys.mui.callgraph.json",
+    "program": "IndirectKmd.sys.mui",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\drivers\\en-US\\iorate.sys.mui.callgraph.json",
+    "relative_path": "System32\\drivers\\en-US\\iorate.sys.mui.callgraph.json",
+    "program": "iorate.sys.mui",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\drivers\\en-US\\IPMIDRV.sys.mui.callgraph.json",
+    "relative_path": "System32\\drivers\\en-US\\IPMIDRV.sys.mui.callgraph.json",
+    "program": "IPMIDRV.sys.mui",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\drivers\\en-US\\isapnp.sys.mui.callgraph.json",
+    "relative_path": "System32\\drivers\\en-US\\isapnp.sys.mui.callgraph.json",
+    "program": "isapnp.sys.mui",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\drivers\\en-US\\kbdclass.sys.mui.callgraph.json",
+    "relative_path": "System32\\drivers\\en-US\\kbdclass.sys.mui.callgraph.json",
+    "program": "kbdclass.sys.mui",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\drivers\\en-US\\kbdhid.sys.mui.callgraph.json",
+    "relative_path": "System32\\drivers\\en-US\\kbdhid.sys.mui.callgraph.json",
+    "program": "kbdhid.sys.mui",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\drivers\\en-US\\l1vhlwf.sys.mui.callgraph.json",
+    "relative_path": "System32\\drivers\\en-US\\l1vhlwf.sys.mui.callgraph.json",
+    "program": "l1vhlwf.sys.mui",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\drivers\\en-US\\luafv.sys.mui.callgraph.json",
+    "relative_path": "System32\\drivers\\en-US\\luafv.sys.mui.callgraph.json",
+    "program": "luafv.sys.mui",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\drivers\\en-US\\Microsoft.Bluetooth.AvrcpTransport.sys.mui.callgraph.json",
+    "relative_path": "System32\\drivers\\en-US\\Microsoft.Bluetooth.AvrcpTransport.sys.mui.callgraph.json",
+    "program": "Microsoft.Bluetooth.AvrcpTransport.sys.mui",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\drivers\\en-US\\modem.sys.mui.callgraph.json",
+    "relative_path": "System32\\drivers\\en-US\\modem.sys.mui.callgraph.json",
+    "program": "modem.sys.mui",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\drivers\\en-US\\mouclass.sys.mui.callgraph.json",
+    "relative_path": "System32\\drivers\\en-US\\mouclass.sys.mui.callgraph.json",
+    "program": "mouclass.sys.mui",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\drivers\\en-US\\mouhid.sys.mui.callgraph.json",
+    "relative_path": "System32\\drivers\\en-US\\mouhid.sys.mui.callgraph.json",
+    "program": "mouhid.sys.mui",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\drivers\\en-US\\mountmgr.sys.mui.callgraph.json",
+    "relative_path": "System32\\drivers\\en-US\\mountmgr.sys.mui.callgraph.json",
+    "program": "mountmgr.sys.mui",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\drivers\\en-US\\mrxsmb.sys.mui.callgraph.json",
+    "relative_path": "System32\\drivers\\en-US\\mrxsmb.sys.mui.callgraph.json",
+    "program": "mrxsmb.sys.mui",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\drivers\\en-US\\mshidumdf.sys.mui.callgraph.json",
+    "relative_path": "System32\\drivers\\en-US\\mshidumdf.sys.mui.callgraph.json",
+    "program": "mshidumdf.sys.mui",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\drivers\\en-US\\mslldp.sys.mui.callgraph.json",
+    "relative_path": "System32\\drivers\\en-US\\mslldp.sys.mui.callgraph.json",
+    "program": "mslldp.sys.mui",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\drivers\\en-US\\MTConfig.sys.mui.callgraph.json",
+    "relative_path": "System32\\drivers\\en-US\\MTConfig.sys.mui.callgraph.json",
+    "program": "MTConfig.sys.mui",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\drivers\\en-US\\mup.sys.mui.callgraph.json",
+    "relative_path": "System32\\drivers\\en-US\\mup.sys.mui.callgraph.json",
+    "program": "mup.sys.mui",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\drivers\\en-US\\ndis.sys.mui.callgraph.json",
+    "relative_path": "System32\\drivers\\en-US\\ndis.sys.mui.callgraph.json",
+    "program": "ndis.sys.mui",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\drivers\\en-US\\ndiscap.sys.mui.callgraph.json",
+    "relative_path": "System32\\drivers\\en-US\\ndiscap.sys.mui.callgraph.json",
+    "program": "ndiscap.sys.mui",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\drivers\\en-US\\NdisImPlatform.sys.mui.callgraph.json",
+    "relative_path": "System32\\drivers\\en-US\\NdisImPlatform.sys.mui.callgraph.json",
+    "program": "NdisImPlatform.sys.mui",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\drivers\\en-US\\ndisuio.sys.mui.callgraph.json",
+    "relative_path": "System32\\drivers\\en-US\\ndisuio.sys.mui.callgraph.json",
+    "program": "ndisuio.sys.mui",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\drivers\\en-US\\NdisVirtualBus.sys.mui.callgraph.json",
+    "relative_path": "System32\\drivers\\en-US\\NdisVirtualBus.sys.mui.callgraph.json",
+    "program": "NdisVirtualBus.sys.mui",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\drivers\\en-US\\netvsc.sys.mui.callgraph.json",
+    "relative_path": "System32\\drivers\\en-US\\netvsc.sys.mui.callgraph.json",
+    "program": "netvsc.sys.mui",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\drivers\\en-US\\ntfs.sys.mui.callgraph.json",
+    "relative_path": "System32\\drivers\\en-US\\ntfs.sys.mui.callgraph.json",
+    "program": "ntfs.sys.mui",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\drivers\\en-US\\nvdimm.sys.mui.callgraph.json",
+    "relative_path": "System32\\drivers\\en-US\\nvdimm.sys.mui.callgraph.json",
+    "program": "nvdimm.sys.mui",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\drivers\\en-US\\nvmedisk.sys.mui.callgraph.json",
+    "relative_path": "System32\\drivers\\en-US\\nvmedisk.sys.mui.callgraph.json",
+    "program": "nvmedisk.sys.mui",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\drivers\\en-US\\nwifi.sys.mui.callgraph.json",
+    "relative_path": "System32\\drivers\\en-US\\nwifi.sys.mui.callgraph.json",
+    "program": "nwifi.sys.mui",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\drivers\\en-US\\pacer.sys.mui.callgraph.json",
+    "relative_path": "System32\\drivers\\en-US\\pacer.sys.mui.callgraph.json",
+    "program": "pacer.sys.mui",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\drivers\\en-US\\parport.sys.mui.callgraph.json",
+    "relative_path": "System32\\drivers\\en-US\\parport.sys.mui.callgraph.json",
+    "program": "parport.sys.mui",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\drivers\\en-US\\partmgr.sys.mui.callgraph.json",
+    "relative_path": "System32\\drivers\\en-US\\partmgr.sys.mui.callgraph.json",
+    "program": "partmgr.sys.mui",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\drivers\\en-US\\pci.sys.mui.callgraph.json",
+    "relative_path": "System32\\drivers\\en-US\\pci.sys.mui.callgraph.json",
+    "program": "pci.sys.mui",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\drivers\\en-US\\pcmcia.sys.mui.callgraph.json",
+    "relative_path": "System32\\drivers\\en-US\\pcmcia.sys.mui.callgraph.json",
+    "program": "pcmcia.sys.mui",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\drivers\\en-US\\pdc.sys.mui.callgraph.json",
+    "relative_path": "System32\\drivers\\en-US\\pdc.sys.mui.callgraph.json",
+    "program": "pdc.sys.mui",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\drivers\\en-US\\PktMon.sys.mui.callgraph.json",
+    "relative_path": "System32\\drivers\\en-US\\PktMon.sys.mui.callgraph.json",
+    "program": "PktMon.sys.mui",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\drivers\\en-US\\pmem.sys.mui.callgraph.json",
+    "relative_path": "System32\\drivers\\en-US\\pmem.sys.mui.callgraph.json",
+    "program": "pmem.sys.mui",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\drivers\\en-US\\pnpmem.sys.mui.callgraph.json",
+    "relative_path": "System32\\drivers\\en-US\\pnpmem.sys.mui.callgraph.json",
+    "program": "pnpmem.sys.mui",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\drivers\\en-US\\processr.sys.mui.callgraph.json",
+    "relative_path": "System32\\drivers\\en-US\\processr.sys.mui.callgraph.json",
+    "program": "processr.sys.mui",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\drivers\\en-US\\qwavedrv.sys.mui.callgraph.json",
+    "relative_path": "System32\\drivers\\en-US\\qwavedrv.sys.mui.callgraph.json",
+    "program": "qwavedrv.sys.mui",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\drivers\\en-US\\rdbss.sys.mui.callgraph.json",
+    "relative_path": "System32\\drivers\\en-US\\rdbss.sys.mui.callgraph.json",
+    "program": "rdbss.sys.mui",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\drivers\\en-US\\rdpdr.sys.mui.callgraph.json",
+    "relative_path": "System32\\drivers\\en-US\\rdpdr.sys.mui.callgraph.json",
+    "program": "rdpdr.sys.mui",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\drivers\\en-US\\refs.sys.mui.callgraph.json",
+    "relative_path": "System32\\drivers\\en-US\\refs.sys.mui.callgraph.json",
+    "program": "refs.sys.mui",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\drivers\\en-US\\refsv1.sys.mui.callgraph.json",
+    "relative_path": "System32\\drivers\\en-US\\refsv1.sys.mui.callgraph.json",
+    "program": "refsv1.sys.mui",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\drivers\\en-US\\scfilter.sys.mui.callgraph.json",
+    "relative_path": "System32\\drivers\\en-US\\scfilter.sys.mui.callgraph.json",
+    "program": "scfilter.sys.mui",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\drivers\\en-US\\scmbus.sys.mui.callgraph.json",
+    "relative_path": "System32\\drivers\\en-US\\scmbus.sys.mui.callgraph.json",
+    "program": "scmbus.sys.mui",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\drivers\\en-US\\scsiport.sys.mui.callgraph.json",
+    "relative_path": "System32\\drivers\\en-US\\scsiport.sys.mui.callgraph.json",
+    "program": "scsiport.sys.mui",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\drivers\\en-US\\sdbus.sys.mui.callgraph.json",
+    "relative_path": "System32\\drivers\\en-US\\sdbus.sys.mui.callgraph.json",
+    "program": "sdbus.sys.mui",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\drivers\\en-US\\sdstor.sys.mui.callgraph.json",
+    "relative_path": "System32\\drivers\\en-US\\sdstor.sys.mui.callgraph.json",
+    "program": "sdstor.sys.mui",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\drivers\\en-US\\serial.sys.mui.callgraph.json",
+    "relative_path": "System32\\drivers\\en-US\\serial.sys.mui.callgraph.json",
+    "program": "serial.sys.mui",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\drivers\\en-US\\sermouse.sys.mui.callgraph.json",
+    "relative_path": "System32\\drivers\\en-US\\sermouse.sys.mui.callgraph.json",
+    "program": "sermouse.sys.mui",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\drivers\\en-US\\spaceport.sys.mui.callgraph.json",
+    "relative_path": "System32\\drivers\\en-US\\spaceport.sys.mui.callgraph.json",
+    "program": "spaceport.sys.mui",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\drivers\\en-US\\srv2.sys.mui.callgraph.json",
+    "relative_path": "System32\\drivers\\en-US\\srv2.sys.mui.callgraph.json",
+    "program": "srv2.sys.mui",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\drivers\\en-US\\storqosflt.sys.mui.callgraph.json",
+    "relative_path": "System32\\drivers\\en-US\\storqosflt.sys.mui.callgraph.json",
+    "program": "storqosflt.sys.mui",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\drivers\\en-US\\tcpip.sys.mui.callgraph.json",
+    "relative_path": "System32\\drivers\\en-US\\tcpip.sys.mui.callgraph.json",
+    "program": "tcpip.sys.mui",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\drivers\\en-US\\tpm.sys.mui.callgraph.json",
+    "relative_path": "System32\\drivers\\en-US\\tpm.sys.mui.callgraph.json",
+    "program": "tpm.sys.mui",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\drivers\\en-US\\tsusbflt.sys.mui.callgraph.json",
+    "relative_path": "System32\\drivers\\en-US\\tsusbflt.sys.mui.callgraph.json",
+    "program": "tsusbflt.sys.mui",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\drivers\\en-US\\tunnel.sys.mui.callgraph.json",
+    "relative_path": "System32\\drivers\\en-US\\tunnel.sys.mui.callgraph.json",
+    "program": "tunnel.sys.mui",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\drivers\\en-US\\usbhub.sys.mui.callgraph.json",
+    "relative_path": "System32\\drivers\\en-US\\usbhub.sys.mui.callgraph.json",
+    "program": "usbhub.sys.mui",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\drivers\\en-US\\USBHUB3.SYS.mui.callgraph.json",
+    "relative_path": "System32\\drivers\\en-US\\USBHUB3.SYS.mui.callgraph.json",
+    "program": "USBHUB3.SYS.mui",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\drivers\\en-US\\usbport.sys.mui.callgraph.json",
+    "relative_path": "System32\\drivers\\en-US\\usbport.sys.mui.callgraph.json",
+    "program": "usbport.sys.mui",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\drivers\\en-US\\usbstor.sys.mui.callgraph.json",
+    "relative_path": "System32\\drivers\\en-US\\usbstor.sys.mui.callgraph.json",
+    "program": "usbstor.sys.mui",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\drivers\\en-US\\USBXHCI.SYS.mui.callgraph.json",
+    "relative_path": "System32\\drivers\\en-US\\USBXHCI.SYS.mui.callgraph.json",
+    "program": "USBXHCI.SYS.mui",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\drivers\\en-US\\vdrvroot.sys.mui.callgraph.json",
+    "relative_path": "System32\\drivers\\en-US\\vdrvroot.sys.mui.callgraph.json",
+    "program": "vdrvroot.sys.mui",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\drivers\\en-US\\VerifierExt.sys.mui.callgraph.json",
+    "relative_path": "System32\\drivers\\en-US\\VerifierExt.sys.mui.callgraph.json",
+    "program": "VerifierExt.sys.mui",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\drivers\\en-US\\vfpext.sys.mui.callgraph.json",
+    "relative_path": "System32\\drivers\\en-US\\vfpext.sys.mui.callgraph.json",
+    "program": "vfpext.sys.mui",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\drivers\\en-US\\vhdmp.sys.mui.callgraph.json",
+    "relative_path": "System32\\drivers\\en-US\\vhdmp.sys.mui.callgraph.json",
+    "program": "vhdmp.sys.mui",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\drivers\\en-US\\vmbus.sys.mui.callgraph.json",
+    "relative_path": "System32\\drivers\\en-US\\vmbus.sys.mui.callgraph.json",
+    "program": "vmbus.sys.mui",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\drivers\\en-US\\vmstorfl.sys.mui.callgraph.json",
+    "relative_path": "System32\\drivers\\en-US\\vmstorfl.sys.mui.callgraph.json",
+    "program": "vmstorfl.sys.mui",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\drivers\\en-US\\vmswitch.sys.mui.callgraph.json",
+    "relative_path": "System32\\drivers\\en-US\\vmswitch.sys.mui.callgraph.json",
+    "program": "vmswitch.sys.mui",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\drivers\\en-US\\volmgrx.sys.mui.callgraph.json",
+    "relative_path": "System32\\drivers\\en-US\\volmgrx.sys.mui.callgraph.json",
+    "program": "volmgrx.sys.mui",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\drivers\\en-US\\volsnap.sys.mui.callgraph.json",
+    "relative_path": "System32\\drivers\\en-US\\volsnap.sys.mui.callgraph.json",
+    "program": "volsnap.sys.mui",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\drivers\\en-US\\wacompen.sys.mui.callgraph.json",
+    "relative_path": "System32\\drivers\\en-US\\wacompen.sys.mui.callgraph.json",
+    "program": "wacompen.sys.mui",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\drivers\\en-US\\wdf01000.sys.mui.callgraph.json",
+    "relative_path": "System32\\drivers\\en-US\\wdf01000.sys.mui.callgraph.json",
+    "program": "wdf01000.sys.mui",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\drivers\\en-US\\wfplwfs.sys.mui.callgraph.json",
+    "relative_path": "System32\\drivers\\en-US\\wfplwfs.sys.mui.callgraph.json",
+    "program": "wfplwfs.sys.mui",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\drivers\\en-US\\winnat.sys.mui.callgraph.json",
+    "relative_path": "System32\\drivers\\en-US\\winnat.sys.mui.callgraph.json",
+    "program": "winnat.sys.mui",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\drivers\\en-US\\wof.sys.mui.callgraph.json",
+    "relative_path": "System32\\drivers\\en-US\\wof.sys.mui.callgraph.json",
+    "program": "wof.sys.mui",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\drivers\\en-US\\ws2ifsl.sys.mui.callgraph.json",
+    "relative_path": "System32\\drivers\\en-US\\ws2ifsl.sys.mui.callgraph.json",
+    "program": "ws2ifsl.sys.mui",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\drivers\\en-US\\wudfpf.sys.mui.callgraph.json",
+    "relative_path": "System32\\drivers\\en-US\\wudfpf.sys.mui.callgraph.json",
+    "program": "wudfpf.sys.mui",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\drivers\\fr-FR\\hnswfpdriver.sys.mui.callgraph.json",
+    "relative_path": "System32\\drivers\\fr-FR\\hnswfpdriver.sys.mui.callgraph.json",
+    "program": "hnswfpdriver.sys.mui",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\drivers\\fr-FR\\l2bridge.sys.mui.callgraph.json",
+    "relative_path": "System32\\drivers\\fr-FR\\l2bridge.sys.mui.callgraph.json",
+    "program": "l2bridge.sys.mui",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\drivers\\fr-FR\\pvhdparser.sys.mui.callgraph.json",
+    "relative_path": "System32\\drivers\\fr-FR\\pvhdparser.sys.mui.callgraph.json",
+    "program": "pvhdparser.sys.mui",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\drivers\\fr-FR\\storvsp.sys.mui.callgraph.json",
+    "relative_path": "System32\\drivers\\fr-FR\\storvsp.sys.mui.callgraph.json",
+    "program": "storvsp.sys.mui",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  },
+  {
+    "path": "C:\\Users\\Baha\\Desktop\\Projects\\Call_Graph_Win11\\data\\interim\\call_graphs\\System32\\drivers\\fr-FR\\vmbusr.sys.mui.callgraph.json",
+    "relative_path": "System32\\drivers\\fr-FR\\vmbusr.sys.mui.callgraph.json",
+    "program": "vmbusr.sys.mui",
+    "node_count": 0,
+    "edge_count": 0,
+    "status": "empty",
+    "reason": "no nodes"
+  }
+]

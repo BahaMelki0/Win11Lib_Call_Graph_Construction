@@ -1,0 +1,11 @@
+program,label,degree,node
+ntdll.dll,__security_check_cookie,582,ntdll.dll:0x180165910
+ntdll.dll,memset,389,ntdll.dll:0x180172030
+ntdll.dll,RtlFreeHeap,361,ntdll.dll:0x180078CE0
+ntdll.dll,RtlReleaseSRWLockExclusive,317,ntdll.dll:0x18003CE60
+user32.dll,__security_check_cookie,302,user32.dll:0x18009D7B0
+ntdll.dll,RtlAllocateHeap,301,ntdll.dll:0x18001C1D0
+ntdll.dll,RtlCopyMemory,298,ntdll.dll:0x180167340
+user32.dll,_guard_dispatch_icall$thunk$10345483385596137414,296,user32.dll:0x1800A9010
+kernel32.dll,__security_check_cookie,261,kernel32.dll:0x180084480
+ntdll.dll,RtlAcquireSRWLockExclusive,247,ntdll.dll:0x18003C190

@@ -1,0 +1,65 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "call-graph-win11"
+version = "0.1.0"
+description = "Tooling to reconstruct call graphs for Windows system libraries and analyse syscall coverage."
+readme = "README.md"
+requires-python = ">=3.12"
+authors = [
+  { name = "Semester Project Team" }
+]
+dependencies = [
+  "click>=8.1",
+  "igraph>=0.11",
+  "networkx>=3.2",
+  "pydantic>=2.7",
+  "pyyaml>=6.0",
+  "rich>=13.7",
+  "typer>=0.12",
+  "pefile>=2024.8",
+  "requests>=2.32",
+  "matplotlib>=3.9",
+  "dash>=2.16",
+  "dash-cytoscape>=0.3",
+]
+
+[project.scripts]
+call-graph = "call_graph_win11.cli:run"
+
+[project.optional-dependencies]
+dev = [
+  "black>=24.8",
+  "mypy>=1.11",
+  "pytest>=8.3",
+  "pytest-cov>=5.0",
+  "ruff>=0.6",
+  "types-PyYAML>=6.0.12",
+]
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.black]
+line-length = 100
+target-version = ["py312"]
+extend-exclude = "/(build|dist|\\.venv)/"
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+extend-exclude = ["build", "dist", ".venv"]
+
+[tool.pytest.ini_options]
+addopts = "-ra --strict-config --strict-markers"
+testpaths = ["tests"]
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+packages = ["call_graph_win11"]

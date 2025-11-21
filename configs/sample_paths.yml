@@ -1,0 +1,9 @@
+# Sample configuration for extraction runs.
+windows_root: "C:/Windows/System32"
+libraries:
+  - "C:/Windows/System32/kernel32.dll"
+  - "C:/Windows/System32/user32.dll"
+  - "C:/Windows/System32/advapi32.dll"
+ghidra_project_dir: "./ghidra-projects"
+ida_project_dir: null
+include_private_symbols: false
