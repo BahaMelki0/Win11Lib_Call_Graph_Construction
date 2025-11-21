@@ -1,0 +1,61 @@
+{
+  "schema_version": "1.0",
+  "graph": "sample_kernel32_ntdll",
+  "windows": {},
+  "dlls": [],
+  "layers": {
+    "library": 3,
+    "syscall": 1
+  },
+  "node_count": 4,
+  "edge_count": 2,
+  "nodes": [
+    {
+      "id": "KERNEL32.DLL!CreateFileW",
+      "program": "KERNEL32.DLL",
+      "name": "CreateFileW",
+      "address": "0x1",
+      "is_external": false,
+      "layer": "library",
+      "source": "DEFAULT"
+    },
+    {
+      "id": "KERNEL32.DLL!NtCreateFile_stub",
+      "program": "KERNEL32.DLL",
+      "name": "NtCreateFile_stub",
+      "address": "0x2",
+      "is_external": true,
+      "layer": "library",
+      "source": "IMPORTED"
+    },
+    {
+      "id": "NTDLL.DLL!NtCreateFile",
+      "program": "NTDLL.DLL",
+      "name": "NtCreateFile",
+      "address": "0x10",
+      "is_external": false,
+      "layer": "library",
+      "source": "DEFAULT"
+    },
+    {
+      "id": "SYSCALL:NtCreateFile",
+      "program": "SYSCALL",
+      "name": "NtCreateFile",
+      "is_external": true,
+      "layer": "syscall",
+      "source": "SYSCALL"
+    }
+  ],
+  "edges": [
+    {
+      "source": "KERNEL32.DLL!CreateFileW",
+      "target": "NTDLL.DLL!NtCreateFile",
+      "kind": "import"
+    },
+    {
+      "source": "NTDLL.DLL!NtCreateFile",
+      "target": "SYSCALL:NtCreateFile",
+      "kind": "syscall"
+    }
+  ]
+}

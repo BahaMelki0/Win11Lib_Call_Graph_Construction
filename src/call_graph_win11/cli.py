@@ -23,7 +23,7 @@ from call_graph_win11.analysis.graph_loader import (
     to_igraph,
 )
 from call_graph_win11.analysis.visualization import plot_call_graph
-from call_graph_win11.analysis.unified_graph import UnifiedGraphBuilder
+from call_graph_win11.analysis.unified_graph import MetadataIndex, SCHEMA_VERSION, UnifiedGraphBuilder
 from call_graph_win11.analysis.graph_queries import (
     HookCandidateCoverage,
     HookRecommendation,
@@ -89,6 +89,20 @@ def _format_node_label(graph: nx.DiGraph, node: str) -> str:
         if isinstance(value, str) and value:
             return value
     return node
+
+
+def _load_graph_any(path: Path) -> tuple[nx.DiGraph, str]:
+    """Load either exporter (functions/edges) or unified (nodes/edges) graph."""
+
+    path = path.expanduser().resolve()
+    if not path.exists():
+        raise typer.BadParameter(f"Input not found: {path}")
+    head = path.read_text(encoding="utf-8")[:2048]
+    if "\"functions\"" in head:
+        return load_call_graph(path), "callgraph"
+    if "\"nodes\"" in head and "\"edges\"" in head:
+        return load_generic_graph(path), "unified"
+    raise typer.BadParameter(f"Unrecognised graph format: {path}")
 
 app = typer.Typer(help="Utilities for the Call Graph Reconstruction project.")
 
@@ -408,6 +422,65 @@ def callgraph_hook_plan(
             typer.echo(f"    ... (+{remaining} more)")
     else:
         typer.secho("All targeted syscalls are covered by the hook set.", fg=typer.colors.GREEN)
+
+
+@app.command("callgraph-validate")
+def callgraph_validate(
+    input: List[Path] = typer.Option(..., "--input", "-i", help="Call graph or unified graph JSON to validate."),
+    metadata_root: Optional[Path] = typer.Option(
+        None, help="Inventory root used to sanity-check syscall coverage for unified graphs."
+    ),
+    syscall_ratio: float = typer.Option(
+        0.8, help="Minimum ratio of syscall nodes vs ntdll Nt* exports when metadata_root is provided."
+    ),
+) -> None:
+    """Validate graph structure and basic syscall coverage."""
+
+    meta_index: MetadataIndex | None = None
+    if metadata_root:
+        metadata_root = metadata_root.expanduser().resolve()
+        if not metadata_root.exists():
+            raise typer.BadParameter(f"Metadata root not found: {metadata_root}")
+        meta_index = MetadataIndex(metadata_root)
+
+    any_errors = False
+    for path in input:
+        graph, kind = _load_graph_any(path)
+        nodes = set(graph.nodes)
+        errors: list[str] = []
+
+        if len(nodes) != graph.number_of_nodes():
+            errors.append("Duplicate node ids detected.")
+        for source, target in graph.edges():
+            if source not in nodes or target not in nodes:
+                errors.append(f"Dangling edge: {source} -> {target}")
+
+        is_unified = kind == "unified" or any(str(node).startswith("SYSCALL:") for node in nodes)
+        if is_unified and meta_index:
+            meta_nt = meta_index.get_module_record("NTDLL.DLL")
+            expected_nt = 0
+            if meta_nt:
+                expected_nt = sum(1 for name in meta_nt.exports if name.startswith("NT"))
+            actual_syscalls = sum(
+                1
+                for node, data in graph.nodes(data=True)
+                if str(node).startswith("SYSCALL:") or data.get("layer") == "syscall"
+            )
+            if expected_nt and actual_syscalls < expected_nt * syscall_ratio:
+                errors.append(
+                    f"Syscall node count too low: expected >= {int(expected_nt * syscall_ratio)}, found {actual_syscalls}"
+                )
+
+        if errors:
+            any_errors = True
+            typer.secho(f"{path} failed validation:", fg=typer.colors.RED)
+            for err in errors:
+                typer.echo(f"  - {err}")
+        else:
+            typer.secho(f"{path} passed validation.", fg=typer.colors.GREEN)
+
+    if any_errors:
+        raise typer.Exit(code=1)
 
 
 @app.command("ghidra-callgraph")

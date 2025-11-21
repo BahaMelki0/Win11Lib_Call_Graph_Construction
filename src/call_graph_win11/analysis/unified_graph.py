@@ -18,6 +18,7 @@ LOGGER = logging.getLogger(__name__)
 
 LIBRARY_LAYER = "library"
 SYSCALL_LAYER = "syscall"
+SCHEMA_VERSION = "1.0"
 
 
 def _normalize_module(name: str) -> str:
@@ -446,6 +447,7 @@ class UnifiedGraphBuilder:
         for node in nodes:
             layers[node.get("layer", LIBRARY_LAYER)] += 1
         payload = {
+            "schema_version": SCHEMA_VERSION,
             "graph": self.graph.graph.get("name", destination.stem),
             "windows": self.windows_info,
             "dlls": list(self.dll_records.values()),

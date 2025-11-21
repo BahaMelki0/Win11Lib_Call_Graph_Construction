@@ -1,0 +1,23 @@
+{
+  "schema_version": "1.0",
+  "program": "NTDLL.DLL",
+  "functions": [
+    {
+      "entry_point": "0x10",
+      "name": "NtCreateFile",
+      "qualified_name": "NtCreateFile",
+      "calling_convention": "__stdcall",
+      "is_external": false,
+      "source": "DEFAULT"
+    },
+    {
+      "entry_point": "0x20",
+      "name": "memset",
+      "qualified_name": "memset",
+      "calling_convention": "__stdcall",
+      "is_external": false,
+      "source": "DEFAULT"
+    }
+  ],
+  "edges": []
+}

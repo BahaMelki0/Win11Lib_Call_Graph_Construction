@@ -55,6 +55,12 @@ call-graph --help
 call-graph inventory --help
 ```
 
+Quick demo without Windows data: run the UI against the tiny sample graphs:
+
+```powershell
+call-graph callgraph-ui --data-dir docs/analytics/sample_graphs --port 8060
+```
+
 ### Typical workflow
 
 1. **Inventory the Windows installation**
@@ -171,6 +177,8 @@ call-graph inventory --help
    the outstanding gaps are captured. By default the unified graph keeps only
    imported and exported functions (stable names across DLLs); add
    `--include-internal` if you want the full function set instead.
+   API-set DLLs (`api-ms-win-*`, `ext-ms-*`) are resolved to their host (usually
+   `KERNELBASE.DLL`) during unification, and forwarder edges are retained.
 
 8. **Launch the Dash explorer**
 
@@ -193,6 +201,9 @@ exports, CSV generation, and analytics reports for reproducible runs.
   unified graph status and pending work.
 - `docs/analytics/` — CSV/JSON/PNG outputs from sample runs (kept light-weight
   so the repo remains shareable).
+- `docs/analytics/sample_graphs/` — tiny sample call graphs and a unified graph
+  to demo the UI without Windows binaries.
+- `docs/schema.md` — JSON schema reference for exporter and unified outputs.
 
 ### Tooling Requirements
 
@@ -201,6 +212,8 @@ exports, CSV generation, and analytics reports for reproducible runs.
 - Access to a reference Windows 11 installation (x64) whose system libraries
   can be inspected
 - Optional: Graph tooling (Graphviz) for visualisation
+- Compatibility: tested with Ghidra 11.4.2 and Java 21; PDB analyzers must be
+  enabled in headless mode (default).
 
 ## Repository Layout
 
@@ -369,6 +382,15 @@ names are preserved in the JSON output.
   The first command lists orphaned syscalls and APIs that never reach them,
   while the second approximates a minimal set of API hooks that covers the
   reachable syscalls.
+
+- Validate graph structure (dangling edges, syscall coverage when metadata is
+  available):
+
+  ```powershell
+  call-graph callgraph-validate `
+      --input data/interim/unified/unified_smoke.callgraph.json `
+      --metadata-root data/raw/windows_inventory
+  ```
 
 - Launch the interactive Dash UI to browse binaries and inspect subgraphs:
 
