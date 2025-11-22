@@ -232,7 +232,6 @@ exports, CSV generation, and analytics reports for reproducible runs.
 │  ├─ references/           # curated reading material and links
 │  ├─ report/               # LaTeX report sources
 │  └─ research/             # experiments, methodologies, design drafts
-├─ ghidra-projects/         # sample Ghidra projects/metadata
 ├─ notebooks/               # Jupyter notebooks for exploratory analysis
 ├─ scripts/                 # CLI scripts and automation helpers
 ├─ src/call_graph_win11/    # Python package with project code
