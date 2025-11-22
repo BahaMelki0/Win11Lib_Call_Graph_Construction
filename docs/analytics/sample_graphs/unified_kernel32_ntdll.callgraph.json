@@ -1,20 +1,29 @@
 {
   "schema_version": "1.0",
-  "graph": "sample_kernel32_ntdll",
+  "graph": "sample_kernel32_kernelbase_ntdll",
   "windows": {},
   "dlls": [],
   "layers": {
-    "library": 3,
+    "library": 4,
     "syscall": 1
   },
-  "node_count": 4,
-  "edge_count": 2,
+  "node_count": 5,
+  "edge_count": 3,
   "nodes": [
     {
       "id": "KERNEL32.DLL!CreateFileW",
       "program": "KERNEL32.DLL",
       "name": "CreateFileW",
       "address": "0x1",
+      "is_external": false,
+      "layer": "library",
+      "source": "DEFAULT"
+    },
+    {
+      "id": "KERNELBASE.DLL!CreateFileW",
+      "program": "KERNELBASE.DLL",
+      "name": "CreateFileW",
+      "address": "0x3",
       "is_external": false,
       "layer": "library",
       "source": "DEFAULT"
@@ -49,6 +58,11 @@
   "edges": [
     {
       "source": "KERNEL32.DLL!CreateFileW",
+      "target": "KERNELBASE.DLL!CreateFileW",
+      "kind": "import"
+    },
+    {
+      "source": "KERNELBASE.DLL!CreateFileW",
       "target": "NTDLL.DLL!NtCreateFile",
       "kind": "import"
     },

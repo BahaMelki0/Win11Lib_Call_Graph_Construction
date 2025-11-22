@@ -1,0 +1,28 @@
+{
+  "schema_version": "1.0",
+  "program": "KERNELBASE.DLL",
+  "functions": [
+    {
+      "entry_point": "0x3",
+      "name": "CreateFileW",
+      "qualified_name": "CreateFileW",
+      "calling_convention": "__stdcall",
+      "is_external": false,
+      "source": "DEFAULT"
+    },
+    {
+      "entry_point": "0x4",
+      "name": "NtCreateFile_stub",
+      "qualified_name": "NtCreateFile_stub",
+      "calling_convention": "__stdcall",
+      "is_external": true,
+      "source": "IMPORTED"
+    }
+  ],
+  "edges": [
+    {
+      "caller": "0x3",
+      "callee": "0x4"
+    }
+  ]
+}
