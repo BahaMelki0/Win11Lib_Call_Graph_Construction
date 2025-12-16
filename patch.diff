@@ -1,0 +1,20 @@
+*** Begin Patch
+*** Update File: src/call_graph_win11/ui/app.py
+@@
+                             html.Label("Max nodes"),
+ 
+                             dcc.Slider(
+                                 id="node-limit",
+-                                min=300,
+-                                max=5000,
+-                                step=None,
+-                                marks={300: "300", 1000: "1k", 2500: "2.5k", 5000: "5k"},
+-                                value=1000,
++                                min=100,
++                                max=5000,
++                                step=None,
++                                marks={100: "100", 300: "300", 1000: "1k", 2500: "2.5k", 5000: "5k"},
++                                value=100,
+                                 tooltip={"placement": "bottom", "always_visible": True},
+                             ),
+*** End Patch

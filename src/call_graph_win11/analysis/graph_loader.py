@@ -14,6 +14,7 @@ except ImportError:  # pragma: no cover - igraph optional
     ig = None
 
 FUNCTION_FIELDS = [
+    "node_id",
     "entry_point",
     "address_space",
     "name",
@@ -23,11 +24,17 @@ FUNCTION_FIELDS = [
     "is_external",
     "calling_convention",
     "source",
+    "is_thunk",
 ]
 
 
 def _node_id(program: str, address: str) -> str:
     return f"{program}:{address}"
+
+def _stable_node_key(program: str, raw_id: str) -> str:
+    if isinstance(raw_id, str) and raw_id.startswith("IMPORT:"):
+        return raw_id
+    return _node_id(program, raw_id)
 
 
 def load_call_graph(path: Path) -> nx.DiGraph:
@@ -42,12 +49,16 @@ def load_call_graph(path: Path) -> nx.DiGraph:
 
     graph = nx.DiGraph(program=program, source=str(Path(path).resolve()))
 
+    raw_to_node: dict[str, str] = {}
     for function in functions:
-        address = function.get("entry_point")
-        if address is None:
+        raw_id = function.get("node_id") or function.get("entry_point")
+        if raw_id is None:
             continue
-        node = _node_id(program, address)
-        attributes = {"program": program, "address": address}
+        raw_id = str(raw_id)
+        node = _stable_node_key(program, raw_id)
+        raw_to_node[raw_id] = node
+        # Backward compatible: 'address' remains the intra-binary identifier (node_id/entry_point).
+        attributes = {"program": program, "address": function.get("entry_point") or raw_id}
         for field in FUNCTION_FIELDS:
             if field == "entry_point":
                 continue
@@ -62,15 +73,22 @@ def load_call_graph(path: Path) -> nx.DiGraph:
         if caller is None or callee is None:
             continue
 
-        caller_node = _node_id(program, caller)
-        callee_node = _node_id(program, callee)
+        caller_raw = str(caller)
+        callee_raw = str(callee)
+        caller_node = raw_to_node.get(caller_raw) or _stable_node_key(program, caller_raw)
+        callee_node = raw_to_node.get(callee_raw) or _stable_node_key(program, callee_raw)
 
         if caller_node not in graph:
-            graph.add_node(caller_node, program=program, address=caller, name=None, is_external=True)
+            graph.add_node(caller_node, program=program, address=caller_raw, name=None, is_external=True)
         if callee_node not in graph:
-            graph.add_node(callee_node, program=program, address=callee, name=None, is_external=True)
+            graph.add_node(callee_node, program=program, address=callee_raw, name=None, is_external=True)
 
-        graph.add_edge(caller_node, callee_node)
+        edge_attrs: dict[str, object] = {}
+        if "site" in edge:
+            edge_attrs["site"] = edge.get("site")
+        if "kind" in edge:
+            edge_attrs["kind"] = edge.get("kind")
+        graph.add_edge(caller_node, callee_node, **edge_attrs)
 
     graph.graph["node_count"] = graph.number_of_nodes()
     graph.graph["edge_count"] = graph.number_of_edges()
@@ -105,6 +123,7 @@ def export_generic_graph(graph: nx.DiGraph, destination: Path) -> None:
     destination = Path(destination)
     payload = {
         "graph": graph.graph.get("name", destination.stem),
+        "mode": graph.graph.get("mode"),
         "programs": list(sorted({data.get("program", "unknown") for _, data in graph.nodes(data=True)})),
         "sources": graph.graph.get("sources", []),
         "node_count": graph.number_of_nodes(),
@@ -117,8 +136,11 @@ def export_generic_graph(graph: nx.DiGraph, destination: Path) -> None:
         attributes = {k: (str(v) if v is not None else None) for k, v in data.items()}
         payload["nodes"].append({"id": node, **attributes})
 
-    for source, target in graph.edges():
-        payload["edges"].append({"source": source, "target": target})
+    for source, target, data in graph.edges(data=True):
+        edge_payload = {"source": source, "target": target}
+        if data:
+            edge_payload.update({k: (str(v) if v is not None else None) for k, v in data.items()})
+        payload["edges"].append(edge_payload)
 
     destination.parent.mkdir(parents=True, exist_ok=True)
     with destination.open("w", encoding="utf-8") as handle:

@@ -1,3 +1,4 @@
+LICENSE
 README.md
 pyproject.toml
 src/call_graph_win11/__init__.py
@@ -11,8 +12,10 @@ src/call_graph_win11.egg-info/requires.txt
 src/call_graph_win11.egg-info/top_level.txt
 src/call_graph_win11/analysis/__init__.py
 src/call_graph_win11/analysis/adapters.py
+src/call_graph_win11/analysis/graph_audit.py
 src/call_graph_win11/analysis/graph_loader.py
 src/call_graph_win11/analysis/graph_queries.py
+src/call_graph_win11/analysis/unified_graph.py
 src/call_graph_win11/analysis/visualization.py
 src/call_graph_win11/data/__init__.py
 src/call_graph_win11/data/collectors.py
@@ -25,7 +28,9 @@ src/call_graph_win11/pipelines/build_call_graph.py
 src/call_graph_win11/pipelines/ghidra_callgraph.py
 src/call_graph_win11/ui/__init__.py
 src/call_graph_win11/ui/app.py
+tests/test_ghidra_callgraph.py
 tests/test_graph_loader.py
 tests/test_pdb_fetcher.py
 tests/test_placeholder.py
+tests/test_unified_import_nodes.py
 tests/test_windows_inventory.py

@@ -118,6 +118,8 @@ def export_call_graphs(
     pdb_script: Path = Path("scripts/ghidra/set_pdb_path.py"),
     windows_root: Path = Path(r"C:\Windows"),
     symbol_store: str | Path | None = None,
+    verbose: bool = False,
+    flatten_names: bool = False,
 ) -> List[CallGraphRunResult]:
     """
     Invoke the Ghidra headless exporter for the provided binaries.
@@ -132,14 +134,29 @@ def export_call_graphs(
     output_dir.mkdir(parents=True, exist_ok=True)
     session = requests.Session()
 
-    for binary in binaries:
+    binaries_list = list(binaries)
+    total = len(binaries_list)
+
+    for idx, binary in enumerate(binaries_list, start=1):
         binary = binary.resolve()
         try:
             relative = binary.resolve().relative_to(windows_root.resolve())
-            output_path = output_dir / relative.parent / f"{relative.name}.callgraph.json"
+            rel_str = str(relative)
         except ValueError:
-            output_path = output_dir / f"{binary.name}.callgraph.json"
+            rel_str = str(binary.name)
+
+        if flatten_names:
+            flattened = rel_str.replace(":", "_").replace("\\", "_").replace("/", "_")
+            output_path = output_dir / f"{flattened}.callgraph.json"
+        else:
+            if "\\" in rel_str or "/" in rel_str:
+                output_path = output_dir / Path(rel_str).parent / f"{Path(rel_str).name}.callgraph.json"
+            else:
+                output_path = output_dir / f"{rel_str}.callgraph.json"
         output_path.parent.mkdir(parents=True, exist_ok=True)
+
+        if verbose:
+            print(f"[{idx}/{total}] {binary} -> {output_path}")
 
         if output_path.exists() and not overwrite:
             results.append(
@@ -179,13 +196,38 @@ def export_call_graphs(
             symbol_path=symbol_store,
         )
 
+        # Detect cases where Ghidra returned a success code but did not produce
+        # the expected output file. This can happen if the headless launcher
+        # completed but the script failed silently. Treat missing output as an
+        # error to make failures visible to the caller.
+        rc = completed.returncode
+        stdout_text = completed.stdout or ""
+        stderr_text = completed.stderr or ""
+        if rc == 0 and not output_path.exists():
+            rc = 1
+            msg = f"GHIDRA did not produce expected output file: {output_path}"
+            if stderr_text:
+                stderr_text = stderr_text + "\n" + msg
+            else:
+                stderr_text = msg
+
+            # Write a small diagnostic log next to the expected output to aid
+            # debugging when running headless on CI or remotely.
+            try:
+                diag_path = output_path.with_suffix(output_path.suffix + ".ghidra.log")
+                diag_path.parent.mkdir(parents=True, exist_ok=True)
+                diag_path.write_text("stdout:\n" + stdout_text + "\n\nstderr:\n" + stderr_text)
+            except Exception:
+                # Best-effort only; do not allow diagnostic writing to raise.
+                pass
+
         results.append(
             CallGraphRunResult(
                 binary=binary,
                 output=output_path,
-                returncode=completed.returncode,
-                stdout=completed.stdout,
-                stderr=completed.stderr,
+                returncode=rc,
+                stdout=stdout_text,
+                stderr=stderr_text,
                 metadata=metadata_file,
                 pdb_path=pdb_path,
             )

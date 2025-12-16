@@ -7,6 +7,7 @@ from __future__ import annotations
 
 
 from functools import lru_cache
+import json
 import math
 
 from pathlib import Path
@@ -55,21 +56,50 @@ LAYOUT_PRESETS = {
     "breadthfirst": {"name": "breadthfirst", "directed": True, "spacingFactor": 1.1, "padding": 25},
 }
 
+MODES = {"raw", "syscall", "unified", "auto"}
+
 
 def _list_graph_files(base_dir: Path, excluded: set[Path] | None = None) -> List[Path]:
 
     base_dir = base_dir.expanduser().resolve()
     results: List[Path] = []
     excluded_resolved = {path.resolve() for path in excluded} if excluded else set()
-    for path in base_dir.rglob("*.callgraph.json"):
-        if not path.is_file():
-            continue
-        resolved = path.resolve()
-        if resolved in excluded_resolved:
-            continue
-        results.append(resolved)
+    patterns = ("*.callgraph.json", "*.syscall.json", "*.syscall_projection.json")
+    seen: set[Path] = set()
+    for pattern in patterns:
+        for path in base_dir.rglob(pattern):
+            if not path.is_file():
+                continue
+            resolved = path.resolve()
+            if resolved in excluded_resolved or resolved in seen:
+                continue
+            seen.add(resolved)
+            results.append(resolved)
     return sorted(results)
 
+
+
+def _infer_mode_from_payload(payload: dict) -> str:
+    if not isinstance(payload, dict):
+        return "unknown"
+    mode = payload.get("mode")
+    if isinstance(mode, str) and mode:
+        return mode.lower()
+    if "schema_version" in payload and "layers" in payload:
+        return "unified"
+    if "functions" in payload and "edges" in payload:
+        return "raw"
+    if "nodes" in payload and "edges" in payload:
+        return "syscall"
+    return "unknown"
+
+
+def _infer_mode_from_file(path: Path) -> str:
+    try:
+        payload = json.loads(path.read_text(encoding="utf-8"))
+    except Exception:
+        return "unknown"
+    return _infer_mode_from_payload(payload)
 
 
 
@@ -234,11 +264,22 @@ def _filter_graph(graph: "ig.Graph", filters: Iterable[str]) -> Tuple["ig.Graph"
 
     if "external" in filters:
         external_nodes = {
-            vertex["node_id"]
-            for vertex in graph.vs
-            if _vertex_attr(vertex, "is_external")
+            vertex["node_id"] for vertex in graph.vs if _vertex_attr(vertex, "is_external")
         }
         nodes_to_keep &= external_nodes
+
+    if "apis_only" in filters:
+        api_nodes = set()
+        for vertex in graph.vs:
+            source = _vertex_attr(vertex, "source", "").upper()
+            layer = _vertex_attr(vertex, "layer", "").lower()
+            if source in {"EXPORTED", "IMPORTED"}:
+                api_nodes.add(vertex["node_id"])
+            elif _vertex_attr(vertex, "is_external"):
+                api_nodes.add(vertex["node_id"])
+            elif layer == "syscall":
+                api_nodes.add(vertex["node_id"])
+        nodes_to_keep &= api_nodes
 
     if not nodes_to_keep:
         return graph.subgraph([]), set()
@@ -251,23 +292,32 @@ def _filter_graph(graph: "ig.Graph", filters: Iterable[str]) -> Tuple["ig.Graph"
     return subgraph, set(subgraph.vs["node_id"])
 
 
-def create_app(data_dir: Path, *, default_limit: int = 320, excluded_paths: set[Path] | None = None) -> Dash:
-
+def create_app(
+    data_dir: Path,
+    *,
+    default_limit: int = 100,
+    excluded_paths: set[Path] | None = None,
+    mode: str = "auto",
+) -> Dash:
     data_dir = data_dir.expanduser().resolve()
 
     graph_files = _list_graph_files(data_dir, excluded=excluded_paths)
 
-    if not graph_files:
+    mode = (mode or "auto").lower()
+    if mode not in MODES:
+        raise ValueError(f"Unsupported mode: {mode}")
 
-        raise FileNotFoundError(f"No *.callgraph.json files found under {data_dir}")
+    file_entries: list[tuple[Path, str]] = []
+    for path in graph_files:
+        inferred_mode = _infer_mode_from_file(path)
+        if mode != "auto" and inferred_mode not in {mode, "unknown"}:
+            continue
+        file_entries.append((path, inferred_mode))
 
+    if not file_entries:
+        raise FileNotFoundError(f"No *.callgraph.json files found under {data_dir} for mode '{mode}'")
 
-
-    graph_options = [
-
-        {"label": str(path.relative_to(data_dir)), "value": str(path.resolve())} for path in graph_files
-
-    ]
+    graph_options = [{"label": str(path.relative_to(data_dir)), "value": str(path.resolve())} for path, _ in file_entries]
 
 
 
@@ -344,11 +394,11 @@ def create_app(data_dir: Path, *, default_limit: int = 320, excluded_paths: set[
 
                             dcc.Slider(
                                 id="node-limit",
-                                min=300,
-                                max=1000,
+                                min=100,
+                                max=5000,
                                 step=None,
-                                marks={300: "300", 500: "500", 700: "700", 900: "900", 1000: "1000"},
-                                value=500,
+                                marks={100: "100", 300: "300", 1000: "1k", 2500: "2.5k", 5000: "5k"},
+                                value=100,
                                 tooltip={"placement": "bottom", "always_visible": True},
                             ),
 
@@ -356,9 +406,9 @@ def create_app(data_dir: Path, *, default_limit: int = 320, excluded_paths: set[
                             dcc.Input(
                                 id="node-limit-custom",
                                 type="number",
-                                min=1,
+                                min=0,
                                 step=50,
-                                placeholder="Enter node cap (e.g., 20000)",
+                                placeholder="Enter node cap (0 for all, e.g., 20000)",
                                 debounce=True,
                                 style={"marginTop": "6px", "width": "100%"},
                             ),
@@ -413,7 +463,7 @@ def create_app(data_dir: Path, *, default_limit: int = 320, excluded_paths: set[
 
                     html.Div(
 
-                        [
+                    [
 
                             html.Label("Filters"),
 
@@ -423,7 +473,8 @@ def create_app(data_dir: Path, *, default_limit: int = 320, excluded_paths: set[
 
                                 options=[
 
-                                    {"label": "Only exported APIs", "value": "external"},
+                                    {"label": "Only exported/imported APIs", "value": "apis_only"},
+                                    {"label": "External nodes only", "value": "external"},
 
                                 ],
 
@@ -649,23 +700,28 @@ def create_app(data_dir: Path, *, default_limit: int = 320, excluded_paths: set[
         str | None,
     ]:
         ig_graph, nx_graph = _load_graph(path_value)
-        # Prefer custom node cap if provided
-        limit_value = node_limit_custom if node_limit_custom is not None else node_limit
+        # Prefer custom node cap if provided (empty input is treated as unset)
+        limit_value = node_limit
+        if node_limit_custom not in (None, "", " "):
+            limit_value = node_limit_custom
         try:
             limit_value = int(limit_value)
         except (TypeError, ValueError):
             limit_value = node_limit
-        # Ensure we always render at least one node and cap to graph size
-        node_limit = max(1, min(limit_value, ig_graph.vcount()))
+        # Allow 0/None to mean "all nodes"; otherwise ensure at least one node and cap to graph size
+        if limit_value <= 0:
+            node_limit = ig_graph.vcount()
+        else:
+            node_limit = max(1, min(limit_value, ig_graph.vcount()))
 
         # Filter first, then subset for rendering
         filtered_graph, filtered_node_ids = _filter_graph(ig_graph, filters or [])
         subset_graph, subset_nodes = _subset_graph(filtered_graph, node_limit)
 
-        colors = _program_colors(_vertex_attr(vertex, "program", "unknown") for vertex in filtered_graph.vs)
+        colors = _program_colors(_vertex_attr(vertex, "program", "unknown") for vertex in subset_graph.vs)
 
-        total_nodes = filtered_graph.vcount()
-        degree_values = filtered_graph.degree() if total_nodes else []
+        total_nodes = subset_graph.vcount()
+        degree_values = subset_graph.degree() if total_nodes else []
         size_mode = size_mode or "fixed"
         size_map: Optional[Dict[str, float]] = None
         if total_nodes:
@@ -674,90 +730,54 @@ def create_app(data_dir: Path, *, default_limit: int = 320, excluded_paths: set[
                 max_deg = max(degree_values)
                 if max_deg == min_deg:
                     size_value = 28.0
-                    size_map = {vertex["node_id"]: size_value for vertex in filtered_graph.vs}
+                    size_map = {vertex["node_id"]: size_value for vertex in subset_graph.vs}
                 else:
                     size_map = {}
-                    for vertex, degree in zip(filtered_graph.vs, degree_values):
+                    for vertex, degree in zip(subset_graph.vs, degree_values):
                         norm = (degree - min_deg) / (max_deg - min_deg)
                         size_map[vertex["node_id"]] = 18.0 + norm * 28.0
             else:
-                size_map = {vertex["node_id"]: 22.0 for vertex in filtered_graph.vs}
+                size_map = {vertex["node_id"]: 22.0 for vertex in subset_graph.vs}
 
         highlight_nodes: set[str] = set()
         highlight_edges: set[Tuple[str, str]] = set()
-        vertex_index = {vertex["node_id"]: vertex.index for vertex in filtered_graph.vs}
+        vertex_index = {vertex["node_id"]: vertex.index for vertex in subset_graph.vs}
+
+        # Constrain path inputs to the rendered subset
+        if start_node and start_node not in subset_nodes:
+            start_node = None
+        if end_node and end_node not in subset_nodes:
+            end_node = None
 
         path_text = "Select a start and focus function to view shortest paths."
         focus_info = "Select a focus function to inspect inbound callers."
         path_table_children: html.Div = html.Div(
             "Select a focus function to list inbound paths.", className="path-table path-table-empty"
         )
-        path_only = "path-only" in (path_mode or [])
+        path_only = bool(path_mode and "path-only" in path_mode)
         path_node_ids: List[str] = []
 
-        focus_candidates: list[tuple[int, float]] = []
-        if end_node and end_node in vertex_index:
+        # If both start and end are selected, show shortest path between them
+        if start_node and end_node and start_node in vertex_index and end_node in vertex_index:
+            highlight_nodes.add(start_node)
             highlight_nodes.add(end_node)
-            reverse_graph = filtered_graph.copy()
-            reverse_graph.reverse_edges()
-            distances = reverse_graph.shortest_paths(vertex_index[end_node], mode="OUT")[0]
-            focus_vertex_indices = [
-                idx for idx, dist in enumerate(distances) if not math.isinf(dist) and dist <= focus_depth
-            ]
-            if focus_vertex_indices:
-                focus_subgraph = filtered_graph.subgraph(focus_vertex_indices)
-                focus_node_ids = focus_subgraph.vs["node_id"]
-                highlight_nodes.update(focus_node_ids)
-                for src_idx, dst_idx in focus_subgraph.get_edgelist():
-                    highlight_edges.add((focus_subgraph.vs[src_idx]["node_id"], focus_subgraph.vs[dst_idx]["node_id"]))
-                target_vertex = filtered_graph.vs[vertex_index[end_node]]
-                target_label = (
-                    _vertex_attr(target_vertex, "name")
-                    or _vertex_attr(target_vertex, "qualified_name")
-                    or _vertex_attr(target_vertex, "address")
-                    or end_node
-                )
-                focus_info = f"{len(focus_node_ids)} functions within {focus_depth} hops can reach {target_label}."
-                focus_candidates = [
-                    (idx, distances[idx])
-                    for idx in focus_vertex_indices
-                    if idx != vertex_index[end_node] and not math.isinf(distances[idx])
-                ]
-            else:
-                focus_info = "Focus function is currently filtered out."
-        elif end_node:
-            focus_info = "Focus function is currently filtered out."
-
-        path_rows: list[html.Tr] = []
-        if focus_candidates:
-            focus_candidates.sort(key=lambda item: (item[1], item[0]))
-            max_rows = 12
-            for idx, dist in focus_candidates[:max_rows]:
-                vpath = filtered_graph.get_shortest_paths(idx, to=vertex_index[end_node], mode="OUT")
-                if not vpath or not vpath[0]:
-                    continue
-                node_ids = [filtered_graph.vs[vid]["node_id"] for vid in vpath[0]]
+            shortest = subset_graph.get_shortest_paths(vertex_index[start_node], to=vertex_index[end_node], mode="OUT")
+            if shortest and shortest[0]:
+                vertex_path = shortest[0]
+                path_node_ids = [subset_graph.vs[idx]["node_id"] for idx in vertex_path]
+                for src_idx, dst_idx in zip(vertex_path[:-1], vertex_path[1:]):
+                    highlight_edges.add((subset_graph.vs[src_idx]["node_id"], subset_graph.vs[dst_idx]["node_id"]))
                 labels = []
-                for vid in vpath[0]:
-                    vertex = filtered_graph.vs[vid]
+                for vid in vertex_path:
+                    vertex = subset_graph.vs[vid]
                     labels.append(
                         _vertex_attr(vertex, "name")
                         or _vertex_attr(vertex, "qualified_name")
                         or _vertex_attr(vertex, "address")
                         or vertex["node_id"]
                     )
-                source_label = labels[0]
-                hops = len(node_ids) - 1
-                path_rows.append(
-                    html.Tr(
-                        [
-                            html.Td(source_label, className="path-cell path-cell--source"),
-                            html.Td(f"{hops}", className="path-cell path-cell--hops"),
-                            html.Td(" → ".join(labels[:8]), className="path-cell path-cell--path"),
-                        ]
-                    )
-                )
-            if path_rows:
+                hops = len(path_node_ids) - 1
+                path_text = f"Shortest path length: {hops} hops."
                 table = html.Table(
                     [
                         html.Thead(
@@ -769,11 +789,114 @@ def create_app(data_dir: Path, *, default_limit: int = 320, excluded_paths: set[
                                 ]
                             )
                         ),
-                        html.Tbody(path_rows),
+                        html.Tbody(
+                            [
+                                html.Tr(
+                                    [
+                                        html.Td(labels[0], className="path-cell path-cell--source"),
+                                        html.Td(f"{hops}", className="path-cell path-cell--hops"),
+                                        html.Td(" → ".join(labels[:8]), className="path-cell path-cell--path"),
+                                    ]
+                                )
+                            ]
+                        ),
                     ],
                     className="path-table-grid",
                 )
                 path_table_children = html.Div(table, className="path-table")
+                if path_only and path_node_ids:
+                    keep = set(path_node_ids)
+                    nodes = [node for node in nodes if node["data"]["id"] in keep]
+                    edges = [
+                        edge for edge in edges if edge["data"]["source"] in keep and edge["data"]["target"] in keep
+                    ]
+            else:
+                path_text = "No path found between start and focus."
+                path_table_children = html.Div("No shortest path found.", className="path-table path-table-empty")
+        else:
+            focus_candidates: list[tuple[int, float]] = []
+            if end_node and end_node in vertex_index:
+                highlight_nodes.add(end_node)
+                reverse_graph = subset_graph.copy()
+                reverse_graph.reverse_edges()
+                distances = reverse_graph.shortest_paths(vertex_index[end_node], mode="OUT")[0]
+                focus_vertex_indices = [
+                    idx for idx, dist in enumerate(distances) if not math.isinf(dist) and dist <= focus_depth
+                ]
+                if focus_vertex_indices:
+                    focus_subgraph = subset_graph.subgraph(focus_vertex_indices)
+                    focus_node_ids = focus_subgraph.vs["node_id"]
+                    highlight_nodes.update(focus_node_ids)
+                    for src_idx, dst_idx in focus_subgraph.get_edgelist():
+                        highlight_edges.add((focus_subgraph.vs[src_idx]["node_id"], focus_subgraph.vs[dst_idx]["node_id"]))
+                    target_vertex = subset_graph.vs[vertex_index[end_node]]
+                    target_label = (
+                        _vertex_attr(target_vertex, "name")
+                        or _vertex_attr(target_vertex, "qualified_name")
+                        or _vertex_attr(target_vertex, "address")
+                        or end_node
+                    )
+                    focus_info = f"{len(focus_node_ids)} functions within {focus_depth} hops can reach {target_label}."
+                    focus_candidates = [
+                        (idx, distances[idx])
+                        for idx in focus_vertex_indices
+                        if idx != vertex_index[end_node] and not math.isinf(distances[idx])
+                    ]
+                else:
+                    focus_info = "Focus function is currently filtered out."
+            elif end_node:
+                focus_info = "Focus function is currently filtered out."
+
+            path_rows: list[html.Tr] = []
+            if focus_candidates:
+                focus_candidates.sort(key=lambda item: (item[1], item[0]))
+                max_rows = 12
+                for idx, dist in focus_candidates[:max_rows]:
+                    vpath = subset_graph.get_shortest_paths(idx, to=vertex_index[end_node], mode="OUT")
+                    if not vpath or not vpath[0]:
+                        continue
+                    node_ids = [subset_graph.vs[vid]["node_id"] for vid in vpath[0]]
+                    labels = []
+                    for vid in vpath[0]:
+                        vertex = subset_graph.vs[vid]
+                        labels.append(
+                            _vertex_attr(vertex, "name")
+                            or _vertex_attr(vertex, "qualified_name")
+                            or _vertex_attr(vertex, "address")
+                            or vertex["node_id"]
+                        )
+                    source_label = labels[0]
+                    hops = len(node_ids) - 1
+                    path_rows.append(
+                        html.Tr(
+                            [
+                                html.Td(source_label, className="path-cell path-cell--source"),
+                                html.Td(f"{hops}", className="path-cell path-cell--hops"),
+                                html.Td(" → ".join(labels[:8]), className="path-cell path-cell--path"),
+                            ]
+                        )
+                    )
+                if path_rows:
+                    table = html.Table(
+                        [
+                            html.Thead(
+                                html.Tr(
+                                    [
+                                        html.Th("Source", className="path-header"),
+                                        html.Th("Hops", className="path-header"),
+                                        html.Th("Path", className="path-header"),
+                                    ]
+                                )
+                            ),
+                            html.Tbody(path_rows),
+                        ],
+                        className="path-table-grid",
+                    )
+                    path_table_children = html.Div(table, className="path-table")
+                else:
+                    path_table_children = html.Div("No paths found for the selected focus.", className="path-table path-table-empty")
+            elif end_node:
+                path_table_children = html.Div("No paths found for the selected focus.", className="path-table path-table-empty")
 
         if start_node and end_node and start_node in vertex_index and end_node in vertex_index:
             highlight_nodes.add(start_node)
@@ -781,10 +904,10 @@ def create_app(data_dir: Path, *, default_limit: int = 320, excluded_paths: set[
                 path_text = "Start and focus functions are identical."
                 path_node_ids = [start_node]
             else:
-                shortest = filtered_graph.get_shortest_paths(vertex_index[start_node], to=vertex_index[end_node], mode="OUT")
+                shortest = subset_graph.get_shortest_paths(vertex_index[start_node], to=vertex_index[end_node], mode="OUT")
                 if shortest and shortest[0]:
                     vertex_path = shortest[0]
-                    path_node_ids = [filtered_graph.vs[idx]["node_id"] for idx in vertex_path]
+                    path_node_ids = [subset_graph.vs[idx]["node_id"] for idx in vertex_path]
                     path_text = f"Shortest path length: {len(path_node_ids) - 1} hops."
                 else:
                     path_text = "No forward path found; showing inbound callers only."
@@ -792,10 +915,10 @@ def create_app(data_dir: Path, *, default_limit: int = 320, excluded_paths: set[
             path_text = "Select a start function to compute a path."
 
         # Render on subset nodes plus any path nodes to avoid hiding cross-DLL paths.
-        render_nodes: set[str] = set(subset_nodes) if subset_nodes else set(filtered_node_ids)
+        render_nodes: set[str] = set(subset_nodes) if subset_nodes else {vertex["node_id"] for vertex in subset_graph.vs}
         render_nodes.update(path_node_ids)
         render_indices = [vertex_index[n] for n in render_nodes if n in vertex_index]
-        graph_for_render = filtered_graph.subgraph(render_indices) if render_indices else filtered_graph
+        graph_for_render = subset_graph.subgraph(render_indices) if render_indices else subset_graph
 
         if path_node_ids:
             highlight_nodes.update(path_node_ids)
@@ -805,7 +928,7 @@ def create_app(data_dir: Path, *, default_limit: int = 320, excluded_paths: set[
 
         if path_only and path_node_ids:
             indices = [vertex_index[n] for n in path_node_ids if n in vertex_index]
-            graph_for_render = filtered_graph.subgraph(indices)
+            graph_for_render = subset_graph.subgraph(indices)
 
         # Always prefix program for clarity, especially when multiple DLLs are shown.
         prefix_program = True
@@ -819,12 +942,12 @@ def create_app(data_dir: Path, *, default_limit: int = 320, excluded_paths: set[
             prefix_program=prefix_program,
         )
 
-        filtered_node_ids_sorted = sorted(filtered_node_ids)
+        filtered_node_ids_sorted = sorted(subset_nodes)
         options = []
         for node_id in filtered_node_ids_sorted:
             if node_id not in vertex_index:
                 continue
-            vertex = filtered_graph.vs[vertex_index[node_id]]
+            vertex = subset_graph.vs[vertex_index[node_id]]
             label = (
                 _vertex_attr(vertex, "name")
                 or _vertex_attr(vertex, "qualified_name")
@@ -833,8 +956,8 @@ def create_app(data_dir: Path, *, default_limit: int = 320, excluded_paths: set[
             )
             options.append({"label": label, "value": node_id})
 
-        start_value = start_node if start_node in filtered_node_ids else None
-        end_value = end_node if end_node in filtered_node_ids else None
+        start_value = start_node if start_node in subset_nodes else None
+        end_value = end_node if end_node in subset_nodes else None
 
         layout_config = dict(LAYOUT_PRESETS.get(layout_mode, LAYOUT_PRESETS["cose"]))
         layout_config.setdefault("padding", 30)

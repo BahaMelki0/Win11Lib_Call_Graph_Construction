@@ -36,9 +36,6 @@ def run_headless(
     project = project_name or project_dir.name
 
     cmd = [str(ghidra_install)]
-    if "analyzeheadless" not in ghidra_install.name.lower():
-        cmd.append("analyzeHeadless")
-
     cmd.extend([str(project_dir), project])
 
     if overwrite:

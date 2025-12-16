@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import csv
+from collections import Counter
 from pathlib import Path
 from typing import List, Optional
 
@@ -21,6 +23,9 @@ from call_graph_win11.analysis.graph_loader import (
     load_generic_graph,
     merge_call_graphs,
     to_igraph,
+)
+from call_graph_win11.analysis.graph_queries import (
+    detect_unconnected_syscalls,
 )
 from call_graph_win11.analysis.visualization import plot_call_graph
 from call_graph_win11.analysis.unified_graph import MetadataIndex, SCHEMA_VERSION, UnifiedGraphBuilder
@@ -103,6 +108,193 @@ def _load_graph_any(path: Path) -> tuple[nx.DiGraph, str]:
     if "\"nodes\"" in head and "\"edges\"" in head:
         return load_generic_graph(path), "unified"
     raise typer.BadParameter(f"Unrecognised graph format: {path}")
+
+
+def _prune_to_syscalls(
+    graph: nx.DiGraph,
+    *,
+    syscall_prefix: tuple[str, ...] = ("Nt", "Zw"),
+    syscall_program_hint: str = "ntdll.dll",
+) -> nx.DiGraph:
+    """Return a subgraph containing paths that reach syscalls."""
+
+    syscall_nodes: set[str] = set()
+    for node, data in graph.nodes(data=True):
+        name = data.get("name") or data.get("qualified_name") or ""
+        if isinstance(name, str) and name.startswith(syscall_prefix):
+            program = str(data.get("program") or graph.graph.get("program") or "")
+            if program.lower().endswith(syscall_program_hint.lower()):
+                syscall_nodes.add(node)
+
+    keep: set[str] = set(syscall_nodes)
+    for node in syscall_nodes:
+        keep |= nx.ancestors(graph, node)
+
+    pruned = graph.subgraph(keep).copy()
+    pruned.graph["mode"] = "syscall"
+    pruned.graph["sources"] = [graph.graph.get("source", "")] if graph.graph.get("source") else []
+    return pruned
+
+
+def _prune_unified_to_syscalls(
+    graph: nx.DiGraph,
+    *,
+    syscall_prefix: tuple[str, ...] = ("Nt", "Zw"),
+    syscall_program_hint: str = "ntdll.dll",
+) -> nx.DiGraph:
+    """Return a subgraph (from a unified nodes/edges graph) containing paths that reach syscalls."""
+
+    syscall_nodes: set[str] = set()
+    for node, data in graph.nodes(data=True):
+        layer = str(data.get("layer") or "").lower()
+        name = data.get("name") or data.get("qualified_name") or ""
+        program = str(data.get("program") or "")
+        if layer == "syscall":
+            syscall_nodes.add(node)
+            continue
+        if isinstance(name, str) and name.startswith(syscall_prefix) and program.lower().endswith(syscall_program_hint.lower()):
+            syscall_nodes.add(node)
+
+    if not syscall_nodes:
+        pruned = graph.subgraph([]).copy()
+        pruned.graph["mode"] = "syscall"
+        return pruned
+
+    keep: set[str] = set(syscall_nodes)
+    for node in syscall_nodes:
+        keep |= nx.ancestors(graph, node)
+
+    pruned = graph.subgraph(keep).copy()
+    pruned.graph["mode"] = "syscall"
+    return pruned
+
+
+def _normalize_program_name(name: str) -> str:
+    """Uppercase and append .DLL when the caller passes a bare module stem."""
+
+    cleaned = (name or "").strip()
+    if not cleaned:
+        return ""
+    if not cleaned.lower().endswith((".dll", ".exe")):
+        cleaned = f"{cleaned}.dll"
+    return cleaned.upper()
+
+
+def _project_syscalls(
+    graph: nx.DiGraph,
+    target_program: str,
+    *,
+    syscall_prefix: tuple[str, ...] = ("Nt", "Zw"),
+    syscall_program_hint: str = "ntdll.dll",
+    max_hops: Optional[int] = None,
+    allow_kinds: Optional[set[str]] = None,
+    max_syscalls_per_function: Optional[int] = None,
+) -> tuple[nx.DiGraph, list[dict], dict]:
+    """Project a unified graph to syscall reachability for a target program."""
+
+    target_program_upper = _normalize_program_name(target_program)
+    syscall_program_upper = _normalize_program_name(syscall_program_hint)
+
+    # Filter edges by kind if requested
+    if allow_kinds:
+        kinds = {k.lower() for k in allow_kinds}
+        edges_to_keep = [
+            (u, v)
+            for u, v, data in graph.edges(data=True)
+            if str(data.get("kind", "")).lower() in kinds
+        ]
+        graph = graph.edge_subgraph(edges_to_keep).copy()
+
+    # Identify target nodes and syscall nodes
+    func_nodes: list[str] = []
+    syscall_nodes: list[str] = []
+    for node, data in graph.nodes(data=True):
+        program = str(data.get("program") or "").upper()
+        layer = str(data.get("layer") or "").lower()
+        name = data.get("name") or data.get("qualified_name") or ""
+        if program == target_program_upper:
+            func_nodes.append(node)
+        if layer == "syscall":
+            syscall_nodes.append(node)
+        elif isinstance(name, str) and name.startswith(syscall_prefix) and program.endswith(syscall_program_upper):
+            syscall_nodes.append(node)
+
+    if not syscall_nodes:
+        raise typer.BadParameter("No syscall nodes found in the unified graph.")
+    if not func_nodes:
+        raise typer.BadParameter(f"No functions found for program '{target_program}'. Did you mean '{target_program_upper}'?")
+
+    # Reverse graph for reachability; unweighted BFS
+    reversed_graph = graph.reverse(copy=True)
+    # Multi-source shortest path lengths
+    dist: dict[str, float] = nx.multi_source_dijkstra_path_length(reversed_graph, syscall_nodes, weight=None)
+
+    results: list[dict] = []
+    projection_edges: list[tuple[str, str, int, str | None]] = []
+    via_counter: Counter[str] = Counter()
+    hops_counter: Counter[int] = Counter()
+    syscalls_reached: set[str] = set()
+    funcs_reaching: set[str] = set()
+
+    for fn in func_nodes:
+        if fn not in dist:
+            continue
+        # compute distances to each syscall from fn (forward)
+        lengths = nx.single_source_shortest_path_length(graph, source=fn)
+        pairs = [(sc, d) for sc, d in lengths.items() if sc in syscall_nodes and d is not None]
+        if max_hops is not None:
+            pairs = [(sc, d) for sc, d in pairs if d <= max_hops]
+        pairs.sort(key=lambda t: t[1])
+        if max_syscalls_per_function:
+            pairs = pairs[:max_syscalls_per_function]
+        for sc, hops in pairs:
+            path = nx.shortest_path(graph, source=fn, target=sc)
+            via_program = None
+            if len(path) > 1:
+                via_program = str(graph.nodes[path[1]].get("program") or "")
+            preview = []
+            for node in path[:8]:
+                data = graph.nodes[node]
+                label = data.get("name") or data.get("qualified_name") or data.get("address") or node
+                preview.append(str(label))
+            syscall_name = graph.nodes[sc].get("name") or graph.nodes[sc].get("qualified_name") or sc
+            func_name = graph.nodes[fn].get("name") or graph.nodes[fn].get("qualified_name") or fn
+            results.append(
+                {
+                    "function_id": fn,
+                    "function_name": func_name,
+                    "syscall_id": sc,
+                    "syscall_name": syscall_name,
+                    "hops": hops,
+                    "via_program": via_program,
+                    "path_preview": preview,
+                }
+            )
+            projection_edges.append((fn, sc, hops, via_program))
+            via_counter[via_program or ""] += 1
+            hops_counter[hops] += 1
+            syscalls_reached.add(syscall_name)
+            funcs_reaching.add(fn)
+
+    # Build projection graph
+    projection = nx.DiGraph(name=f"{target_program_upper}_syscall_projection", mode="syscall_projection")
+    projection.graph["target_program"] = target_program_upper
+    for node, data in graph.nodes(data=True):
+        if node in funcs_reaching or node in {edge[1] for edge in projection_edges}:
+            projection.add_node(node, **data)
+    for src, dst, hops, via_program in projection_edges:
+        projection.add_edge(src, dst, kind="projection", hops=hops, via_program=via_program)
+
+    metrics = {
+        "target_program": target_program_upper,
+        "num_funcs_in_target": len(func_nodes),
+        "num_funcs_reaching_syscalls": len(funcs_reaching),
+        "num_syscalls_reached": len(syscalls_reached),
+        "syscalls_reached_by_at_least_one": sorted(syscalls_reached),
+        "hops_histogram": {str(k): v for k, v in sorted(hops_counter.items())},
+        "top_via_programs": [{"program": k, "count": v} for k, v in via_counter.most_common(10)],
+    }
+    return projection, results, metrics
 
 app = typer.Typer(help="Utilities for the Call Graph Reconstruction project.")
 
@@ -332,6 +524,138 @@ def callgraph_unify(
     typer.secho(f"Unified graph written to {output}", fg=typer.colors.GREEN)
 
 
+@app.command("callgraph-syscall-prune")
+def callgraph_syscall_prune(
+    input: List[Path] = typer.Option(..., "--input", "-i", help="Call graph JSON(s) to prune to syscall paths."),
+    output_dir: Path = typer.Option(Path("data/interim/syscall_graphs"), help="Output directory for pruned graphs."),
+    syscall_program: str = typer.Option("ntdll.dll", help="DLL hosting syscalls (default: ntdll.dll)."),
+    syscall_prefix: List[str] = typer.Option(["Nt", "Zw"], help="Syscall name prefixes to consider."),
+) -> None:
+    """
+    Keep only nodes/edges that can reach syscalls in the provided call graphs.
+    """
+
+    output_dir = output_dir.expanduser().resolve()
+    output_dir.mkdir(parents=True, exist_ok=True)
+    prefixes: tuple[str, ...] = tuple(syscall_prefix)
+
+    for item in input:
+        graph = load_call_graph(item)
+        pruned = _prune_to_syscalls(graph, syscall_prefix=prefixes, syscall_program_hint=syscall_program)
+
+        try:
+            relative = item.resolve().relative_to(Path("data/interim/call_graphs").resolve())
+            destination = output_dir / relative
+        except Exception:
+            destination = output_dir / item.name
+        destination.parent.mkdir(parents=True, exist_ok=True)
+
+        export_generic_graph(pruned, destination)
+        typer.echo(f"{item} -> {destination} (nodes={pruned.number_of_nodes()}, edges={pruned.number_of_edges()})")
+
+
+@app.command("callgraph-unified-syscall-prune")
+def callgraph_unified_syscall_prune(
+    input: Path = typer.Option(..., "--input", "-i", help="Unified nodes/edges graph JSON to prune to syscall paths."),
+    output: Optional[Path] = typer.Option(None, "--output", "-o", help="Destination path for pruned graph."),
+    output_dir: Path = typer.Option(
+        Path("data/interim/syscall_graphs"), help="Directory where syscall-pruned unified graphs are written."
+    ),
+    syscall_program: str = typer.Option("ntdll.dll", help="DLL hosting syscalls (default: ntdll.dll)."),
+    syscall_prefix: List[str] = typer.Option(["Nt", "Zw"], help="Syscall name prefixes to consider."),
+) -> None:
+    """
+    Keep only paths that can reach syscalls in a unified graph (nodes/edges JSON).
+    """
+
+    input_path = input.expanduser().resolve()
+    if not input_path.exists():
+        raise typer.BadParameter(f"Input not found: {input_path}")
+    prefixes: tuple[str, ...] = tuple(syscall_prefix)
+
+    graph = load_generic_graph(input_path)
+    pruned = _prune_unified_to_syscalls(graph, syscall_prefix=prefixes, syscall_program_hint=syscall_program)
+
+    if output:
+        destination = output.expanduser().resolve()
+    else:
+        output_dir = output_dir.expanduser().resolve()
+        output_dir.mkdir(parents=True, exist_ok=True)
+        try:
+            rel = input_path.relative_to(input_path.parents[1])
+            destination = (output_dir / rel).with_suffix(".syscall.json")
+        except Exception:
+            destination = output_dir / f"{input_path.stem}.syscall.json"
+    export_generic_graph(pruned, destination)
+    typer.echo(f"{input_path} -> {destination} (nodes={pruned.number_of_nodes()}, edges={pruned.number_of_edges()})")
+
+
+@app.command("callgraph-project-syscalls")
+def callgraph_project_syscalls(
+    graph: Path = typer.Option(..., "--graph", "-g", help="Unified nodes/edges graph JSON."),
+    program: str = typer.Option(..., "--program", "-p", help="Target program (DLL) to project, e.g., KERNEL32.DLL."),
+    output_graph: Optional[Path] = typer.Option(None, "--out-graph", help="Projection graph JSON output."),
+    output_table: Optional[Path] = typer.Option(None, "--out-table", help="Projection table CSV output."),
+    output_metrics: Optional[Path] = typer.Option(None, "--out-metrics", help="Projection metrics JSON output."),
+    max_hops: Optional[int] = typer.Option(None, help="Optional max hops to syscalls."),
+    allow_kinds: List[str] = typer.Option([], help="Restrict to these edge kinds (direct, import, forwarder, syscall)."),
+    max_syscalls_per_function: Optional[int] = typer.Option(None, help="Limit syscalls recorded per function."),
+    syscall_program: str = typer.Option("ntdll.dll", help="DLL hosting syscalls (default: ntdll.dll)."),
+    syscall_prefix: List[str] = typer.Option(["Nt", "Zw"], help="Syscall prefixes."),
+) -> None:
+    """
+    Project a unified graph to show which syscalls a target DLL can reach (via cross-DLL paths).
+    """
+
+    graph_path = graph.expanduser().resolve()
+    if not graph_path.exists():
+        raise typer.BadParameter(f"Graph not found: {graph_path}")
+
+    g = load_generic_graph(graph_path)
+    projection, rows, metrics = _project_syscalls(
+        g,
+        program,
+        syscall_prefix=tuple(syscall_prefix),
+        syscall_program_hint=syscall_program,
+        max_hops=max_hops,
+        allow_kinds=set(allow_kinds) if allow_kinds else None,
+        max_syscalls_per_function=max_syscalls_per_function,
+    )
+
+    base_dir = Path("data/interim/syscall_graphs")
+    base_dir.mkdir(parents=True, exist_ok=True)
+    stem_safe = program.upper().replace(".", "_")
+
+    if output_graph is None:
+        output_graph = base_dir / f"{stem_safe}.syscall_projection.json"
+    output_graph = output_graph.expanduser().resolve()
+    projection.graph["mode"] = "syscall"
+    projection.graph["source_graph"] = str(graph_path)
+    export_generic_graph(projection, output_graph)
+    typer.echo(f"Projection graph written to {output_graph} (nodes={projection.number_of_nodes()}, edges={projection.number_of_edges()})")
+
+    if output_table is None:
+        output_table = base_dir / f"{stem_safe}.syscall_projection.csv"
+    output_table = output_table.expanduser().resolve()
+    output_table.parent.mkdir(parents=True, exist_ok=True)
+    with output_table.open("w", newline="", encoding="utf-8") as handle:
+        writer = csv.DictWriter(
+            handle,
+            fieldnames=["function_id", "function_name", "syscall_id", "syscall_name", "hops", "via_program", "path_preview"],
+        )
+        writer.writeheader()
+        for row in rows:
+            writer.writerow(row)
+    typer.echo(f"Projection table written to {output_table}")
+
+    if output_metrics is None:
+        output_metrics = base_dir / f"{stem_safe}.syscall_projection.metrics.json"
+    output_metrics = output_metrics.expanduser().resolve()
+    output_metrics.parent.mkdir(parents=True, exist_ok=True)
+    output_metrics.write_text(json.dumps(metrics, indent=2), encoding="utf-8")
+    typer.echo(f"Projection metrics written to {output_metrics}")
+
+
 @app.command("callgraph-syscall-report")
 def callgraph_syscall_report(
     input: List[Path] = typer.Option(..., "--input", "-i", help="Call graph JSON(s) to analyse."),
@@ -501,6 +825,10 @@ def ghidra_callgraph(
         True, help="Use the Microsoft public symbol server with the provided cache."
     ),
     symbol_server_url: str = typer.Option("https://msdl.microsoft.com/download/symbols", help="Symbol server URL."),
+    verbose: bool = typer.Option(False, help="Print per-binary progress."),
+    flatten_names: bool = typer.Option(
+        False, help="Flatten output filenames instead of mirroring the Windows directory hierarchy."
+    ),
 ) -> None:
     """Run the Ghidra call graph exporter for the provided binaries."""
 
@@ -559,6 +887,8 @@ def ghidra_callgraph(
         pdb_root=pdb_root,
         windows_root=windows_root,
         symbol_store=symbol_store,
+        verbose=verbose,
+        flatten_names=flatten_names,
     )
 
     failed = 0
@@ -600,6 +930,10 @@ def callgraph_batch(
         True, help="Use the Microsoft public symbol server with the provided cache."
     ),
     symbol_server_url: str = typer.Option("https://msdl.microsoft.com/download/symbols", help="Symbol server URL."),
+    verbose: bool = typer.Option(False, help="Print per-binary progress."),
+    flatten_names: bool = typer.Option(
+        False, help="Flatten output filenames instead of mirroring the Windows directory hierarchy."
+    ),
 ) -> None:
     """Run the call graph exporter for all binaries under the selected Windows subdirectories."""
 
@@ -689,6 +1023,8 @@ def callgraph_batch(
         pdb_root=pdb_root,
         windows_root=windows_root,
         symbol_store=symbol_store,
+        verbose=verbose,
+        flatten_names=flatten_names,
     )
 
     succeeded = sum(1 for r in results if r.succeeded)
@@ -848,6 +1184,11 @@ def callgraph_ui(
     host: str = typer.Option("127.0.0.1", help="Host interface for the Dash server."),
     port: int = typer.Option(8050, help="Port for the Dash server."),
     debug: bool = typer.Option(False, help="Enable Dash debug mode."),
+    mode: str = typer.Option(
+        "auto",
+        help="Graph mode to load: raw (per-DLL), unified (nodes/edges), syscall (pruned), or auto to accept any.",
+        case_sensitive=False,
+    ),
     exclude_report: Optional[Path] = typer.Option(
         None,
         help="Optional JSON report (from callgraph-empty-report) listing graphs to ignore.",
@@ -868,7 +1209,7 @@ def callgraph_ui(
         excluded_paths = load_excluded_paths(exclude_report, candidate)
         if excluded_paths:
             typer.echo(f"Skipping {len(excluded_paths)} graphs based on {exclude_report}.")
-    app_instance = create_app(candidate, excluded_paths=excluded_paths)
+    app_instance = create_app(candidate, excluded_paths=excluded_paths, mode=mode)
     app_instance.run(host=host, port=port, debug=debug)
 
 

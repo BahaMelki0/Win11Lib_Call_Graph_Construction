@@ -1,0 +1,4 @@
+- Check using PEFILE for file architecture 
+- Run over the whole C:/Windows 
+- Support for ARM64
+- 

@@ -180,14 +180,68 @@ call-graph callgraph-ui --data-dir docs/analytics/sample_graphs --port 8060
    API-set DLLs (`api-ms-win-*`, `ext-ms-*`) are resolved to their host (usually
    `KERNELBASE.DLL`) during unification, and forwarder edges are retained.
 
-8. **Launch the Dash explorer**
+### Three-stage pipeline (concise)
+
+**Stage 1: Raw per-DLL graphs**  
+`ghidra-callgraph` / `callgraph-batch` generate `*.callgraph.json` with:
+- internal nodes keyed by address (`0x...`)
+- import nodes keyed as `IMPORT:<lib>!<symbol>`
+- edges carry `caller`, `callee`, `site`, `kind`
+
+**Stage 2: Unified user-mode graph**  
+`callgraph-unify` walks `--callgraph-dir` recursively, compresses export→import
+reachability via internals, resolves imports to real exports, and emits only
+API nodes (`DLL!Export`) with edges of kind `reaches`/`apiset`/`forwarder`.
+Use `--module` to restrict to specific DLLs or omit to unify everything.
+
+**Stage 3: Syscall augmentation (optional)**  
+Add syscall stubs (`NTDLL!NtX -> SYSCALL:NtX`), prune to syscall-connected
+subgraphs, and/or project per-DLL syscall reachability:
+`callgraph-unified-syscall-prune`, `callgraph-project-syscalls`.
+
+8. **Launch the Dash explorer (pick a mode)**
 
    ```powershell
-   call-graph callgraph-ui `
-       --data-dir data/interim/call_graphs `
-       --port 8051 `
-       --exclude-report docs/analytics/empty_call_graphs.json
-   ```
+call-graph callgraph-ui `
+    --data-dir data/interim/call_graphs `
+    --mode raw `
+    --port 8051 `
+    --exclude-report docs/analytics/empty_call_graphs.json
+```
+
+Modes:
+- `raw` (per-DLL exports)
+- `unified` (nodes/edges unified graphs)
+- `syscall` (syscall-pruned views or projections)
+- `auto` (accept any)
+
+The UI enforces the mode based on graph metadata and file contents. Set “Custom nodes” to `0` to remove the node cap.
+
+### Syscall-focused graphs
+
+Per-DLL prune (paths to syscalls inside a single DLL, e.g., `ntdll.dll`):
+```powershell
+call-graph callgraph-syscall-prune `
+    --input data/interim/call_graphs/System32/ntdll.dll.callgraph.json `
+    --output-dir data/interim/syscall_graphs
+```
+
+Unified syscall prune (keep only paths that reach syscalls in a unified graph):
+```powershell
+call-graph callgraph-unified-syscall-prune `
+    --input data/interim/unified/full.callgraph.json `
+    --output-dir data/interim/syscall_graphs
+```
+
+Syscall projection for a target DLL (cross-DLL paths from a unified graph):
+```powershell
+call-graph callgraph-project-syscalls `
+    --graph data/interim/unified/full.callgraph.json `
+    --program KERNEL32.DLL `
+    --out-graph data/interim/syscall_graphs/KERNEL32.syscall_projection.json `
+    --out-table data/interim/syscall_graphs/KERNEL32.syscall_projection.csv `
+    --out-metrics data/interim/syscall_graphs/KERNEL32.syscall_projection.metrics.json
+```
 
 All of these steps are orchestrated end-to-end by
 `scripts/run_full_pipeline.ps1`, which chains inventory, PDB mirroring, batch

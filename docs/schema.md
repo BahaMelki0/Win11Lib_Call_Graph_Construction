@@ -8,6 +8,7 @@ All JSON payloads carry a `"schema_version": "1.0"` field to make downstream val
 Top-level keys:
 
 - `schema_version`: string (`"1.0"`).
+- `mode`: optional string (`"raw"` for exporter output; `"syscall"` for pruned views).
 - `program`: DLL/EXE name.
 - `functions`: array of function records:
   - `entry_point`: string address (e.g., `"0x180012340"`).
@@ -26,6 +27,7 @@ Node identity inside the UI/loader is `PROGRAM:entry_point`.
 Top-level keys:
 
 - `schema_version`: string (`"1.0"`).
+- `mode`: optional string (`"unified"`); syscall-pruned unified graphs are tagged `"syscall"`, and syscall projections use `"syscall_projection"`.
 - `graph`: name of the graph.
 - `windows`: host OS info.
 - `dlls`: list of DLL metadata (path, sha256, file_version, pdb GUID/age).
@@ -47,6 +49,25 @@ Node identity is stable across DLLs because only imported/exported functions are
 (`--include-internal` restores all functions). API-set DLLs (`api-ms-win-*`, `ext-ms-*`) are
 resolved to their host (typically `KERNELBASE.DLL`) during unification; forwarder edges connect
 the alias to the host.
+
+## Syscall projection graph (`*_syscall_projection.json`)
+
+Derived from a unified graph; captures which syscalls a target DLL can reach.
+
+Top-level keys:
+
+- `schema_version`: string (`"1.0"`).
+- `mode`: `"syscall_projection"`.
+- `graph`: name of the projection (e.g., `KERNEL32.DLL_syscall_projection`).
+- `source_graph`: path to the unified graph used.
+- `target_program`: program being projected.
+- `node_count` / `edge_count`.
+- `nodes`: functions from the target DLL that reach a syscall, plus the syscall nodes they reach.
+- `edges`: projection edges from function → syscall:
+  - `source` / `target`: node ids.
+  - `kind`: `"projection"`.
+  - `hops`: shortest path length.
+  - `via_program`: program of the first hop off the target DLL (may be null).
 
 ## Validation rules
 
