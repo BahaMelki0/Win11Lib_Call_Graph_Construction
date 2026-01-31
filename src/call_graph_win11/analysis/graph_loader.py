@@ -46,8 +46,10 @@ def load_call_graph(path: Path) -> nx.DiGraph:
     program = payload.get("program", Path(path).stem)
     functions = payload.get("functions", [])
     edges = payload.get("edges", [])
+    arch = payload.get("arch")
+    machine = payload.get("machine")
 
-    graph = nx.DiGraph(program=program, source=str(Path(path).resolve()))
+    graph = nx.DiGraph(program=program, source=str(Path(path).resolve()), arch=arch, machine=machine)
 
     raw_to_node: dict[str, str] = {}
     for function in functions:
@@ -200,9 +202,18 @@ def to_igraph(graph: nx.DiGraph) -> "ig.Graph":
         ig_graph.vs[attr] = [graph.nodes[v].get(attr) for v in vertices]
 
     # Add edges
-    edge_indices = [(index_map[source], index_map[target]) for source, target in graph.edges()]
+    edges_data = list(graph.edges(data=True))
+    edge_indices = [(index_map[source], index_map[target]) for source, target, _ in edges_data]
     if edge_indices:
         ig_graph.add_edges(edge_indices)
+
+    # Transfer edge attributes
+    edge_attr_names: set[str] = set()
+    for _, _, data in edges_data:
+        edge_attr_names.update(data.keys())
+
+    for attr in edge_attr_names:
+        ig_graph.es[attr] = [data.get(attr) for _, _, data in edges_data]
 
     # Transfer graph-level metadata
     for key, value in graph.graph.items():

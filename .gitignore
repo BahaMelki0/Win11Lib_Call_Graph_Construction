@@ -9,10 +9,30 @@ dist/
 *.egg-info/
 
 ghidra-projects/
+ghidra-projects-*/
+ghidra-projects-archtest/
+ghidra-projects-full/
+ghidra-projects-test/
+ghidra-projects-demo/
+ghidra-projects-smoke*/
 
-.venv/
+data/interim/
+data/raw/
+data/external/
 
-data/external/pdbs/
-# *.pdb
+*.gpr
+*.rep/
+*.lock
+*.lock~
+*.bak
 
-*.json
+*.log
+*.err
+
+*.msi
+*.ovpn
+
+openvpn.ovpn
+
+pres.md
+To Do.txt

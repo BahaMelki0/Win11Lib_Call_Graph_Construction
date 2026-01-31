@@ -7,6 +7,7 @@ from pathlib import Path
 from typing import Iterable, List, Optional, Sequence
 
 import json
+import pefile
 import requests
 
 from call_graph_win11.data.pdb_fetcher import (
@@ -27,6 +28,8 @@ class CallGraphRunResult:
     skipped: bool = False
     pdb_path: Path | None = None
     metadata: Path | None = None
+    arch: str | None = None
+    machine: str | None = None
 
     @property
     def succeeded(self) -> bool:
@@ -104,6 +107,37 @@ def _pdb_path_from_metadata(
     return pdb_path, metadata
 
 
+def _machine_to_arch(machine: str | None) -> str:
+    if not machine:
+        return "unknown"
+    m = machine.lower()
+    if m.startswith("image_file_machine_amd64") or m in {"amd64", "x86_64", "x64"}:
+        return "x64"
+    if m.startswith("image_file_machine_i386") or m in {"i386", "x86"}:
+        return "x86"
+    if m.startswith("image_file_machine_arm64") or "arm64" in m:
+        return "arm64"
+    return machine.upper()
+
+
+def _machine_from_pe(path: Path) -> str | None:
+    try:
+        pe = pefile.PE(str(path), fast_load=True)
+        return pefile.MACHINE_TYPE.get(pe.FILE_HEADER.Machine)
+    except Exception:
+        return None
+
+
+def _detect_arch(metadata: dict | None, binary: Path) -> tuple[str, str | None]:
+    machine = None
+    if metadata:
+        machine = metadata.get("machine")
+    if not machine:
+        machine = _machine_from_pe(binary)
+    arch = _machine_to_arch(machine)
+    return arch, machine
+
+
 def export_call_graphs(
     binaries: Iterable[Path],
     *,
@@ -139,20 +173,36 @@ def export_call_graphs(
 
     for idx, binary in enumerate(binaries_list, start=1):
         binary = binary.resolve()
+        metadata_file: Path | None = None
+        metadata: dict | None = None
+        machine: str | None = None
+        arch: str = "unknown"
         try:
             relative = binary.resolve().relative_to(windows_root.resolve())
             rel_str = str(relative)
         except ValueError:
             rel_str = str(binary.name)
 
+        # Load metadata (for arch detection and optional PDBs)
+        if metadata_root:
+            metadata_file = _metadata_path_for_binary(binary, metadata_root.resolve(), windows_root.resolve())
+            if metadata_file and metadata_file.exists():
+                try:
+                    with metadata_file.open("r", encoding="utf-8") as handle:
+                        metadata = json.load(handle)
+                except json.JSONDecodeError:
+                    metadata = None
+        arch, machine = _detect_arch(metadata, binary)
+        output_dir_arch = (output_dir / arch).resolve()
+
         if flatten_names:
             flattened = rel_str.replace(":", "_").replace("\\", "_").replace("/", "_")
-            output_path = output_dir / f"{flattened}.callgraph.json"
+            output_path = output_dir_arch / f"{flattened}.callgraph.json"
         else:
             if "\\" in rel_str or "/" in rel_str:
-                output_path = output_dir / Path(rel_str).parent / f"{Path(rel_str).name}.callgraph.json"
+                output_path = output_dir_arch / Path(rel_str).parent / f"{Path(rel_str).name}.callgraph.json"
             else:
-                output_path = output_dir / f"{rel_str}.callgraph.json"
+                output_path = output_dir_arch / f"{rel_str}.callgraph.json"
         output_path.parent.mkdir(parents=True, exist_ok=True)
 
         if verbose:
@@ -174,23 +224,19 @@ def export_call_graphs(
         args = [str(binary), str(output_path)]
 
         pre_scripts: list[tuple[Path, Sequence[str]]] = []
-        metadata_file: Path | None = None
         pdb_path: Path | None = None
-
-        if metadata_root and pdb_root:
-            metadata_file = _metadata_path_for_binary(binary, metadata_root.resolve(), windows_root.resolve())
-            if metadata_file and metadata_file.exists():
-                resolved, _metadata = _pdb_path_from_metadata(metadata_file, pdb_root.resolve(), session=session)
-                if resolved:
-                    pdb_path = resolved.resolve()
-                    pre_scripts.append((pdb_script, [str(pdb_path)]))
+        if metadata_file and pdb_root:
+            resolved, _metadata = _pdb_path_from_metadata(metadata_file, pdb_root.resolve(), session=session)
+            if resolved:
+                pdb_path = resolved.resolve()
+                pre_scripts.append((pdb_script, [str(pdb_path)]))
 
         completed = run_headless(
             ghidra_headless,
-            project_root,
-            script_path,
-            args,
-            project_name=project_name,
+            project_dir=project_root / arch,
+            script_path=script_path,
+            script_args=args,
+            project_name=f"{project_name}_{arch}",
             overwrite=overwrite,
             pre_scripts=pre_scripts,
             symbol_path=symbol_store,
@@ -230,7 +276,19 @@ def export_call_graphs(
                 stderr=stderr_text,
                 metadata=metadata_file,
                 pdb_path=pdb_path,
+                arch=arch,
+                machine=machine,
             )
         )
+        # Annotate output with arch/machine for downstream validation
+        if results[-1].succeeded and output_path.exists():
+            try:
+                payload = json.loads(output_path.read_text(encoding="utf-8"))
+                payload["arch"] = arch
+                if machine:
+                    payload["machine"] = machine
+                output_path.write_text(json.dumps(payload, indent=2), encoding="utf-8")
+            except Exception:
+                pass
 
     return results

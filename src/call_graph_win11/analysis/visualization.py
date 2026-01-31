@@ -8,6 +8,7 @@ from typing import Iterable
 
 import matplotlib.pyplot as plt
 import networkx as nx
+from matplotlib.patches import Patch
 
 
 def _subset_graph(graph: nx.DiGraph, max_nodes: int | None) -> nx.DiGraph:
@@ -46,6 +47,7 @@ def plot_call_graph(
     max_nodes: int | None = 200,
     layout: str = "spring",
     show_labels: bool = False,
+    show_legend: bool = False,
     title: str | None = None,
 ) -> Path:
     """
@@ -91,8 +93,26 @@ def plot_call_graph(
 
     plt.title(title)
     plt.axis("off")
+    legend_artist = None
+    if show_legend:
+        handles = [Patch(color=colors[program], label=program) for program in colors]
+        legend_artist = plt.legend(
+            handles=handles,
+            title="DLL",
+            fontsize=7,
+            title_fontsize=8,
+            loc="upper left",
+            bbox_to_anchor=(1.02, 1),
+            borderaxespad=0,
+            frameon=False,
+            ncol=1,
+        )
+
     plt.tight_layout()
-    plt.savefig(output_path, dpi=200)
+    save_kwargs = {"dpi": 200}
+    if legend_artist is not None:
+        save_kwargs["bbox_inches"] = "tight"
+    plt.savefig(output_path, **save_kwargs)
     plt.close()
     return output_path
 

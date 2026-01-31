@@ -24,13 +24,23 @@ def _node_label(node: NodeId, data: dict[str, object]) -> str:
 
 def _normalise_prefixes(prefixes: Sequence[str] | str) -> tuple[str, ...]:
     if isinstance(prefixes, str):
-        return (prefixes,)
-    return tuple(prefixes)
+        values = [prefixes]
+    else:
+        values = list(prefixes)
+    cleaned: list[str] = []
+    for value in values:
+        if not isinstance(value, str):
+            continue
+        value = value.strip()
+        if value:
+            cleaned.append(value.upper())
+    return tuple(cleaned)
 
 
 def _is_syscall(data: dict[str, object], *, program_hint: Optional[str], prefixes: tuple[str, ...]) -> bool:
     label = _node_label("", data)
-    if prefixes and not label.startswith(prefixes):
+    label_upper = label.upper() if isinstance(label, str) else str(label).upper()
+    if prefixes and not label_upper.startswith(prefixes):
         return False
     if program_hint is None:
         return True
@@ -56,7 +66,8 @@ def detect_unconnected_syscalls(
         label = data.get(name_attr) or data.get("qualified_name") or ""
         if not isinstance(label, str):
             label = str(label)
-        if not label.startswith(prefixes):
+        label_upper = label.upper()
+        if not label_upper.startswith(prefixes):
             continue
         if program_hint and not _is_syscall(data, program_hint=program_hint, prefixes=prefixes):
             continue

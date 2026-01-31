@@ -1,56 +1,78 @@
 # Graph schema
 
 This document captures the JSON structures produced by the exporter and the unified graph builder.
-All JSON payloads carry a `"schema_version": "1.0"` field to make downstream validation deterministic.
+All JSON payloads carry a `"schema_version"` field to make downstream validation deterministic.
 
-## Per-DLL call graph (`*.callgraph.json`)
+## Stage 1 -- Per-DLL raw call graph (`*.callgraph.json`)
 
 Top-level keys:
 
-- `schema_version`: string (`"1.0"`).
+- `schema_version`: string (current: `"1.1"`).
 - `mode`: optional string (`"raw"` for exporter output; `"syscall"` for pruned views).
 - `program`: DLL/EXE name.
 - `functions`: array of function records:
-  - `entry_point`: string address (e.g., `"0x180012340"`).
-  - `name` / `qualified_name`: function label (export name or recovered symbol).
+  - `node_id`: stable node id.
+    - internal functions: entrypoint address (e.g., `"0x180012340"`).
+    - imports: `"IMPORT:<LIB>!<Symbol>"`.
+  - `entry_point`: string address (or null for imports).
+  - `name` / `qualified_name`: function label.
+  - `namespace`: namespace or library name.
   - `calling_convention`: optional string.
   - `is_external`: bool (true for imports).
   - `source`: string tag (`IMPORTED`, `DEFAULT`, `ANALYSIS`, etc.).
+  - `is_thunk`: bool.
 - `edges`: array of call edges:
-  - `caller`: string address (must match a function `entry_point`).
-  - `callee`: string address.
+  - `caller`: node id.
+  - `callee`: node id.
+  - `site`: callsite address (string).
+  - `kind`: `direct` | `import` | `ref` | `unknown` (or `direct_ref`).
 
-Node identity inside the UI/loader is `PROGRAM:entry_point`.
+Stage-1 output is **local and noisy**: internal nodes exist and are used to prove reachability.
 
-## Unified graph (`unified*.callgraph.json`)
+## Stage 2 -- Unified user-mode graph (`unified*.callgraph.json`)
 
 Top-level keys:
 
-- `schema_version`: string (`"1.0"`).
-- `mode`: optional string (`"unified"`); syscall-pruned unified graphs are tagged `"syscall"`, and syscall projections use `"syscall_projection"`.
+- `schema_version`: string (current: `"1.0"`).
+- `mode`: optional string (`"unified"`).
 - `graph`: name of the graph.
 - `windows`: host OS info.
 - `dlls`: list of DLL metadata (path, sha256, file_version, pdb GUID/age).
 - `layers`: counts per layer (e.g., `library`, `syscall`).
 - `node_count` / `edge_count`.
 - `nodes`: array of node records:
-  - `id`: `PROGRAM!Symbol` for library nodes, `SYSCALL:NtX` for syscalls.
-  - `program`: DLL name or `SYSCALL`.
+  - `id`: `PROGRAM!Symbol` for library nodes.
+  - `program`: DLL name.
   - `name`: symbol name.
-  - `address`: optional address (library nodes only).
-  - `is_external`: bool (true for imports/forwarders/syscalls).
-  - `layer`: `library` or `syscall`.
-  - `calling_convention`, `source`: optional strings (e.g., `IMPORTED`, `SYNTHETIC`, `SYSCALL`).
+  - `address`: optional address (usually null for unified nodes).
+  - `is_external`: bool (true for imports/forwarders).
+  - `layer`: `library`.
+  - `calling_convention`, `source`: optional strings (e.g., `EXPORTED`, `SYNTHETIC`).
 - `edges`: array of edges:
   - `source` / `target`: node ids.
-  - `kind`: one of `direct`, `import`, `forwarder`, `syscall`.
+  - `kind`: `reaches`, `forwarder`, `apiset`.
+  - `min_hops`: optional integer capturing the shortest collapsed path length for `reaches` edges.
 
-Node identity is stable across DLLs because only imported/exported functions are kept by default
-(`--include-internal` restores all functions). API-set DLLs (`api-ms-win-*`, `ext-ms-*`) are
-resolved to their host (typically `KERNELBASE.DLL`) during unification; forwarder edges connect
-the alias to the host.
+**Invariants:**
+- No internal nodes.
+- No `IMPORT:*` nodes.
+- No syscall nodes.
 
-## Syscall projection graph (`*_syscall_projection.json`)
+## Stage 3 -- Syscall augmentation
+
+### A) Syscall-augmented unified graph
+
+Adds syscall stubs (does not remove any nodes):
+
+- Nodes: `SYSCALL:NtX`.
+- Edges: `NTDLL!NtX -> SYSCALL:NtX` with kind `syscall`.
+
+### B) Syscall-pruned unified subgraph (`*.syscall.json`)
+
+Induced subgraph of all nodes that can reach any `SYSCALL:*` node.
+Keeps intermediary DLL nodes (e.g., `KERNEL32 -> KERNELBASE -> NTDLL -> SYSCALL`).
+
+### C) Syscall projection graph (`*_syscall_projection.json`)
 
 Derived from a unified graph; captures which syscalls a target DLL can reach.
 
@@ -63,11 +85,11 @@ Top-level keys:
 - `target_program`: program being projected.
 - `node_count` / `edge_count`.
 - `nodes`: functions from the target DLL that reach a syscall, plus the syscall nodes they reach.
-- `edges`: projection edges from function → syscall:
+- `edges`: projection edges from function -> syscall:
   - `source` / `target`: node ids.
   - `kind`: `"projection"`.
   - `hops`: shortest path length.
-  - `via_program`: program of the first hop off the target DLL (may be null).
+  - `via_program`: first DLL on the shortest path that is not the target DLL.
 
 ## Validation rules
 
@@ -78,4 +100,9 @@ The `callgraph-validate` CLI command enforces:
 - For unified graphs: syscall node count should roughly match the number of `Nt*` exports from
   `ntdll.dll` in the provided inventory (80% threshold by default).
 
-Use `callgraph-validate --input ... --metadata-root data/raw/windows_inventory` to run the checks.
+Use:
+
+```powershell
+call-graph callgraph-validate --input <graph.json> --metadata-root data/raw/windows_inventory
+```
+

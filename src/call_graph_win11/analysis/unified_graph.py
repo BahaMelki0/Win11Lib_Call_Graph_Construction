@@ -93,6 +93,19 @@ def _file_version(path: Path) -> str | None:
     return f"{ms >> 16}.{ms & 0xFFFF}.{ls >> 16}.{ls & 0xFFFF}"
 
 
+def _machine_to_arch(machine: str | None) -> str:
+    if not machine:
+        return "unknown"
+    m = machine.lower()
+    if m.startswith("image_file_machine_amd64") or m in {"amd64", "x86_64", "x64"}:
+        return "x64"
+    if m.startswith("image_file_machine_i386") or m in {"i386", "x86"}:
+        return "x86"
+    if m.startswith("image_file_machine_arm64") or "arm64" in m:
+        return "arm64"
+    return machine.upper()
+
+
 @dataclass
 class NodeRecord:
     node_id: str
@@ -246,13 +259,21 @@ class MetadataIndex:
 class UnifiedGraphBuilder:
     """Compose individual call graphs into a single cross-DLL graph."""
 
-    def __init__(self, metadata_root: Path, *, include_internal: bool = False) -> None:
+    def __init__(
+        self,
+        metadata_root: Path,
+        *,
+        include_internal: bool = False,
+        include_api_set_forwarders: bool = True,
+    ) -> None:
         self.metadata_index = MetadataIndex(metadata_root)
         self.graph = nx.DiGraph(name="Unified Windows Call Graph")
         self.edge_set: set[Tuple[str, str, str]] = set()
         self.dll_records: dict[str, dict] = {}
         self.unresolved_imports: list[tuple[str, str]] = []
         self.include_internal = include_internal
+        self.include_api_set_forwarders = include_api_set_forwarders
+        self.arch: str | None = None
         self.windows_info = {
             "platform": platform.platform(),
             "version": platform.version(),
@@ -533,8 +554,14 @@ class UnifiedGraphBuilder:
     def build(self, callgraph_paths: Iterable[Path]) -> None:
         for path in callgraph_paths:
             raw_graph = load_call_graph(path)
+            arch = raw_graph.graph.get("arch") or _machine_to_arch(raw_graph.graph.get("machine"))
+            if self.arch is None:
+                self.arch = arch
+            elif arch not in {None, "unknown"} and self.arch not in {None, "unknown"} and arch != self.arch:
+                raise ValueError(f"Mismatched architectures detected (existing={self.arch}, new={arch})")
             self._compress_module(raw_graph)
-        self._add_api_set_forwarders()
+        if self.include_api_set_forwarders:
+            self._add_api_set_forwarders()
         self.integrity_checks()
 
     def export(self, destination: Path) -> None:
@@ -548,6 +575,7 @@ class UnifiedGraphBuilder:
         payload = {
             "schema_version": SCHEMA_VERSION,
             "graph": self.graph.graph.get("name", destination.stem),
+            "arch": self.arch,
             "windows": self.windows_info,
             "dlls": list(self.dll_records.values()),
             "layers": layers,

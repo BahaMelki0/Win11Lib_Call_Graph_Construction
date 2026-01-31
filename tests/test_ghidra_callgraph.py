@@ -13,7 +13,8 @@ def test_export_call_graph_succeeds_when_output_exists(tmp_path, monkeypatch):
     output_dir.mkdir()
 
     # Pre-create the expected output to simulate a successful exporter.
-    expected = output_dir / "bin.exe.callgraph.json"
+    expected = output_dir / "unknown" / "bin.exe.callgraph.json"
+    expected.parent.mkdir(parents=True, exist_ok=True)
     expected.write_text("{}")
 
     def fake_run(*args, **kwargs):
@@ -79,5 +80,5 @@ def test_export_call_graph_fails_when_output_missing(tmp_path, monkeypatch):
     assert r.returncode != 0
     assert "did not produce expected output" in (r.stderr or "")
     # diagnostic log should be created
-    diag = output_dir / "bin2.exe.callgraph.json.ghidra.log"
+    diag = output_dir / "unknown" / "bin2.exe.callgraph.json.ghidra.log"
     assert diag.exists()

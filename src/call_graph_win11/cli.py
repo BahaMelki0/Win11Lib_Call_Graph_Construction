@@ -3,9 +3,11 @@
 from __future__ import annotations
 
 import csv
-from collections import Counter
+from concurrent.futures import ThreadPoolExecutor, as_completed
+from collections import Counter, defaultdict, deque
+from dataclasses import dataclass
 from pathlib import Path
-from typing import List, Optional
+from typing import List, Optional, Sequence
 
 import json
 import networkx as nx
@@ -78,6 +80,138 @@ def _resolve_inputs(inputs: List[Path]) -> List[Path]:
     return resolved
 
 
+def _normalize_syscall_prefixes(prefixes: Sequence[str] | str) -> tuple[str, ...]:
+    if isinstance(prefixes, str):
+        values = [prefixes]
+    else:
+        values = list(prefixes)
+    cleaned: list[str] = []
+    for value in values:
+        if not isinstance(value, str):
+            continue
+        value = value.strip()
+        if value:
+            cleaned.append(value.upper())
+    return tuple(cleaned)
+
+
+def _resolve_symbol_store(
+    symbol_path: Optional[str],
+    *,
+    use_symbol_server: bool,
+    symbol_cache: Path,
+    symbol_server_url: str,
+) -> str | Path | None:
+    symbol_store: str | Path | None = None
+    cache_root = symbol_cache.expanduser().resolve()
+    if symbol_path is not None:
+        try:
+            sp = Path(symbol_path)
+            if sp.drive or sp.root:
+                sp = sp.expanduser().resolve()
+            if sp.exists():
+                symbol_store = sp
+            else:
+                symbol_store = symbol_path
+        except Exception:
+            symbol_store = symbol_path
+    elif use_symbol_server:
+        cache_root.mkdir(parents=True, exist_ok=True)
+        symbol_store = f"srv*{cache_root}*{symbol_server_url}"
+    return symbol_store
+
+
+def _run_exports(
+    binaries: list[Path],
+    *,
+    ghidra_headless: Path,
+    project_root: Path,
+    project_name: str,
+    script_path: Path,
+    output_dir: Path,
+    metadata_root: Path,
+    pdb_root: Optional[Path],
+    windows_root: Path,
+    symbol_store: str | Path | None,
+    verbose: bool,
+    flatten_names: bool,
+    workers: int,
+) -> None:
+    if not binaries:
+        return
+    ghidra_headless = ghidra_headless.expanduser().resolve()
+    project_root = project_root.expanduser().resolve()
+    script_path = script_path.expanduser().resolve()
+    output_dir = output_dir.expanduser().resolve()
+    metadata_root = metadata_root.expanduser().resolve()
+    windows_root = windows_root.expanduser().resolve()
+
+    if not script_path.exists():
+        raise typer.BadParameter(f"Ghidra script not found: {script_path}")
+    if not ghidra_headless.exists():
+        raise typer.BadParameter(f"Ghidra headless launcher not found: {ghidra_headless}")
+
+    if pdb_root:
+        pdb_root = pdb_root.expanduser().resolve()
+        if not pdb_root.exists():
+            typer.secho(
+                f"Warning: PDB root {pdb_root} does not exist; proceeding without local PDBs.",
+                fg=typer.colors.YELLOW,
+            )
+            pdb_root = None
+
+    if workers <= 1 or len(binaries) == 1:
+        export_call_graphs(
+            binaries,
+            ghidra_headless=ghidra_headless,
+            project_root=project_root,
+            project_name=project_name,
+            script_path=script_path,
+            output_dir=output_dir,
+            overwrite=False,
+            metadata_root=metadata_root,
+            pdb_root=pdb_root,
+            windows_root=windows_root,
+            symbol_store=symbol_store,
+            verbose=verbose,
+            flatten_names=flatten_names,
+        )
+        return
+
+    worker_count = min(workers, len(binaries))
+    buckets: list[list[Path]] = [[] for _ in range(worker_count)]
+    for idx, binary in enumerate(binaries):
+        buckets[idx % worker_count].append(binary)
+
+    def _run_bucket(worker_idx: int, chunk: list[Path]) -> list[CallGraphRunResult]:
+        if not chunk:
+            return []
+        return export_call_graphs(
+            chunk,
+            ghidra_headless=ghidra_headless,
+            project_root=project_root / f"worker_{worker_idx}",
+            project_name=f"{project_name}_w{worker_idx}",
+            script_path=script_path,
+            output_dir=output_dir,
+            overwrite=False,
+            metadata_root=metadata_root,
+            pdb_root=pdb_root,
+            windows_root=windows_root,
+            symbol_store=symbol_store,
+            verbose=verbose,
+            flatten_names=flatten_names,
+        )
+
+    with ThreadPoolExecutor(max_workers=worker_count) as executor:
+        futures = [
+            executor.submit(_run_bucket, worker_idx + 1, bucket)
+            for worker_idx, bucket in enumerate(buckets)
+            if bucket
+        ]
+        for fut in as_completed(futures):
+            fut.result()
+
+
 def _load_graph_from_inputs(inputs: List[Path]) -> nx.DiGraph:
     resolved = _resolve_inputs(inputs)
     if not resolved:
@@ -118,10 +252,12 @@ def _prune_to_syscalls(
 ) -> nx.DiGraph:
     """Return a subgraph containing paths that reach syscalls."""
 
+    prefixes = _normalize_syscall_prefixes(syscall_prefix)
     syscall_nodes: set[str] = set()
     for node, data in graph.nodes(data=True):
         name = data.get("name") or data.get("qualified_name") or ""
-        if isinstance(name, str) and name.startswith(syscall_prefix):
+        name_upper = str(name).upper()
+        if prefixes and name_upper.startswith(prefixes):
             program = str(data.get("program") or graph.graph.get("program") or "")
             if program.lower().endswith(syscall_program_hint.lower()):
                 syscall_nodes.add(node)
@@ -144,6 +280,7 @@ def _prune_unified_to_syscalls(
 ) -> nx.DiGraph:
     """Return a subgraph (from a unified nodes/edges graph) containing paths that reach syscalls."""
 
+    prefixes = _normalize_syscall_prefixes(syscall_prefix)
     syscall_nodes: set[str] = set()
     for node, data in graph.nodes(data=True):
         layer = str(data.get("layer") or "").lower()
@@ -152,7 +289,8 @@ def _prune_unified_to_syscalls(
         if layer == "syscall":
             syscall_nodes.add(node)
             continue
-        if isinstance(name, str) and name.startswith(syscall_prefix) and program.lower().endswith(syscall_program_hint.lower()):
+        name_upper = str(name).upper()
+        if prefixes and name_upper.startswith(prefixes) and program.lower().endswith(syscall_program_hint.lower()):
             syscall_nodes.add(node)
 
     if not syscall_nodes:
@@ -194,6 +332,7 @@ def _project_syscalls(
 
     target_program_upper = _normalize_program_name(target_program)
     syscall_program_upper = _normalize_program_name(syscall_program_hint)
+    prefixes = _normalize_syscall_prefixes(syscall_prefix)
 
     # Filter edges by kind if requested
     if allow_kinds:
@@ -216,8 +355,10 @@ def _project_syscalls(
             func_nodes.append(node)
         if layer == "syscall":
             syscall_nodes.append(node)
-        elif isinstance(name, str) and name.startswith(syscall_prefix) and program.endswith(syscall_program_upper):
-            syscall_nodes.append(node)
+        else:
+            name_upper = str(name).upper()
+            if prefixes and name_upper.startswith(prefixes) and program.endswith(syscall_program_upper):
+                syscall_nodes.append(node)
 
     if not syscall_nodes:
         raise typer.BadParameter("No syscall nodes found in the unified graph.")
@@ -469,6 +610,231 @@ def callgraph_empty_report(
     typer.echo(f"Recorded {len(flagged)} entries in {output.resolve()}")
 
 
+@dataclass(frozen=True)
+class _InventoryRecord:
+    module: str
+    arch: str
+    path: Optional[Path]
+    imports: list[str]
+
+
+def _normalize_module_name(name: str) -> str:
+    if not name:
+        return ""
+    cleaned = name.strip()
+    if not cleaned:
+        return ""
+    if not cleaned.lower().endswith((".dll", ".exe")):
+        cleaned = f"{cleaned}.dll"
+    return cleaned.upper()
+
+
+def _machine_to_arch(machine: str | None) -> str:
+    if not machine:
+        return "unknown"
+    lowered = machine.lower()
+    if lowered.startswith("image_file_machine_amd64") or lowered in {"amd64", "x86_64", "x64"}:
+        return "x64"
+    if lowered.startswith("image_file_machine_i386") or lowered in {"i386", "x86"}:
+        return "x86"
+    if lowered.startswith("image_file_machine_arm64") or "arm64" in lowered:
+        return "arm64"
+    return machine.upper()
+
+
+def _record_from_metadata(metadata: dict, metadata_path: Path) -> _InventoryRecord | None:
+    module_name = ""
+    path_value = metadata.get("path")
+    if isinstance(path_value, str) and path_value:
+        module_name = _normalize_module_name(Path(path_value).name)
+    if not module_name:
+        module_name = _normalize_module_name(metadata_path.stem)
+    if not module_name:
+        return None
+
+    machine = metadata.get("machine")
+    arch = _machine_to_arch(machine if isinstance(machine, str) else None)
+    binary_path = Path(path_value) if isinstance(path_value, str) else None
+
+    imports: list[str] = []
+    for entry in metadata.get("imports", []):
+        module = _normalize_module_name(entry.get("module", "") if isinstance(entry, dict) else "")
+        if module:
+            imports.append(module)
+
+    return _InventoryRecord(module=module_name, arch=arch, path=binary_path, imports=imports)
+
+
+def _choose_inventory_record(
+    records: list[_InventoryRecord],
+    *,
+    arch: str,
+) -> _InventoryRecord:
+    if len(records) == 1:
+        return records[0]
+
+    def score(record: _InventoryRecord) -> tuple[int, int]:
+        path_str = str(record.path).lower() if record.path else ""
+        preferred = 1
+        if arch == "x64" and "\\system32\\" in path_str:
+            preferred = 0
+        elif arch == "x86" and "\\syswow64\\" in path_str:
+            preferred = 0
+        return (preferred, len(path_str) if path_str else len(record.module))
+
+    return min(records, key=score)
+
+
+def _load_inventory_candidates(metadata_root: Path) -> dict[str, list[_InventoryRecord]]:
+    candidates: dict[str, list[_InventoryRecord]] = defaultdict(list)
+    for metadata_file in metadata_root.rglob("*.json"):
+        if metadata_file.is_dir():
+            continue
+        try:
+            metadata = json.loads(metadata_file.read_text(encoding="utf-8"))
+        except json.JSONDecodeError:
+            continue
+        record = _record_from_metadata(metadata, metadata_file)
+        if record:
+            candidates[record.module].append(record)
+    return candidates
+
+
+def _select_target_arch(
+    modules: list[str],
+    candidates: dict[str, list[_InventoryRecord]],
+) -> str:
+    if not modules:
+        raise typer.BadParameter("At least one module is required to select an architecture.")
+    arch_sets = []
+    for module in modules:
+        arches = {rec.arch for rec in candidates.get(module, [])}
+        if not arches:
+            raise typer.BadParameter(f"Module not found in inventory: {module}")
+        arch_sets.append(arches)
+    common = set.intersection(*arch_sets)
+    if not common:
+        raise typer.BadParameter(f"No shared architecture across requested modules: {sorted(modules)}.")
+    for preferred in ("x64", "x86", "arm64", "unknown"):
+        if preferred in common:
+            return preferred
+    return sorted(common)[0]
+
+
+def _select_inventory_records(
+    candidates: dict[str, list[_InventoryRecord]],
+    *,
+    arch: str,
+) -> dict[str, _InventoryRecord]:
+    records: dict[str, _InventoryRecord] = {}
+    for module, records_list in candidates.items():
+        filtered = [rec for rec in records_list if rec.arch == arch]
+        if not filtered:
+            continue
+        records[module] = _choose_inventory_record(filtered, arch=arch)
+    return records
+
+
+def _resolve_api_set_alias(
+    module: str,
+    records: dict[str, _InventoryRecord],
+    cache: dict[str, str],
+) -> str:
+    module = _normalize_module_name(module)
+    if not module:
+        return ""
+    if module in cache:
+        return cache[module]
+    if module.startswith(("API-MS-", "EXT-MS-")):
+        host = None
+        record = records.get(module)
+        if record:
+            for imported in record.imports:
+                if not imported.startswith(("API-MS-", "EXT-MS-")):
+                    host = imported
+                    if host == "KERNELBASE.DLL":
+                        break
+        if not host:
+            host = "KERNELBASE.DLL"
+        cache[module] = host
+        return host
+    cache[module] = module
+    return module
+
+
+def _build_module_adjacency(
+    records: dict[str, _InventoryRecord],
+) -> dict[str, set[str]]:
+    alias_cache: dict[str, str] = {}
+    adjacency: dict[str, set[str]] = {module: set() for module in records}
+    for module, record in records.items():
+        for imported in record.imports:
+            resolved = _resolve_api_set_alias(imported, records, alias_cache)
+            if resolved and resolved in records:
+                adjacency[module].add(resolved)
+    return adjacency
+
+
+def _reachable_nodes(adjacency: dict[str, set[str]], start: str) -> set[str]:
+    if start not in adjacency:
+        return set()
+    visited = {start}
+    queue: deque[str] = deque([start])
+    while queue:
+        node = queue.popleft()
+        for neighbor in adjacency.get(node, ()):
+            if neighbor not in visited:
+                visited.add(neighbor)
+                queue.append(neighbor)
+    return visited
+
+
+def _invert_adjacency(adjacency: dict[str, set[str]]) -> dict[str, set[str]]:
+    reversed_adj = {node: set() for node in adjacency}
+    for source, targets in adjacency.items():
+        for target in targets:
+            reversed_adj.setdefault(target, set()).add(source)
+    return reversed_adj
+
+
+def _detect_flatten_names(callgraph_dir: Path, arch: str) -> bool:
+    arch_dir = callgraph_dir / arch
+    if not arch_dir.exists():
+        return True
+    for path in arch_dir.rglob("*.callgraph.json"):
+        try:
+            rel = path.relative_to(arch_dir)
+        except ValueError:
+            continue
+        if len(rel.parts) > 1:
+            return False
+    return True
+
+
+def _callgraph_output_path(
+    binary: Path,
+    *,
+    output_dir: Path,
+    windows_root: Path,
+    flatten_names: bool,
+    arch: str,
+) -> Path:
+    output_dir_arch = (output_dir / arch).resolve()
+    try:
+        relative = binary.resolve().relative_to(windows_root.resolve())
+        rel_str = str(relative)
+    except ValueError:
+        rel_str = binary.name
+
+    if flatten_names:
+        flattened = rel_str.replace(":", "_").replace("\\", "_").replace("/", "_")
+        return output_dir_arch / f"{flattened}.callgraph.json"
+
+    if "\\" in rel_str or "/" in rel_str:
+        return output_dir_arch / Path(rel_str).parent / f"{Path(rel_str).name}.callgraph.json"
+    return output_dir_arch / f"{rel_str}.callgraph.json"
+
+
 @app.command("callgraph-unify")
 def callgraph_unify(
     callgraph_dir: Path = typer.Option(Path("data/interim/call_graphs"), help="Directory containing *.callgraph.json files."),
@@ -476,10 +842,47 @@ def callgraph_unify(
     output: Path = typer.Option(Path("data/interim/unified/unified.callgraph.json"), help="Destination JSON for the unified graph."),
     limit: Optional[int] = typer.Option(None, help="Optional limit on the number of call graphs to process."),
     module: List[str] = typer.Option([], "--module", "-m", help="Restrict to these module names (e.g., kernel32.dll)."),
+    auto_generate_missing: bool = typer.Option(
+        False,
+        "--auto-generate-missing",
+        help="Auto-generate missing call graphs needed to connect the requested modules (requires at least two --module values).",
+    ),
+    workers: int = typer.Option(1, help="Number of concurrent Ghidra instances when auto-generating missing graphs."),
+    ghidra_headless: Path = typer.Option(DEFAULT_HEADLESS, help="Path to analyzeHeadless launcher."),
+    project_root: Path = typer.Option(Path("ghidra-projects"), help="Directory where the Ghidra project will be stored."),
+    project_name: str = typer.Option("call_graph_auto", help="Name of the Ghidra project to use."),
+    script_path: Path = typer.Option(Path("scripts/ghidra/export_call_graph.py"), help="Ghidra script that exports call graphs."),
+    pdb_root: Path = typer.Option(Path("data/external/pdbs"), help="Root of downloaded PDB symbol store."),
+    symbol_path: Optional[str] = typer.Option(None, help="Explicit symbol search path passed to Ghidra (-symbolPath)."),
+    symbol_cache: Path = typer.Option(Path("data/external/pdbs"), help="Local cache used when building a symbol server chain."),
+    use_symbol_server: bool = typer.Option(
+        True, help="Use the Microsoft public symbol server with the provided cache."
+    ),
+    symbol_server_url: str = typer.Option("https://msdl.microsoft.com/download/symbols", help="Symbol server URL."),
+    windows_root: Path = typer.Option(Path(r"C:\Windows"), help="Windows directory used when building the inventory."),
+    flatten_names: Optional[bool] = typer.Option(
+        None, help="Flatten output filenames for auto-generated graphs; default auto-detects from callgraph_dir."
+    ),
+    fail_if_disconnected: bool = typer.Option(
+        True,
+        "--fail-if-disconnected/--allow-disconnected",
+        help="Fail if no full module path exists after auto-generation.",
+    ),
+    verbose: bool = typer.Option(False, help="Print per-binary progress during auto-generation."),
+    api_set_forwarders: bool = typer.Option(
+        True,
+        "--api-set-forwarders/--no-api-set-forwarders",
+        help="Include API-set forwarder nodes (synthetic placeholders).",
+    ),
     include_internal: bool = typer.Option(
         False,
         "--include-internal",
         help="Include internal (non-import, non-export) functions. Default focuses on imports/exports only.",
+    ),
+    prompt_missing: bool = typer.Option(
+        False,
+        "--prompt-missing",
+        help="Prompt to generate missing call graphs for requested modules before unification.",
     ),
 ) -> None:
     """Build the unified cross-DLL call graph and emit igraph-compatible JSON."""
@@ -493,31 +896,242 @@ def callgraph_unify(
     if not metadata_root.exists():
         raise typer.BadParameter(f"Metadata root not found: {metadata_root}")
 
-    paths = sorted(callgraph_dir.rglob("*.callgraph.json"))
+    if workers < 1:
+        raise typer.BadParameter("--workers must be >= 1")
+
+    paths: list[Path] = []
     module_filter: Optional[set[str]] = None
+    requested_modules: list[str] = []
     if module:
-        module_filter = {entry.strip().upper() for entry in module if entry.strip()}
-        filtered: list[Path] = []
+        requested_modules = [_normalize_module_name(entry) for entry in module if entry.strip()]
+        if any(not entry for entry in requested_modules):
+            raise typer.BadParameter("Module names must be non-empty.")
 
-        def _candidate_module(candidate: Path) -> str:
-            stem = candidate.name
-            if stem.endswith(".callgraph.json"):
-                stem = stem[: -len(".callgraph.json")]
-            if not stem.lower().endswith((".dll", ".exe")):
-                stem = f"{stem}.dll"
-            return stem.upper()
+    if prompt_missing and requested_modules and not auto_generate_missing:
+        candidates = _load_inventory_candidates(metadata_root)
+        target_arch = _select_target_arch(requested_modules, candidates)
+        records = _select_inventory_records(candidates, arch=target_arch)
 
-        for candidate in paths:
-            if _candidate_module(candidate) in module_filter:
-                filtered.append(candidate)
-        paths = filtered
+        missing_requested = [entry for entry in requested_modules if entry not in records]
+        if missing_requested:
+            raise typer.BadParameter(
+                f"Requested modules were not found in inventory for the selected architecture: {missing_requested}"
+            )
 
-    if not paths:
-        raise typer.BadParameter(f"No call graph artefacts found under {callgraph_dir}")
-    if limit is not None:
-        paths = paths[:limit]
+        detected_flatten = _detect_flatten_names(callgraph_dir, target_arch) if flatten_names is None else flatten_names
+        callgraph_dir.mkdir(parents=True, exist_ok=True)
+        missing_records: list[_InventoryRecord] = []
+        for module_name in requested_modules:
+            record = records.get(module_name)
+            if not record or not record.path:
+                missing_records.append(record) if record else None
+                continue
+            output_path = _callgraph_output_path(
+                record.path,
+                output_dir=callgraph_dir,
+                windows_root=windows_root,
+                flatten_names=detected_flatten,
+                arch=target_arch,
+            )
+            if not output_path.exists():
+                missing_records.append(record)
 
-    builder = UnifiedGraphBuilder(metadata_root, include_internal=include_internal)
+        if missing_records:
+            missing_names = sorted({rec.module for rec in missing_records if rec})
+            if missing_names and typer.confirm(
+                f"Missing call graphs for requested modules: {', '.join(missing_names)}. Generate now?"
+            ):
+                symbol_store = _resolve_symbol_store(
+                    symbol_path,
+                    use_symbol_server=use_symbol_server,
+                    symbol_cache=symbol_cache,
+                    symbol_server_url=symbol_server_url,
+                )
+                binaries = [rec.path for rec in missing_records if rec and rec.path and rec.path.is_file()]
+                _run_exports(
+                    binaries,
+                    ghidra_headless=ghidra_headless,
+                    project_root=project_root,
+                    project_name=project_name,
+                    script_path=script_path,
+                    output_dir=callgraph_dir,
+                    metadata_root=metadata_root,
+                    pdb_root=pdb_root,
+                    windows_root=windows_root,
+                    symbol_store=symbol_store,
+                    verbose=verbose,
+                    flatten_names=detected_flatten,
+                    workers=workers,
+                )
+
+    if auto_generate_missing:
+        if len(module) < 2:
+            raise typer.BadParameter("--auto-generate-missing requires at least two --module values.")
+
+        if not requested_modules:
+            requested_modules = [_normalize_module_name(entry) for entry in module if entry.strip()]
+            if any(not entry for entry in requested_modules):
+                raise typer.BadParameter("Module names must be non-empty.")
+
+        candidates = _load_inventory_candidates(metadata_root)
+        target_arch = _select_target_arch(requested_modules, candidates)
+        records = _select_inventory_records(candidates, arch=target_arch)
+
+        missing_requested = [entry for entry in requested_modules if entry not in records]
+        if missing_requested:
+            raise typer.BadParameter(
+                f"Requested modules were not found in inventory for the selected architecture: {missing_requested}"
+            )
+
+        module_graph = _build_module_adjacency(records)
+        reversed_graph = _invert_adjacency(module_graph)
+
+        if len(requested_modules) == 2:
+            start_module, end_module = requested_modules
+            reachable_from_start = _reachable_nodes(module_graph, start_module)
+            reachable_to_end = _reachable_nodes(reversed_graph, end_module)
+            candidate_modules = reachable_from_start & reachable_to_end
+            if not candidate_modules:
+                raise typer.BadParameter("No module-level path exists between the requested modules.")
+        else:
+            reachable_map = {mod: _reachable_nodes(module_graph, mod) for mod in requested_modules}
+            reverse_map = {mod: _reachable_nodes(reversed_graph, mod) for mod in requested_modules}
+            candidate_modules = set(requested_modules)
+            has_any_path = False
+            for src in requested_modules:
+                for dst in requested_modules:
+                    if src == dst:
+                        continue
+                    if dst in reachable_map[src]:
+                        has_any_path = True
+                    candidate_modules |= reachable_map[src] & reverse_map[dst]
+            if not has_any_path:
+                raise typer.BadParameter("No module-level paths exist between the requested modules.")
+
+        detected_flatten = _detect_flatten_names(callgraph_dir, target_arch) if flatten_names is None else flatten_names
+        callgraph_dir.mkdir(parents=True, exist_ok=True)
+
+        missing_records: list[_InventoryRecord] = []
+        callgraph_paths: dict[str, Path] = {}
+        for module_name in sorted(candidate_modules):
+            record = records.get(module_name)
+            if not record or not record.path:
+                missing_records.append(record) if record else None
+                continue
+            output_path = _callgraph_output_path(
+                record.path,
+                output_dir=callgraph_dir,
+                windows_root=windows_root,
+                flatten_names=detected_flatten,
+                arch=target_arch,
+            )
+            if output_path.exists():
+                callgraph_paths[module_name] = output_path
+            else:
+                missing_records.append(record)
+
+        if missing_records:
+            binaries = [rec.path for rec in missing_records if rec and rec.path and rec.path.is_file()]
+            if binaries:
+                symbol_store = _resolve_symbol_store(
+                    symbol_path,
+                    use_symbol_server=use_symbol_server,
+                    symbol_cache=symbol_cache,
+                    symbol_server_url=symbol_server_url,
+                )
+                _run_exports(
+                    binaries,
+                    ghidra_headless=ghidra_headless,
+                    project_root=project_root,
+                    project_name=project_name,
+                    script_path=script_path,
+                    output_dir=callgraph_dir,
+                    metadata_root=metadata_root,
+                    pdb_root=pdb_root,
+                    windows_root=windows_root,
+                    symbol_store=symbol_store,
+                    verbose=verbose,
+                    flatten_names=detected_flatten,
+                    workers=workers,
+                )
+
+        available_modules: set[str] = set()
+        for module_name in sorted(candidate_modules):
+            record = records.get(module_name)
+            if not record or not record.path:
+                continue
+            output_path = _callgraph_output_path(
+                record.path,
+                output_dir=callgraph_dir,
+                windows_root=windows_root,
+                flatten_names=detected_flatten,
+                arch=target_arch,
+            )
+            if output_path.exists():
+                callgraph_paths[module_name] = output_path
+                available_modules.add(module_name)
+
+        available_adj = {
+            node: targets & available_modules
+            for node, targets in module_graph.items()
+            if node in available_modules
+        }
+        reverse_available = _invert_adjacency(available_adj)
+
+        if len(requested_modules) == 2:
+            start_module, end_module = requested_modules
+            reachable_from_start = _reachable_nodes(available_adj, start_module)
+            reachable_to_end = _reachable_nodes(reverse_available, end_module)
+            available_modules = reachable_from_start & reachable_to_end
+            if fail_if_disconnected and end_module not in reachable_from_start:
+                raise typer.BadParameter(
+                    "No full module path exists between the requested modules after auto-generation."
+                )
+        else:
+            reachable_map = {mod: _reachable_nodes(available_adj, mod) for mod in requested_modules}
+            missing_pairs: list[tuple[str, str]] = []
+            for idx, src in enumerate(requested_modules):
+                for dst in requested_modules[idx + 1 :]:
+                    if dst not in reachable_map[src] and src not in reachable_map[dst]:
+                        missing_pairs.append((src, dst))
+            if fail_if_disconnected and missing_pairs:
+                sample = ", ".join(f"{a}->{b}" for a, b in missing_pairs[:5])
+                raise typer.BadParameter(
+                    f"No full module path exists between requested modules after auto-generation (e.g. {sample})."
+                )
+
+        paths = [callgraph_paths[name] for name in sorted(available_modules) if name in callgraph_paths]
+        if not paths:
+            raise typer.BadParameter("No call graph artefacts were found after auto-generation.")
+    else:
+        paths = sorted(callgraph_dir.rglob("*.callgraph.json"))
+        if module:
+            module_filter = {entry.strip().upper() for entry in module if entry.strip()}
+            filtered: list[Path] = []
+
+            def _candidate_module(candidate: Path) -> str:
+                stem = candidate.name
+                if stem.endswith(".callgraph.json"):
+                    stem = stem[: -len(".callgraph.json")]
+                if not stem.lower().endswith((".dll", ".exe")):
+                    stem = f"{stem}.dll"
+                return stem.upper()
+
+            for candidate in paths:
+                if _candidate_module(candidate) in module_filter:
+                    filtered.append(candidate)
+            paths = filtered
+
+        if not paths:
+            raise typer.BadParameter(f"No call graph artefacts found under {callgraph_dir}")
+        if limit is not None:
+            paths = paths[:limit]
+
+    builder = UnifiedGraphBuilder(
+        metadata_root,
+        include_internal=include_internal,
+        include_api_set_forwarders=api_set_forwarders,
+    )
     typer.echo(f"Building unified graph from {len(paths)} artefacts...")
     builder.build(paths)
     builder.export(output)
@@ -916,6 +1530,7 @@ def callgraph_batch(
     metadata_root: Path = typer.Option(Path("data/raw/windows_inventory"), help="Inventory metadata root (JSON files)."),
     windows_root: Path = typer.Option(Path(r"C:\Windows"), help="Windows directory used when building the inventory."),
     limit: Optional[int] = typer.Option(None, help="Process at most this many binaries."),
+    workers: int = typer.Option(1, help="Number of concurrent Ghidra instances to run."),
     skip_existing: bool = typer.Option(True, help="Skip binaries whose call graph already exists unless --overwrite is set."),
     ghidra_headless: Path = typer.Option(DEFAULT_HEADLESS, help="Path to analyzeHeadless launcher."),
     project_root: Path = typer.Option(Path("ghidra-projects"), help="Directory where the Ghidra project will be stored."),
@@ -983,15 +1598,39 @@ def callgraph_batch(
         if not binary_path:
             continue
         candidate = Path(binary_path).resolve()
+        if not candidate.is_file():
+            if verbose:
+                typer.secho(f"Skipping missing file: {candidate}", fg=typer.colors.YELLOW)
+            continue
         if not any(candidate.is_relative_to(prefix) for prefix in include_prefixes):
             continue
+
+        machine = metadata.get("machine")
+        arch = (machine or "").lower() if isinstance(machine, str) else ""
+        if arch.startswith("image_file_machine_amd64") or arch in {"amd64", "x86_64", "x64"}:
+            arch = "x64"
+        elif arch.startswith("image_file_machine_i386") or arch in {"i386", "x86"}:
+            arch = "x86"
+        elif arch.startswith("image_file_machine_arm64") or ("arm64" in arch):
+            arch = "arm64"
+        else:
+            arch = arch.upper() if arch else "unknown"
 
         if skip_existing and not overwrite:
             try:
                 relative = candidate.relative_to(windows_root)
-                output_path = output_dir / relative.parent / f"{relative.name}.callgraph.json"
+                rel_str = str(relative)
             except ValueError:
-                output_path = output_dir / f"{candidate.name}.callgraph.json"
+                rel_str = candidate.name
+            out_root = output_dir / arch
+            if flatten_names:
+                flattened = rel_str.replace(":", "_").replace("\\", "_").replace("/", "_")
+                output_path = out_root / f"{flattened}.callgraph.json"
+            else:
+                if "\\" in rel_str or "/" in rel_str:
+                    output_path = out_root / Path(rel_str).parent / f"{Path(rel_str).name}.callgraph.json"
+                else:
+                    output_path = out_root / f"{rel_str}.callgraph.json"
             if output_path.exists():
                 continue
 
@@ -1003,6 +1642,9 @@ def callgraph_batch(
         typer.echo("No binaries matched the provided filters.")
         return
 
+    if workers < 1:
+        raise typer.BadParameter("--workers must be >= 1")
+
     output_dir.mkdir(parents=True, exist_ok=True)
     project_root.mkdir(parents=True, exist_ok=True)
 
@@ -1011,21 +1653,56 @@ def callgraph_batch(
         pdb_root = None
 
     typer.echo(f"Processing {len(binaries)} binaries with project '{project_name}'...")
-    results = export_call_graphs(
-        binaries,
-        ghidra_headless=ghidra_headless,
-        project_root=project_root,
-        project_name=project_name,
-        script_path=script_path,
-        output_dir=output_dir,
-        overwrite=overwrite,
-        metadata_root=metadata_root if pdb_root else None,
-        pdb_root=pdb_root,
-        windows_root=windows_root,
-        symbol_store=symbol_store,
-        verbose=verbose,
-        flatten_names=flatten_names,
-    )
+    if workers == 1 or len(binaries) == 1:
+        results = export_call_graphs(
+            binaries,
+            ghidra_headless=ghidra_headless,
+            project_root=project_root,
+            project_name=project_name,
+            script_path=script_path,
+            output_dir=output_dir,
+            overwrite=overwrite,
+            metadata_root=metadata_root,
+            pdb_root=pdb_root,
+            windows_root=windows_root,
+            symbol_store=symbol_store,
+            verbose=verbose,
+            flatten_names=flatten_names,
+        )
+    else:
+        worker_count = min(workers, len(binaries))
+        buckets: list[list[Path]] = [[] for _ in range(worker_count)]
+        for idx, binary in enumerate(binaries):
+            buckets[idx % worker_count].append(binary)
+
+        def _run_bucket(worker_idx: int, chunk: list[Path]) -> list[CallGraphRunResult]:
+            if not chunk:
+                return []
+            return export_call_graphs(
+                chunk,
+                ghidra_headless=ghidra_headless,
+                project_root=project_root / f"worker_{worker_idx}",
+                project_name=f"{project_name}_w{worker_idx}",
+                script_path=script_path,
+                output_dir=output_dir,
+                overwrite=overwrite,
+                metadata_root=metadata_root,
+                pdb_root=pdb_root,
+                windows_root=windows_root,
+                symbol_store=symbol_store,
+                verbose=verbose,
+                flatten_names=flatten_names,
+            )
+
+        results: list[CallGraphRunResult] = []
+        with ThreadPoolExecutor(max_workers=worker_count) as executor:
+            futures = [
+                executor.submit(_run_bucket, worker_idx + 1, bucket)
+                for worker_idx, bucket in enumerate(buckets)
+                if bucket
+            ]
+            for fut in as_completed(futures):
+                results.extend(fut.result())
 
     succeeded = sum(1 for r in results if r.succeeded)
     skipped = sum(1 for r in results if r.skipped)
@@ -1048,6 +1725,7 @@ def callgraph_visualize(
     max_nodes: Optional[int] = typer.Option(200, help="Limit the number of nodes drawn for readability."),
     layout: str = typer.Option("spring", help="Layout algorithm: spring or kamada-kawai."),
     show_labels: bool = typer.Option(False, help="Render node labels (best for <=150 nodes)."),
+    show_legend: bool = typer.Option(True, help="Show a legend mapping colors to DLLs."),
 ) -> None:
     """Render a call graph JSON into a static image."""
 
@@ -1074,6 +1752,7 @@ def callgraph_visualize(
         max_nodes=max_nodes,
         layout=layout,
         show_labels=show_labels,
+        show_legend=show_legend,
         title=f"{graph.graph.get('program', input_path.stem)} ({graph.number_of_nodes()} nodes)",
     )
 
@@ -1090,6 +1769,7 @@ def callgraph_aggregate(
     max_nodes: Optional[int] = typer.Option(200, help="Limit the number of nodes drawn in the visualization."),
     layout: str = typer.Option("spring", help="Layout algorithm for visualization."),
     show_labels: bool = typer.Option(False, help="Show node labels in visualization."),
+    show_legend: bool = typer.Option(True, help="Show a legend mapping colors to DLLs."),
 ) -> None:
     """Merge multiple call graph JSON files and optionally visualise the combined graph."""
 
@@ -1123,7 +1803,14 @@ def callgraph_aggregate(
 
     if visualize:
         visualize_path = visualize.expanduser().resolve()
-        png_path = plot_call_graph(merged, visualize_path, max_nodes=max_nodes, layout=layout, show_labels=show_labels)
+        png_path = plot_call_graph(
+            merged,
+            visualize_path,
+            max_nodes=max_nodes,
+            layout=layout,
+            show_labels=show_labels,
+            show_legend=show_legend,
+        )
         typer.echo(f"Visualization saved to {png_path}")
 
 
