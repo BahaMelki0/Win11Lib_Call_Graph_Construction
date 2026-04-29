@@ -9,7 +9,7 @@ description = "Tooling to reconstruct call graphs for Windows system libraries a
 readme = "README.md"
 requires-python = ">=3.12"
 authors = [
-  { name = "Bahaeddine Melki", email = "bahaeddine.melki@eurecom.fr" }
+  { name = "Bahaeddine Melki", email = "bbm.baha2@gmail.com" }
 ]
 dependencies = [
   "click>=8.1",
