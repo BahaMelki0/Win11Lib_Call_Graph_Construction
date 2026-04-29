@@ -379,7 +379,7 @@ def create_app(
                     className="dropdown-control",
                     style={"zIndex": 1100},
                 ),
-            ], className="control"),
+            ], className="control", style={"marginTop": "0.8rem"}),
 
             html.Div([
                 html.Label("Graph mode"),
@@ -1330,31 +1330,36 @@ def create_app(
     line-height: 1.5;
   }
 
-  /* ── Layout ── */
+  /* ── Layout ───────────────────────────────────────────────── */
   .page {
     display: grid;
-    grid-template-columns: 380px 1fr;
+    grid-template-columns: 360px 1fr;
     height: 100vh;
     overflow: hidden;
   }
 
+  /* ── Sidebar ──────────────────────────────────────────────── */
   .sidebar {
-    padding: 1.1rem;
-    background: rgba(6, 14, 26, 0.97);
-    border-right: 1px solid rgba(148, 163, 184, 0.1);
+    padding: 0 0 1rem 0;
+    background: #060e1a;
+    border-right: 1px solid rgba(56, 189, 248, 0.08);
     display: flex;
     flex-direction: column;
-    gap: 0.8rem;
+    gap: 0;
     overflow-y: auto;
     overflow-x: hidden;
   }
 
   .sidebar::-webkit-scrollbar { width: 3px; }
   .sidebar::-webkit-scrollbar-track { background: transparent; }
-  .sidebar::-webkit-scrollbar-thumb { background: rgba(148, 163, 184, 0.2); border-radius: 99px; }
+  .sidebar::-webkit-scrollbar-thumb { background: rgba(56, 189, 248, 0.2); border-radius: 99px; }
 
+  /* ── Graph panel ──────────────────────────────────────────── */
   .graph-panel {
     background: #010b15;
+    background-image:
+      radial-gradient(rgba(56, 189, 248, 0.03) 1px, transparent 1px);
+    background-size: 28px 28px;
     position: relative;
     overflow: hidden;
     display: flex;
@@ -1363,64 +1368,83 @@ def create_app(
 
   .graph-panel > div { width: 100%; flex: 1; }
 
-  /* Slider mark labels need room below the track */
+  /* Slider marks */
   .rc-slider { margin-bottom: 1.2rem; }
-  .rc-slider-mark-text { color: #475569 !important; font-size: 0.7rem !important; }
+  .rc-slider-mark-text { color: #334155 !important; font-size: 0.68rem !important; }
 
-  /* ── Header ── */
+  /* ── Header ───────────────────────────────────────────────── */
   .header {
-    padding-bottom: 0.75rem;
-    border-bottom: 1px solid rgba(148, 163, 184, 0.1);
+    padding: 1rem 1rem 0.85rem;
+    border-bottom: 1px solid rgba(56, 189, 248, 0.1);
+    background: linear-gradient(180deg, rgba(56,189,248,0.04) 0%, transparent 100%);
   }
 
   .title {
     margin: 0;
-    font-size: 1.05rem;
+    font-size: 1rem;
     font-weight: 700;
     color: #38bdf8;
     letter-spacing: -0.01em;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .title::before {
+    content: '';
+    display: inline-block;
+    width: 3px;
+    height: 1em;
+    background: linear-gradient(180deg, #38bdf8, #6366f1);
+    border-radius: 2px;
   }
 
   .subtitle {
-    margin: 0.15rem 0 0;
-    font-size: 0.75rem;
-    color: #475569;
+    margin: 0.2rem 0 0 1.2rem;
+    font-size: 0.72rem;
+    color: #334155;
   }
 
-  .header-meta { display: flex; align-items: center; gap: 0.5rem; margin-top: 0.5rem; }
+  .header-meta { display: flex; align-items: center; gap: 0.5rem; margin-top: 0.6rem; margin-left: 1.2rem; }
 
   .header-meta-label {
-    font-size: 0.65rem;
-    letter-spacing: 0.12em;
+    font-size: 0.62rem;
+    letter-spacing: 0.14em;
     text-transform: uppercase;
-    color: #475569;
+    color: #334155;
   }
 
   .header-meta-value {
-    font-size: 0.68rem;
-    font-weight: 600;
-    padding: 0.15rem 0.55rem;
+    font-size: 0.65rem;
+    font-weight: 700;
+    padding: 0.12rem 0.55rem;
     border-radius: 9999px;
     background: rgba(56, 189, 248, 0.1);
-    border: 1px solid rgba(56, 189, 248, 0.3);
+    border: 1px solid rgba(56, 189, 248, 0.35);
     color: #38bdf8;
-    letter-spacing: 0.06em;
+    letter-spacing: 0.08em;
     text-transform: uppercase;
   }
 
-  /* ── Controls ── */
-  .control { display: flex; flex-direction: column; gap: 0.4rem; overflow: visible; }
+  /* ── Controls ─────────────────────────────────────────────── */
+  .control {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    overflow: visible;
+    padding: 0 1rem;
+  }
 
-  /* Section header labels — only the direct <label> child of .control */
   .control > label {
-    font-size: 0.68rem;
+    font-size: 0.62rem;
     text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: #64748b;
-    font-weight: 600;
+    letter-spacing: 0.12em;
+    color: #475569;
+    font-weight: 700;
+    margin-top: 0.1rem;
   }
 
-  /* All interactive labels inside Dash components must be clearly readable */
+  /* Dash component labels — always readable */
   .radio-control label,
   .checklist label,
   .chip-group label,
@@ -1432,93 +1456,109 @@ def create_app(
     font-weight: 400 !important;
   }
 
-  /* ── Sections ── */
+  /* ── Sections ─────────────────────────────────────────────── */
   .section {
-    border-top: 1px solid rgba(148, 163, 184, 0.08);
-    padding-top: 0.8rem;
+    border-top: 1px solid rgba(255,255,255,0.04);
+    padding: 0.75rem 1rem 0;
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
+    gap: 0.55rem;
   }
 
   .section-title {
     margin: 0;
-    font-size: 0.68rem;
-    letter-spacing: 0.1em;
+    font-size: 0.62rem;
+    letter-spacing: 0.12em;
     text-transform: uppercase;
-    color: #64748b;
-    font-weight: 600;
-  }
-
-  /* ── Stats / hover panel ── */
-  .stats {
-    background: rgba(15, 23, 42, 0.6);
-    border: 1px solid rgba(148, 163, 184, 0.1);
-    border-radius: 10px;
-    padding: 0.65rem;
-  }
-
-  /* ── Metrics grid ── */
-  .metrics {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    color: #38bdf8;
+    font-weight: 700;
+    opacity: 0.75;
+    display: flex;
+    align-items: center;
     gap: 0.4rem;
   }
 
+  .section-title::before {
+    content: '';
+    display: inline-block;
+    width: 10px;
+    height: 1px;
+    background: currentColor;
+    opacity: 0.6;
+  }
+
+  /* spacer between controls */
+  .control + .control { margin-top: 0.5rem; }
+
+  /* ── Stats panels ─────────────────────────────────────────── */
+  .stats {
+    background: rgba(15, 23, 42, 0.5);
+    border: 1px solid rgba(255,255,255,0.05);
+    border-radius: 8px;
+    padding: 0.6rem;
+  }
+
+  /* ── Metrics ──────────────────────────────────────────────── */
+  .metrics {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.35rem;
+  }
+
   .metric {
-    background: rgba(15, 23, 42, 0.7);
-    border: 1px solid rgba(148, 163, 184, 0.08);
-    border-radius: 7px;
+    background: rgba(6, 14, 26, 0.8);
+    border: 1px solid rgba(56, 189, 248, 0.07);
+    border-radius: 6px;
     padding: 0.35rem 0.5rem;
     display: flex;
     flex-direction: column;
-    gap: 0.1rem;
+    gap: 0.08rem;
   }
 
   .metric-title {
-    font-size: 0.6rem;
-    letter-spacing: 0.06em;
+    font-size: 0.58rem;
+    letter-spacing: 0.07em;
     text-transform: uppercase;
-    color: #475569;
+    color: #334155;
   }
 
   .metric-value {
-    font-size: 0.82rem;
+    font-size: 0.8rem;
     font-weight: 600;
-    color: #e2e8f0;
+    color: #cbd5e1;
     word-break: break-all;
   }
 
-  /* ── Legend ── */
-  .legend-container { display: flex; flex-direction: column; gap: 0.35rem; }
+  /* ── Legend ───────────────────────────────────────────────── */
+  .legend-container { display: flex; flex-direction: column; gap: 0.3rem; }
 
   .legend {
     display: grid;
-    gap: 0.3rem 0.6rem;
-    grid-template-columns: repeat(auto-fit, minmax(85px, 1fr));
-    padding-top: 0.4rem;
+    gap: 0.28rem 0.5rem;
+    grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+    padding-top: 0.35rem;
   }
 
-  .legend-item { display: flex; align-items: center; gap: 0.4rem; font-size: 0.78rem; color: #94a3b8; }
+  .legend-item { display: flex; align-items: center; gap: 0.35rem; font-size: 0.75rem; color: #64748b; }
 
   .legend-chip {
-    width: 9px; height: 9px;
-    border-radius: 3px;
+    width: 8px; height: 8px;
+    border-radius: 2px;
     flex-shrink: 0;
-    border: 1px solid rgba(226, 232, 240, 0.4);
+    border: 1px solid rgba(226, 232, 240, 0.3);
   }
 
   details {
-    background: rgba(15, 23, 42, 0.4);
-    border: 1px solid rgba(148, 163, 184, 0.12);
-    border-radius: 8px;
-    padding: 0.35rem 0.55rem;
+    background: rgba(6, 14, 26, 0.6);
+    border: 1px solid rgba(255,255,255,0.05);
+    border-radius: 7px;
+    padding: 0.32rem 0.5rem;
   }
 
   summary {
     cursor: pointer;
-    font-size: 0.75rem;
-    color: #64748b;
+    font-size: 0.72rem;
+    color: #475569;
     user-select: none;
     list-style: none;
     display: flex;
@@ -1526,171 +1566,178 @@ def create_app(
     gap: 0.3rem;
   }
 
-  summary::before { content: '▸'; font-size: 0.65rem; transition: transform 0.15s; }
+  summary::before { content: '▸'; font-size: 0.6rem; transition: transform 0.15s; display: inline-block; }
   details[open] summary::before { transform: rotate(90deg); }
-  details[open] summary { color: #94a3b8; margin-bottom: 0.35rem; }
+  details[open] summary { color: #64748b; margin-bottom: 0.3rem; }
 
-  /* ── Chips ── */
-  .chip-group {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.35rem;
-  }
+  /* ── Chips ────────────────────────────────────────────────── */
+  .chip-group { display: flex; flex-wrap: wrap; gap: 0.3rem; }
 
   .chip-group label {
     display: inline-flex !important;
     align-items: center;
-    gap: 0.3rem;
-    padding: 0.22rem 0.6rem;
+    gap: 0.28rem;
+    padding: 0.2rem 0.55rem;
     border-radius: 9999px;
-    background: rgba(30, 41, 59, 0.9);
-    border: 1px solid rgba(100, 116, 139, 0.4);
-    color: #cbd5e1 !important;
+    background: rgba(15, 23, 42, 0.9);
+    border: 1px solid rgba(71, 85, 105, 0.5);
+    color: #94a3b8 !important;
     cursor: pointer;
-    transition: background 0.12s, border-color 0.12s, color 0.12s;
-    font-size: 0.78rem !important;
+    transition: all 0.12s ease;
+    font-size: 0.75rem !important;
     text-transform: none !important;
     letter-spacing: 0 !important;
     font-weight: 400 !important;
   }
 
   .chip-group label:hover {
-    background: rgba(51, 65, 85, 0.9);
-    border-color: rgba(148, 163, 184, 0.5);
-    color: #e2e8f0 !important;
+    background: rgba(30, 41, 59, 0.95);
+    border-color: rgba(100, 116, 139, 0.7);
+    color: #cbd5e1 !important;
   }
 
   .chip-group label:has(input:checked) {
-    background: rgba(56, 189, 248, 0.18);
-    border-color: rgba(56, 189, 248, 0.6);
-    color: #e0f2fe !important;
+    background: rgba(56, 189, 248, 0.15);
+    border-color: rgba(56, 189, 248, 0.55);
+    color: #bae6fd !important;
     font-weight: 500 !important;
   }
 
-  /* ── Checklist ── */
-  .checklist { display: flex; flex-direction: column; gap: 0.3rem; font-size: 0.82rem; color: #94a3b8; }
+  /* ── Checklist ────────────────────────────────────────────── */
+  .checklist { display: flex; flex-direction: column; gap: 0.28rem; }
+  .checklist input { accent-color: #38bdf8; }
 
-  /* ── Radio ── */
-  .radio-control { display: flex; flex-wrap: wrap; gap: 0.5rem; color: #94a3b8; font-size: 0.82rem; }
+  /* ── Radio ────────────────────────────────────────────────── */
+  .radio-control { display: flex; flex-wrap: wrap; gap: 0.55rem; }
   .radio-control input { accent-color: #38bdf8; }
 
-  /* ── Dropdowns ── */
+  /* ── Dropdowns ────────────────────────────────────────────── */
   .dropdown-control .Select-control {
     background: rgba(6, 14, 26, 0.98);
-    border: 1px solid rgba(148, 163, 184, 0.28);
+    border: 1px solid rgba(71, 85, 105, 0.5);
     border-radius: 7px;
-    min-height: 38px;
+    min-height: 36px;
+    transition: border-color 0.15s;
   }
+  .dropdown-control .Select-control:hover { border-color: rgba(100, 116, 139, 0.8); }
   .dropdown-control .Select-placeholder,
-  .dropdown-control .Select-value-label { color: #e2e8f0 !important; font-size: 0.83rem; }
-  .dropdown-control .Select-arrow { border-top-color: #64748b; }
+  .dropdown-control .Select-value-label { color: #cbd5e1 !important; font-size: 0.82rem; }
+  .dropdown-control .Select-arrow { border-top-color: #475569; }
   .dropdown-control .Select-menu-outer {
-    background: rgba(6, 14, 26, 0.99);
-    border: 1px solid rgba(148, 163, 184, 0.28);
-    box-shadow: 0 20px 48px rgba(0, 0, 0, 0.7);
+    background: #060e1a;
+    border: 1px solid rgba(71, 85, 105, 0.6);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8);
     border-radius: 8px;
     z-index: 3000;
   }
-  .dropdown-control .Select-option { background-color: transparent; color: #94a3b8; font-size: 0.83rem; }
-  .dropdown-control .Select-option.is-focused { background-color: rgba(56, 189, 248, 0.15); color: #e2e8f0; }
-  .dropdown-control .Select-option.is-selected { background-color: rgba(74, 222, 128, 0.2); color: #4ade80; }
+  .dropdown-control .Select-option { background-color: transparent; color: #94a3b8; font-size: 0.82rem; padding: 0.45rem 0.75rem; }
+  .dropdown-control .Select-option.is-focused { background-color: rgba(56, 189, 248, 0.12); color: #e2e8f0; }
+  .dropdown-control .Select-option.is-selected { background-color: rgba(56, 189, 248, 0.2); color: #38bdf8; }
 
-  /* ── Text inputs ── */
+  /* ── Text inputs ──────────────────────────────────────────── */
   .text-input {
     width: 100%;
-    padding: 0.4rem 0.65rem;
+    padding: 0.38rem 0.6rem;
     border-radius: 7px;
-    border: 1px solid rgba(148, 163, 184, 0.25);
-    background: rgba(6, 14, 26, 0.95);
+    border: 1px solid rgba(71, 85, 105, 0.5);
+    background: rgba(6, 14, 26, 0.98);
     color: #e2e8f0;
     font-family: inherit;
-    font-size: 0.83rem;
+    font-size: 0.82rem;
     outline: none;
-    transition: border-color 0.15s;
+    transition: border-color 0.15s, box-shadow 0.15s;
   }
 
-  .text-input:focus { border-color: rgba(56, 189, 248, 0.5); }
-  .text-input::placeholder { color: #334155; }
+  .text-input:focus {
+    border-color: rgba(56, 189, 248, 0.55);
+    box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.08);
+  }
+  .text-input::placeholder { color: #1e293b; }
 
-  /* ── Buttons ── */
+  /* ── Buttons ──────────────────────────────────────────────── */
   .ui-button {
-    border: 1px solid rgba(148, 163, 184, 0.22);
-    background: rgba(30, 41, 59, 0.8);
-    color: #94a3b8;
-    padding: 0.35rem 0.7rem;
-    border-radius: 7px;
+    border: 1px solid rgba(71, 85, 105, 0.5);
+    background: rgba(15, 23, 42, 0.9);
+    color: #64748b;
+    padding: 0.32rem 0.65rem;
+    border-radius: 6px;
     cursor: pointer;
-    font-size: 0.75rem;
+    font-size: 0.73rem;
     font-weight: 500;
     font-family: inherit;
-    transition: background 0.12s, border-color 0.12s, color 0.12s;
+    transition: all 0.12s ease;
+    letter-spacing: 0.02em;
   }
 
   .ui-button:hover {
     border-color: rgba(56, 189, 248, 0.5);
-    background: rgba(56, 189, 248, 0.12);
-    color: #e2e8f0;
+    background: rgba(56, 189, 248, 0.1);
+    color: #7dd3fc;
   }
 
   .export-row { display: flex; gap: 0.4rem; flex-wrap: wrap; }
 
-  /* ── Search ── */
+  /* ── Search ───────────────────────────────────────────────── */
   .search-row { display: flex; gap: 0.4rem; align-items: stretch; }
   .search-row .text-input { flex: 1; }
 
-  /* ── Path inspector ── */
+  /* ── Path inspector ───────────────────────────────────────── */
   .path-controls { display: grid; gap: 0.4rem; }
-  .path-mode-toggle { font-size: 0.8rem; color: #64748b; }
+  .path-mode-toggle { font-size: 0.78rem; }
 
   .path-info {
-    font-size: 0.78rem;
-    color: #64748b;
-    line-height: 1.5;
-    padding: 0.4rem 0.5rem;
-    background: rgba(15, 23, 42, 0.5);
-    border: 1px solid rgba(148, 163, 184, 0.08);
-    border-radius: 7px;
+    font-size: 0.76rem;
+    color: #475569;
+    line-height: 1.55;
+    padding: 0.38rem 0.5rem;
+    background: rgba(6, 14, 26, 0.7);
+    border: 1px solid rgba(255,255,255,0.04);
+    border-radius: 6px;
   }
 
   .path-table-grid {
     width: 100%;
     border-collapse: collapse;
-    font-size: 0.74rem;
-    background: rgba(6, 14, 26, 0.7);
-    border: 1px solid rgba(148, 163, 184, 0.12);
+    font-size: 0.73rem;
+    background: rgba(6, 14, 26, 0.8);
+    border: 1px solid rgba(255,255,255,0.05);
     border-radius: 8px;
     overflow: hidden;
   }
 
   .path-header {
     text-align: left;
-    padding: 0.4rem 0.5rem;
-    font-size: 0.62rem;
-    letter-spacing: 0.08em;
+    padding: 0.38rem 0.5rem;
+    font-size: 0.6rem;
+    letter-spacing: 0.09em;
     text-transform: uppercase;
-    color: #334155;
-    background: rgba(15, 23, 42, 0.9);
+    color: #1e293b;
+    background: rgba(15, 23, 42, 0.95);
+    border-bottom: 1px solid rgba(255,255,255,0.05);
   }
 
   .path-cell {
-    padding: 0.38rem 0.5rem;
-    border-top: 1px solid rgba(148, 163, 184, 0.08);
+    padding: 0.35rem 0.5rem;
+    border-top: 1px solid rgba(255,255,255,0.04);
     vertical-align: top;
   }
 
-  .path-cell--source { font-weight: 600; color: #7dd3fc; max-width: 110px; word-break: break-word; }
-  .path-cell--hops { width: 2.8rem; text-align: center; font-variant-numeric: tabular-nums; color: #38bdf8; }
-  .path-cell--path { color: #475569; font-size: 0.7rem; }
+  .path-cell--source { font-weight: 600; color: #7dd3fc; max-width: 100px; word-break: break-word; }
+  .path-cell--hops { width: 2.6rem; text-align: center; font-variant-numeric: tabular-nums; color: #38bdf8; font-weight: 600; }
+  .path-cell--path { color: #334155; font-size: 0.68rem; }
 
   .path-table-empty {
-    font-size: 0.75rem;
-    color: #334155;
-    border: 1px dashed rgba(148, 163, 184, 0.15);
-    padding: 0.55rem 0.7rem;
-    border-radius: 8px;
+    font-size: 0.73rem;
+    color: #1e293b;
+    border: 1px dashed rgba(255,255,255,0.06);
+    padding: 0.5rem 0.65rem;
+    border-radius: 7px;
   }
 
-  .footnote { font-size: 0.7rem; color: #334155; }
+  .footnote { font-size: 0.68rem; color: #1e293b; }
+
+  /* ── Loading overlay ──────────────────────────────────────── */
+  ._dash-loading { color: #38bdf8 !important; }
 </style>
 </head>
 <body>
