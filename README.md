@@ -1,5 +1,9 @@
 # Call Graph Reconstruction for Windows System Libraries
 
+[![CI](https://github.com/BahaMelki0/Win11Lib_Call_Graph_Construction/actions/workflows/ci.yml/badge.svg)](https://github.com/BahaMelki0/Win11Lib_Call_Graph_Construction/actions/workflows/ci.yml)
+[![Python 3.12+](https://img.shields.io/badge/python-3.12%2B-blue)](https://www.python.org/downloads/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+
 Toolkit to reconstruct and analyse call graphs that link Windows 11 system
 library exports to the NTDLL syscalls they trigger. It ships a Typer CLI,
 Ghidra automation scripts, a Dash UI, and notebooks so you can inventory
@@ -168,6 +172,7 @@ call-graph callgraph-ui --data-dir docs/analytics/sample_graphs --port 8060
        --module kernel32.dll `
        --module api-ms-win-core-file-l1-2-0.dll `
        --module ntdll.dll
+   ```
 
    To auto-generate missing call graphs during unification (requires Ghidra):
 
@@ -230,12 +235,12 @@ reachability: `callgraph-unified-syscall-prune`, `callgraph-project-syscalls`.
 8. **Launch the Dash explorer (pick a mode)**
 
    ```powershell
-call-graph callgraph-ui `
-    --data-dir data/interim/call_graphs `
-    --mode raw `
-    --port 8051 `
-    --exclude-report docs/analytics/empty_call_graphs.json
-```
+   call-graph callgraph-ui `
+       --data-dir data/interim/call_graphs `
+       --mode raw `
+       --port 8051 `
+       --exclude-report docs/analytics/empty_call_graphs.json
+   ```
 
 Modes:
 - `raw` (per-DLL raw graphs)
