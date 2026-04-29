@@ -357,6 +357,10 @@ def create_app(
         dcc.Store(id="graph-index", data=graph_index),
         dcc.Store(id="jump-target"),
         dcc.Store(id="jump-applied", data=0),
+        dcc.Store(id="tooltip-trigger"),
+
+        # Floating hover tooltip — position: fixed, lives outside overflow-hidden panels
+        html.Div(id="node-tooltip", className="node-tooltip"),
 
         # ── Sidebar ──────────────────────────────────────────────────────
         html.Div([
@@ -1738,6 +1742,59 @@ def create_app(
 
   /* ── Loading overlay ──────────────────────────────────────── */
   ._dash-loading { color: #38bdf8 !important; }
+
+  /* ── Hover tooltip ─────────────────────────────────────────── */
+  .node-tooltip {
+    display: none;
+    position: fixed;
+    z-index: 9999;
+    max-width: 260px;
+    min-width: 160px;
+    background: rgba(3, 8, 18, 0.97);
+    border: 1px solid rgba(56, 189, 248, 0.28);
+    border-radius: 10px;
+    padding: 0.65rem 0.8rem;
+    font-family: 'Inter', system-ui, sans-serif;
+    pointer-events: none;
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    box-shadow:
+      0 8px 32px rgba(0, 0, 0, 0.75),
+      0 0 0 1px rgba(56, 189, 248, 0.06),
+      0 0 24px rgba(56, 189, 248, 0.04);
+  }
+
+  .tt-name {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: #7dd3fc;
+    word-break: break-all;
+    padding-bottom: 0.4rem;
+    margin-bottom: 0.4rem;
+    border-bottom: 1px solid rgba(56, 189, 248, 0.12);
+    line-height: 1.35;
+  }
+
+  .tt-grid {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0.2rem 0.6rem;
+    align-items: baseline;
+  }
+
+  .tt-k {
+    font-size: 0.6rem;
+    text-transform: uppercase;
+    letter-spacing: 0.09em;
+    color: #334155;
+    white-space: nowrap;
+  }
+
+  .tt-v {
+    font-size: 0.73rem;
+    color: #94a3b8;
+    word-break: break-all;
+  }
 </style>
 </head>
 <body>
@@ -1749,5 +1806,93 @@ def create_app(
 </footer>
 </body>
 </html>"""
+
+    # ── Hover tooltip — driven by native Cytoscape events ─────────────────
+    app.clientside_callback(
+        """
+        function(elements) {
+            if (window._cyTooltipSetup) return window.dash_clientside.no_update;
+
+            function trySetup() {
+                if (!window.cy) { setTimeout(trySetup, 150); return; }
+                window._cyTooltipSetup = true;
+
+                const tooltip = document.getElementById('node-tooltip');
+                if (!tooltip) return;
+
+                // Track mouse so tooltip follows cursor smoothly
+                document.addEventListener('mousemove', function(e) {
+                    window._ttX = e.clientX;
+                    window._ttY = e.clientY;
+                    if (tooltip.style.display !== 'none') {
+                        positionTooltip(tooltip, e.clientX, e.clientY);
+                    }
+                });
+
+                function escHtml(s) {
+                    return String(s)
+                        .replace(/&/g, '&amp;')
+                        .replace(/</g, '&lt;')
+                        .replace(/>/g, '&gt;');
+                }
+
+                function row(k, v) {
+                    if (v == null || v === '' || v === 'None') return '';
+                    return '<span class="tt-k">' + k + '</span>' +
+                           '<span class="tt-v">' + escHtml(v) + '</span>';
+                }
+
+                function positionTooltip(el, x, y) {
+                    const margin = 16;
+                    const w = el.offsetWidth  || 240;
+                    const h = el.offsetHeight || 120;
+                    let left = x + margin;
+                    let top  = y - 10;
+                    if (left + w > window.innerWidth)  left = x - w - margin;
+                    if (top  + h > window.innerHeight) top  = y - h - margin;
+                    el.style.left = Math.max(margin, left) + 'px';
+                    el.style.top  = Math.max(margin, top)  + 'px';
+                }
+
+                window.cy.on('mouseover', 'node', function(e) {
+                    const d = e.target.data();
+                    const name    = d.label  || d.id      || '—';
+                    const program = d.program              || '—';
+                    const addr    = d.address              || '—';
+                    const source  = d.source               || '—';
+                    const degree  = d.degree != null ? String(d.degree) : '—';
+                    const kind    = d.is_external ? 'import / external' : 'internal';
+
+                    tooltip.innerHTML =
+                        '<div class="tt-name">' + escHtml(name) + '</div>' +
+                        '<div class="tt-grid">' +
+                            row('program', program) +
+                            row('address', addr)    +
+                            row('source',  source)  +
+                            row('degree',  degree)  +
+                            row('type',    kind)    +
+                        '</div>';
+
+                    positionTooltip(tooltip, window._ttX || 0, window._ttY || 0);
+                    tooltip.style.display = 'block';
+                });
+
+                window.cy.on('mouseout', 'node', function() {
+                    tooltip.style.display = 'none';
+                });
+
+                // Also hide on pan/zoom so tooltip doesn't linger mid-canvas
+                window.cy.on('viewport', function() {
+                    tooltip.style.display = 'none';
+                });
+            }
+
+            trySetup();
+            return window.dash_clientside.no_update;
+        }
+        """,
+        Output("tooltip-trigger", "data"),
+        Input("call-graph", "elements"),
+    )
 
     return app
