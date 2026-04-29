@@ -590,7 +590,7 @@ def create_app(
                 color="#38bdf8",
                 children=cyto.Cytoscape(
                     id="call-graph",
-                    style={"width": "100%", "height": "100%"},
+                    style={"width": "100%", "height": "100vh", "minHeight": "400px"},
                     layout=LAYOUT_PRESETS["cose"],
                     elements=[],
                     stylesheet=[
@@ -1361,9 +1361,15 @@ def create_app(
     background: #010b15;
     position: relative;
     overflow: hidden;
+    display: flex;
+    flex-direction: column;
   }
 
-  .graph-panel > div { width: 100%; height: 100%; }
+  .graph-panel > div { width: 100%; flex: 1; }
+
+  /* Slider mark labels need room below the track */
+  .rc-slider { margin-bottom: 1.2rem; }
+  .rc-slider-mark-text { color: #475569 !important; font-size: 0.7rem !important; }
 
   /* ── Header ── */
   .header {
@@ -1407,7 +1413,7 @@ def create_app(
   }
 
   /* ── Controls ── */
-  .control { display: flex; flex-direction: column; gap: 0.4rem; }
+  .control { display: flex; flex-direction: column; gap: 0.4rem; overflow: visible; }
 
   .control > label, .control label:first-child {
     font-size: 0.68rem;
@@ -1415,6 +1421,17 @@ def create_app(
     letter-spacing: 0.1em;
     color: #475569;
     font-weight: 600;
+  }
+
+  /* Dash component label resets — prevent invisible text */
+  .radio-control label,
+  .checklist label,
+  .path-mode-toggle label {
+    color: #94a3b8 !important;
+    font-size: 0.82rem !important;
+    text-transform: none !important;
+    letter-spacing: 0 !important;
+    font-weight: 400 !important;
   }
 
   /* ── Sections ── */
