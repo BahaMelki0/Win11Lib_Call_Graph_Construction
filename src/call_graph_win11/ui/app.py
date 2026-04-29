@@ -594,41 +594,59 @@ def create_app(
                     layout=LAYOUT_PRESETS["cose"],
                     elements=[],
                     stylesheet=[
+                        # ── Nodes ──────────────────────────────────────────────
                         {
                             "selector": "node",
                             "style": {
                                 "label": "data(label)",
                                 "background-color": "data(color)",
-                                "color": "#0b1224",
-                                "text-wrap": "wrap",
-                                "text-max-width": "200px",
-                                "text-overflow": "ellipsis",
-                                "text-background-color": "rgba(248,250,252,0.9)",
-                                "text-background-opacity": 0.9,
-                                "text-background-padding": "3px",
-                                "text-background-shape": "roundrectangle",
-                                "font-size": "11px",
-                                "min-zoomed-font-size": "9px",
-                                "text-outline-width": "0px",
+                                "color": "#e2e8f0",
+                                "text-valign": "bottom",
+                                "text-halign": "center",
+                                "text-margin-y": "5px",
+                                "text-wrap": "ellipsis",
+                                "text-max-width": "130px",
+                                "text-outline-color": "#010b15",
+                                "text-outline-width": "2.5px",
+                                "font-size": "10px",
+                                "font-family": "Inter, system-ui, sans-serif",
+                                "min-zoomed-font-size": "7px",
                                 "width": "data(size)",
                                 "height": "data(size)",
                                 "border-width": "1.5px",
-                                "border-color": "rgba(248,250,252,0.5)",
+                                "border-color": "rgba(255,255,255,0.18)",
+                                "background-opacity": 0.9,
+                                "shadow-blur": 10,
+                                "shadow-color": "data(color)",
+                                "shadow-opacity": 0.3,
+                                "shadow-offset-x": 0,
+                                "shadow-offset-y": 0,
                                 "transition-property": "background-color, border-color, border-width, opacity",
-                                "transition-duration": "200ms",
+                                "transition-duration": "180ms",
                             },
                         },
                         {
                             "selector": "node[show_label = false]",
-                            "style": {"label": "", "text-opacity": 0, "text-background-opacity": 0},
+                            "style": {"label": "", "text-opacity": 0},
                         },
                         {
                             "selector": "node[is_external = True]",
-                            "style": {"shape": "triangle", "opacity": 0.88},
+                            "style": {
+                                "shape": "diamond",
+                                "background-opacity": 0.65,
+                                "border-style": "dashed",
+                                "border-width": "1.5px",
+                            },
                         },
                         {
                             "selector": "node[hub = true]",
-                            "style": {"border-width": 3, "border-color": "#38bdf8"},
+                            "style": {
+                                "border-width": "3px",
+                                "border-color": "rgba(250,204,21,0.9)",
+                                "shadow-color": "rgba(250,204,21,0.6)",
+                                "shadow-blur": 18,
+                                "shadow-opacity": 0.8,
+                            },
                         },
                         {
                             "selector": "node:selected",
@@ -636,13 +654,19 @@ def create_app(
                                 "border-width": 4,
                                 "border-color": "#facc15",
                                 "overlay-color": "#facc15",
-                                "overlay-padding": 4,
-                                "overlay-opacity": 0.12,
+                                "overlay-padding": 6,
+                                "overlay-opacity": 0.15,
                             },
                         },
                         {
                             "selector": "node[path_highlight = true]",
-                            "style": {"background-color": "#f97316", "border-color": "#fde68a"},
+                            "style": {
+                                "background-color": "#f97316",
+                                "border-color": "#fde68a",
+                                "shadow-color": "#f97316",
+                                "shadow-blur": 16,
+                                "shadow-opacity": 0.65,
+                            },
                         },
                         {
                             "selector": "node[path_focus = true]",
@@ -651,6 +675,10 @@ def create_app(
                                 "border-color": "#f97316",
                                 "background-color": "#fde68a",
                                 "color": "#0f172a",
+                                "text-outline-color": "#fde68a",
+                                "shadow-color": "#f97316",
+                                "shadow-blur": 22,
+                                "shadow-opacity": 0.85,
                             },
                         },
                         {
@@ -658,83 +686,51 @@ def create_app(
                             "style": {
                                 "border-width": 6,
                                 "border-color": "#facc15",
-                                "background-color": "#fde68a",
-                                "overlay-color": "#facc15",
-                                "overlay-opacity": 0.2,
+                                "background-color": "#fef08a",
+                                "shadow-color": "#facc15",
+                                "shadow-blur": 28,
+                                "shadow-opacity": 1.0,
                             },
                         },
+                        # ── Edges ──────────────────────────────────────────────
                         {
                             "selector": "edge",
                             "style": {
-                                "line-color": "#334155",
-                                "width": 1,
+                                "line-color": "#1e3a5f",
+                                "width": 1.2,
                                 "curve-style": "bezier",
-                                "target-arrow-color": "#475569",
+                                "target-arrow-color": "#2d5a8e",
                                 "target-arrow-shape": "triangle",
-                                "arrow-scale": 0.8,
-                                "opacity": 0.4,
-                                "transition-property": "opacity, line-color",
-                                "transition-duration": "200ms",
+                                "arrow-scale": 0.75,
+                                "opacity": 0.5,
+                                "transition-property": "opacity, line-color, width",
+                                "transition-duration": "180ms",
                             },
                         },
                         {
                             "selector": "edge[perf = true]",
                             "style": {
-                                "line-color": "#1e293b",
+                                "line-color": "#0d2137",
                                 "curve-style": "haystack",
                                 "width": 0.5,
-                                "opacity": 0.18,
+                                "opacity": 0.15,
                                 "target-arrow-shape": "none",
                             },
                         },
                         {
                             "selector": "edge:selected",
-                            "style": {
-                                "line-color": "#facc15",
-                                "target-arrow-color": "#facc15",
-                                "width": 3,
-                                "opacity": 1,
-                            },
+                            "style": {"line-color": "#facc15", "target-arrow-color": "#facc15", "width": 3, "opacity": 1},
                         },
-                        {
-                            "selector": "edge[kind = 'reaches']",
-                            "style": {"line-color": "#4ade80", "target-arrow-color": "#4ade80", "opacity": 0.55},
-                        },
-                        {
-                            "selector": "edge[kind = 'import']",
-                            "style": {
-                                "line-color": "#60a5fa", "target-arrow-color": "#60a5fa",
-                                "line-style": "dashed", "opacity": 0.55,
-                            },
-                        },
-                        {
-                            "selector": "edge[kind = 'apiset']",
-                            "style": {
-                                "line-color": "#a855f7", "target-arrow-color": "#a855f7",
-                                "line-style": "dotted", "opacity": 0.6,
-                            },
-                        },
-                        {
-                            "selector": "edge[kind = 'forwarder']",
-                            "style": {
-                                "line-color": "#f97316", "target-arrow-color": "#f97316",
-                                "line-style": "dashed", "opacity": 0.6,
-                            },
-                        },
-                        {
-                            "selector": "edge[kind = 'projection']",
-                            "style": {"line-color": "#22d3ee", "target-arrow-color": "#22d3ee", "opacity": 0.7},
-                        },
-                        {
-                            "selector": "edge[kind = 'syscall']",
-                            "style": {"line-color": "#f43f5e", "target-arrow-color": "#f43f5e", "opacity": 0.75},
-                        },
+                        {"selector": "edge[kind = 'direct']",     "style": {"line-color": "#64748b", "target-arrow-color": "#64748b", "opacity": 0.55}},
+                        {"selector": "edge[kind = 'reaches']",    "style": {"line-color": "#4ade80", "target-arrow-color": "#4ade80", "opacity": 0.65}},
+                        {"selector": "edge[kind = 'import']",     "style": {"line-color": "#60a5fa", "target-arrow-color": "#60a5fa", "line-style": "dashed", "opacity": 0.65}},
+                        {"selector": "edge[kind = 'apiset']",     "style": {"line-color": "#a855f7", "target-arrow-color": "#a855f7", "line-style": "dotted", "width": 1.5, "opacity": 0.65}},
+                        {"selector": "edge[kind = 'forwarder']",  "style": {"line-color": "#fb923c", "target-arrow-color": "#fb923c", "line-style": "dashed", "opacity": 0.65}},
+                        {"selector": "edge[kind = 'projection']", "style": {"line-color": "#22d3ee", "target-arrow-color": "#22d3ee", "opacity": 0.7}},
+                        {"selector": "edge[kind = 'syscall']",    "style": {"line-color": "#f43f5e", "target-arrow-color": "#f43f5e", "width": 1.5, "opacity": 0.8}},
                         {
                             "selector": "edge[path_highlight = true]",
-                            "style": {
-                                "line-color": "#f97316", "target-arrow-color": "#facc15",
-                                "width": 2.5, "opacity": 0.9,
-                            },
+                            "style": {"line-color": "#f97316", "target-arrow-color": "#facc15", "width": 3.5, "opacity": 1},
                         },
                     ],
                 ),
@@ -1415,19 +1411,21 @@ def create_app(
   /* ── Controls ── */
   .control { display: flex; flex-direction: column; gap: 0.4rem; overflow: visible; }
 
-  .control > label, .control label:first-child {
+  /* Section header labels — only the direct <label> child of .control */
+  .control > label {
     font-size: 0.68rem;
     text-transform: uppercase;
     letter-spacing: 0.1em;
-    color: #475569;
+    color: #64748b;
     font-weight: 600;
   }
 
-  /* Dash component label resets — prevent invisible text */
+  /* All interactive labels inside Dash components must be clearly readable */
   .radio-control label,
   .checklist label,
+  .chip-group label,
   .path-mode-toggle label {
-    color: #94a3b8 !important;
+    color: #cbd5e1 !important;
     font-size: 0.82rem !important;
     text-transform: none !important;
     letter-spacing: 0 !important;
@@ -1536,30 +1534,37 @@ def create_app(
   .chip-group {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.3rem;
+    gap: 0.35rem;
   }
 
   .chip-group label {
     display: inline-flex !important;
     align-items: center;
     gap: 0.3rem;
-    padding: 0.18rem 0.5rem;
+    padding: 0.22rem 0.6rem;
     border-radius: 9999px;
-    background: rgba(30, 41, 59, 0.8);
-    border: 1px solid rgba(148, 163, 184, 0.2);
-    color: #94a3b8;
+    background: rgba(30, 41, 59, 0.9);
+    border: 1px solid rgba(100, 116, 139, 0.4);
+    color: #cbd5e1 !important;
     cursor: pointer;
     transition: background 0.12s, border-color 0.12s, color 0.12s;
-    font-size: 0.75rem;
+    font-size: 0.78rem !important;
     text-transform: none !important;
     letter-spacing: 0 !important;
     font-weight: 400 !important;
   }
 
+  .chip-group label:hover {
+    background: rgba(51, 65, 85, 0.9);
+    border-color: rgba(148, 163, 184, 0.5);
+    color: #e2e8f0 !important;
+  }
+
   .chip-group label:has(input:checked) {
-    background: rgba(56, 189, 248, 0.12);
-    border-color: rgba(56, 189, 248, 0.45);
-    color: #bae6fd;
+    background: rgba(56, 189, 248, 0.18);
+    border-color: rgba(56, 189, 248, 0.6);
+    color: #e0f2fe !important;
+    font-weight: 500 !important;
   }
 
   /* ── Checklist ── */

@@ -1,2 +1,0 @@
-[console_scripts]
-call-graph = call_graph_win11.cli:run
