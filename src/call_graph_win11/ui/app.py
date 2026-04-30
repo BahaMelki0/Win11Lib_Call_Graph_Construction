@@ -633,171 +633,182 @@ def create_app(
                     layout=LAYOUT_PRESETS["cose"],
                     elements=[],
                     stylesheet=[
-                        # ── Base node ─────────────────────────────────────────
+                        # ═══ NODES ═══════════════════════════════════════════
+                        # Base: glowing orb — transparent fill, vivid border + shadow
                         {
                             "selector": "node",
                             "style": {
                                 "label": "data(label)",
                                 "background-color": "data(color)",
-                                "color": "#d4f5d6",
+                                "background-opacity": 0.15,
+                                "color": "#c4e8c6",
                                 "text-valign": "bottom",
                                 "text-halign": "center",
                                 "text-margin-y": "6px",
                                 "text-wrap": "ellipsis",
-                                "text-max-width": "120px",
-                                "text-outline-color": "#090c09",
+                                "text-max-width": "110px",
+                                "text-outline-color": "#060809",
                                 "text-outline-width": "3px",
                                 "font-size": "10px",
                                 "font-family": "'JetBrains Mono', 'Courier New', monospace",
-                                "min-zoomed-font-size": "7px",
+                                "min-zoomed-font-size": "6px",
                                 "width": "data(size)",
                                 "height": "data(size)",
-                                "border-width": "1px",
-                                "border-color": "rgba(255,255,255,0.12)",
-                                "background-opacity": 0.88,
-                                "shadow-blur": 12,
+                                "border-width": "2px",
+                                "border-color": "data(color)",
+                                "border-opacity": 0.9,
+                                "shadow-blur": 20,
                                 "shadow-color": "data(color)",
-                                "shadow-opacity": 0.35,
+                                "shadow-opacity": 0.6,
                                 "shadow-offset-x": 0,
                                 "shadow-offset-y": 0,
-                                "transition-property": "border-color, border-width, background-color",
+                                "transition-property": "border-width, background-opacity, shadow-opacity",
                                 "transition-duration": "150ms",
                             },
                         },
-                        # ── No label in perf mode ──────────────────────────────
+                        # Perf mode — no labels
                         {
                             "selector": "node[show_label = false]",
                             "style": {"label": "", "text-opacity": 0},
                         },
-                        # ── External / import nodes — diamond outline ──────────
+                        # External / import — diamond, outline only, dim
                         {
                             "selector": "node[is_external = True]",
                             "style": {
                                 "shape": "diamond",
-                                "background-opacity": 0.55,
-                                "border-style": "dashed",
-                                "border-color": "rgba(255,255,255,0.25)",
+                                "background-opacity": 0.05,
                                 "border-width": "1.5px",
+                                "border-style": "dashed",
+                                "shadow-opacity": 0.25,
                             },
                         },
-                        # ── Syscall nodes — red hexagon, alarming ─────────────
+                        # Syscall — red hexagon, maximum alarm
                         {
                             "selector": "node[is_syscall = true]",
                             "style": {
                                 "shape": "hexagon",
                                 "background-color": "#ef4444",
-                                "border-color": "rgba(239,68,68,0.7)",
-                                "border-width": "2px",
+                                "background-opacity": 0.35,
+                                "border-color": "#ef4444",
+                                "border-width": "2.5px",
                                 "shadow-color": "#ef4444",
-                                "shadow-blur": 20,
-                                "shadow-opacity": 0.7,
-                                "color": "#fff",
+                                "shadow-blur": 28,
+                                "shadow-opacity": 0.85,
+                                "color": "#fecaca",
                             },
                         },
-                        # ── Hub nodes — gold ring ─────────────────────────────
+                        # Hub — gold ring, full glow, larger fill
                         {
                             "selector": "node[hub = true]",
                             "style": {
+                                "background-opacity": 0.35,
                                 "border-width": "2.5px",
-                                "border-color": "rgba(251,191,36,0.95)",
-                                "shadow-color": "rgba(251,191,36,0.5)",
-                                "shadow-blur": 20,
-                                "shadow-opacity": 0.9,
+                                "border-color": "#fbbf24",
+                                "shadow-color": "#fbbf24",
+                                "shadow-blur": 28,
+                                "shadow-opacity": 0.85,
                             },
                         },
-                        # ── Selected ──────────────────────────────────────────
+                        # Selected
                         {
                             "selector": "node:selected",
                             "style": {
-                                "border-width": 3,
+                                "background-opacity": 0.4,
+                                "border-width": "3px",
                                 "border-color": "#fbbf24",
+                                "shadow-color": "#fbbf24",
+                                "shadow-blur": 30,
+                                "shadow-opacity": 0.9,
                                 "overlay-color": "#fbbf24",
-                                "overlay-padding": 5,
-                                "overlay-opacity": 0.15,
+                                "overlay-padding": 4,
+                                "overlay-opacity": 0.1,
                             },
                         },
-                        # ── Path highlighted ──────────────────────────────────
+                        # Path nodes — orange glow
                         {
                             "selector": "node[path_highlight = true]",
                             "style": {
                                 "background-color": "#f97316",
-                                "border-color": "#fbbf24",
+                                "background-opacity": 0.35,
+                                "border-color": "#f97316",
                                 "shadow-color": "#f97316",
-                                "shadow-blur": 18,
-                                "shadow-opacity": 0.7,
+                                "shadow-blur": 22,
+                                "shadow-opacity": 0.8,
                             },
                         },
-                        # ── Path focus node ───────────────────────────────────
+                        # Path focus — bright orange, max visibility
                         {
                             "selector": "node[path_focus = true]",
                             "style": {
-                                "border-width": 3,
-                                "border-color": "#f97316",
-                                "background-color": "#fde68a",
-                                "color": "#1a1200",
-                                "text-outline-color": "#fde68a",
-                                "text-outline-width": "2px",
+                                "background-color": "#f97316",
+                                "background-opacity": 0.55,
+                                "border-color": "#fbbf24",
+                                "border-width": "3px",
                                 "shadow-color": "#f97316",
-                                "shadow-blur": 24,
-                                "shadow-opacity": 0.9,
+                                "shadow-blur": 28,
+                                "shadow-opacity": 1.0,
+                                "color": "#fff7ed",
+                                "text-outline-color": "#7c2d12",
                             },
                         },
-                        # ── Jump flash ────────────────────────────────────────
+                        # Jump flash — white-hot
                         {
                             "selector": "node.jump-flash",
                             "style": {
-                                "border-width": 5,
-                                "border-color": "#fbbf24",
-                                "background-color": "#fef08a",
+                                "background-color": "#fbbf24",
+                                "background-opacity": 0.7,
+                                "border-color": "#fef08a",
+                                "border-width": "4px",
                                 "shadow-color": "#fbbf24",
-                                "shadow-blur": 30,
+                                "shadow-blur": 36,
                                 "shadow-opacity": 1.0,
                             },
                         },
-                        # ── Base edge ─────────────────────────────────────────
+                        # ═══ EDGES ═══════════════════════════════════════════
+                        # Base edge — thin, dim, just enough to see structure
                         {
                             "selector": "edge",
                             "style": {
-                                "line-color": "#1a2e1b",
-                                "width": 1.2,
+                                "line-color": "#1e3320",
+                                "width": 1.5,
                                 "curve-style": "bezier",
-                                "target-arrow-color": "#253d27",
+                                "target-arrow-color": "#1e3320",
                                 "target-arrow-shape": "triangle",
-                                "arrow-scale": 0.7,
-                                "opacity": 0.6,
+                                "arrow-scale": 0.65,
+                                "opacity": 0.65,
                                 "transition-property": "opacity, line-color, width",
                                 "transition-duration": "150ms",
                             },
                         },
-                        # ── Perf mode edges ───────────────────────────────────
+                        # Perf mode — minimal
                         {
                             "selector": "edge[perf = true]",
                             "style": {
-                                "line-color": "#0f1a10",
+                                "line-color": "#111811",
                                 "curve-style": "haystack",
                                 "width": 0.6,
-                                "opacity": 0.18,
+                                "opacity": 0.2,
                                 "target-arrow-shape": "none",
                             },
                         },
-                        # ── Selected edge ─────────────────────────────────────
+                        # Selected edge
                         {
                             "selector": "edge:selected",
-                            "style": {"line-color": "#fbbf24", "target-arrow-color": "#fbbf24", "width": 3, "opacity": 1},
+                            "style": {"line-color": "#fbbf24", "target-arrow-color": "#fbbf24", "width": 3.5, "opacity": 1},
                         },
-                        # ── Edge kinds — each has semantic color ──────────────
-                        {"selector": "edge[kind = 'direct']",     "style": {"line-color": "#2d4a30", "target-arrow-color": "#2d4a30", "opacity": 0.55}},
-                        {"selector": "edge[kind = 'reaches']",    "style": {"line-color": "#4ade80", "target-arrow-color": "#4ade80", "opacity": 0.7}},
-                        {"selector": "edge[kind = 'import']",     "style": {"line-color": "#60a5fa", "target-arrow-color": "#60a5fa", "line-style": "dashed", "opacity": 0.65}},
-                        {"selector": "edge[kind = 'apiset']",     "style": {"line-color": "#a78bfa", "target-arrow-color": "#a78bfa", "line-style": "dotted", "width": 1.5, "opacity": 0.65}},
-                        {"selector": "edge[kind = 'forwarder']",  "style": {"line-color": "#f97316", "target-arrow-color": "#f97316", "line-style": "dashed", "opacity": 0.65}},
-                        {"selector": "edge[kind = 'projection']", "style": {"line-color": "#22d3ee", "target-arrow-color": "#22d3ee", "opacity": 0.7}},
-                        # ── Syscall edge — THE only red in the UI ────────────
-                        {"selector": "edge[kind = 'syscall']",    "style": {"line-color": "#ef4444", "target-arrow-color": "#ef4444", "width": 2.0, "opacity": 0.9}},
-                        # ── Path highlighted edge ─────────────────────────────
+                        # Edge kinds — semantic colors matching the legend dots
+                        {"selector": "edge[kind = 'direct']",     "style": {"line-color": "#2d4a30", "target-arrow-color": "#2d4a30", "opacity": 0.6}},
+                        {"selector": "edge[kind = 'reaches']",    "style": {"line-color": "#4ade80", "target-arrow-color": "#4ade80", "width": 1.8, "opacity": 0.75}},
+                        {"selector": "edge[kind = 'import']",     "style": {"line-color": "#60a5fa", "target-arrow-color": "#60a5fa", "line-style": "dashed", "width": 1.5, "opacity": 0.7}},
+                        {"selector": "edge[kind = 'apiset']",     "style": {"line-color": "#a78bfa", "target-arrow-color": "#a78bfa", "line-style": "dotted", "width": 1.5, "opacity": 0.7}},
+                        {"selector": "edge[kind = 'forwarder']",  "style": {"line-color": "#f97316", "target-arrow-color": "#f97316", "line-style": "dashed", "width": 1.5, "opacity": 0.7}},
+                        {"selector": "edge[kind = 'projection']", "style": {"line-color": "#22d3ee", "target-arrow-color": "#22d3ee", "width": 1.5, "opacity": 0.7}},
+                        # Syscall — only red in the entire canvas
+                        {"selector": "edge[kind = 'syscall']",    "style": {"line-color": "#ef4444", "target-arrow-color": "#ef4444", "width": 2.5, "opacity": 0.95}},
+                        # Path highlight — blazing orange
                         {
                             "selector": "edge[path_highlight = true]",
-                            "style": {"line-color": "#f97316", "target-arrow-color": "#fbbf24", "width": 4, "opacity": 1},
+                            "style": {"line-color": "#f97316", "target-arrow-color": "#fbbf24", "width": 4.5, "opacity": 1},
                         },
                     ],
                 ),
@@ -1433,11 +1444,12 @@ def create_app(
   .graph-panel > div { width: 100%; flex: 1; }
 
   .rc-slider { margin-bottom: 1.4rem; }
-  .rc-slider-mark-text { color: #3d5e3f !important; font-size: 0.66rem !important; font-family: 'JetBrains Mono', monospace !important; }
-  .rc-slider-rail { background-color: rgba(74,222,128,0.1) !important; }
-  .rc-slider-track { background-color: rgba(74,222,128,0.4) !important; }
-  .rc-slider-handle { border-color: #4ade80 !important; background: #4ade80 !important; opacity: 0.85; }
-  .rc-slider-handle:hover, .rc-slider-handle:focus { border-color: #86efac !important; box-shadow: 0 0 0 5px rgba(74,222,128,0.15) !important; }
+  .rc-slider-mark-text { color: #86efac !important; font-size: 0.65rem !important; font-family: 'JetBrains Mono', monospace !important; opacity: 0.75; }
+  .rc-slider-mark-text-active { color: #4ade80 !important; opacity: 1 !important; }
+  .rc-slider-rail { background-color: rgba(74,222,128,0.12) !important; height: 3px !important; }
+  .rc-slider-track { background-color: rgba(74,222,128,0.45) !important; height: 3px !important; }
+  .rc-slider-handle { border-color: #4ade80 !important; background: #090c09 !important; border-width: 2px !important; width: 14px !important; height: 14px !important; margin-top: -6px !important; }
+  .rc-slider-handle:hover, .rc-slider-handle-dragging { border-color: #86efac !important; box-shadow: 0 0 0 6px rgba(74,222,128,0.18) !important; }
 
   /* Header */
   .header {
