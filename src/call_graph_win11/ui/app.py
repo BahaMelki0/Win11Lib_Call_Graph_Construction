@@ -30,9 +30,43 @@ PALETTE = [
 ]
 
 LAYOUT_PRESETS = {
-    "cose": {"name": "cose", "idealEdgeLength": 120, "nodeRepulsion": 4200},
-    "concentric": {"name": "concentric", "padding": 25},
-    "breadthfirst": {"name": "breadthfirst", "directed": True, "spacingFactor": 1.1, "padding": 25},
+    "cose": {
+        "name": "cose",
+        "idealEdgeLength": 180,
+        "nodeRepulsion": 12000,
+        "nodeOverlap": 12,
+        "gravity": 60,
+        "edgeElasticity": 80,
+        "componentSpacing": 120,
+        "numIter": 1200,
+        "initialTemp": 250,
+        "coolingFactor": 0.97,
+        "minTemp": 1.0,
+        "fit": True,
+        "padding": 50,
+        "randomize": True,
+        "animate": "end",
+        "animationDuration": 700,
+        "animationEasing": "ease-out-cubic",
+    },
+    "concentric": {
+        "name": "concentric",
+        "padding": 50,
+        "fit": True,
+        "animate": True,
+        "animationDuration": 600,
+        "animationEasing": "ease-out",
+    },
+    "breadthfirst": {
+        "name": "breadthfirst",
+        "directed": True,
+        "spacingFactor": 1.6,
+        "padding": 50,
+        "fit": True,
+        "animate": True,
+        "animationDuration": 600,
+        "animationEasing": "ease-out",
+    },
 }
 
 MODES = {"raw", "syscall", "unified", "auto"}
@@ -446,7 +480,7 @@ def create_app(
                         {"label": "Fixed", "value": "fixed"},
                         {"label": "Degree scaled", "value": "degree"},
                     ],
-                    value="fixed",
+                    value="degree",
                     className="radio-control",
                     inputStyle={"marginRight": "0.3rem"},
                     labelStyle={"display": "inline-flex", "alignItems": "center", "marginRight": "0.8rem"},
@@ -882,14 +916,14 @@ def create_app(
                 min_deg = min(degree_values)
                 max_deg = max(degree_values)
                 if max_deg == min_deg:
-                    size_map = {v["node_id"]: 28.0 for v in subset_graph.vs}
+                    size_map = {v["node_id"]: 24.0 for v in subset_graph.vs}
                 else:
                     size_map = {}
                     for vertex, degree in zip(subset_graph.vs, degree_values):
                         norm = (degree - min_deg) / (max_deg - min_deg)
-                        size_map[vertex["node_id"]] = 18.0 + norm * 28.0
+                        size_map[vertex["node_id"]] = 16.0 + norm * 42.0
             else:
-                size_map = {v["node_id"]: 22.0 for v in subset_graph.vs}
+                size_map = {v["node_id"]: 24.0 for v in subset_graph.vs}
 
         highlight_nodes: set[str] = set()
         highlight_edges: set[Tuple[str, str]] = set()
@@ -1213,10 +1247,6 @@ def create_app(
             legend_children = [html.Div("No nodes to display.", className="footnote")]
 
         layout_config = dict(LAYOUT_PRESETS.get(layout_mode, LAYOUT_PRESETS["cose"]))
-        layout_config.setdefault("padding", 30)
-        if layout_config.get("name") == "cose":
-            layout_config.setdefault("animate", False)
-            layout_config.setdefault("randomize", False)
 
         return (
             nodes + edges, layout_config,
@@ -1402,8 +1432,12 @@ def create_app(
 
   .graph-panel > div { width: 100%; flex: 1; }
 
-  .rc-slider { margin-bottom: 1.2rem; }
-  .rc-slider-mark-text { color: #1a2b1b !important; font-size: 0.68rem !important; }
+  .rc-slider { margin-bottom: 1.4rem; }
+  .rc-slider-mark-text { color: #3d5e3f !important; font-size: 0.66rem !important; font-family: 'JetBrains Mono', monospace !important; }
+  .rc-slider-rail { background-color: rgba(74,222,128,0.1) !important; }
+  .rc-slider-track { background-color: rgba(74,222,128,0.4) !important; }
+  .rc-slider-handle { border-color: #4ade80 !important; background: #4ade80 !important; opacity: 0.85; }
+  .rc-slider-handle:hover, .rc-slider-handle:focus { border-color: #86efac !important; box-shadow: 0 0 0 5px rgba(74,222,128,0.15) !important; }
 
   /* Header */
   .header {
