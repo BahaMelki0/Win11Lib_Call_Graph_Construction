@@ -19,14 +19,14 @@ from dash import Dash, Input, Output, State, dcc, html
 from call_graph_win11.analysis.graph_loader import load_call_graph, load_generic_graph, to_igraph
 
 PALETTE = [
-    "#38bdf8",
-    "#a855f7",
-    "#ec4899",
-    "#f97316",
-    "#22d3ee",
-    "#4ade80",
-    "#facc15",
-    "#fb7185",
+    "#14b8a6",  # teal    — kernel32 / kernelbase
+    "#6366f1",  # indigo  — advapi32 / user32
+    "#06b6d4",  # cyan    — ole32 / combase
+    "#8b5cf6",  # violet  — ntdll
+    "#f59e0b",  # amber   — api-ms-win forwarder layer
+    "#22c55e",  # green   — misc system
+    "#e879f9",  # fuchsia — shell32 / shlwapi
+    "#fb923c",  # orange  — rpc / security
 ]
 
 LAYOUT_PRESETS = {
@@ -591,7 +591,7 @@ def create_app(
             dcc.Loading(
                 id="call-graph-loader",
                 type="circle",
-                color="#38bdf8",
+                color="#14b8a6",
                 children=cyto.Cytoscape(
                     id="call-graph",
                     style={"width": "100%", "height": "100vh", "minHeight": "400px"},
@@ -610,7 +610,7 @@ def create_app(
                                 "text-margin-y": "5px",
                                 "text-wrap": "ellipsis",
                                 "text-max-width": "130px",
-                                "text-outline-color": "#010b15",
+                                "text-outline-color": "#030d1a",
                                 "text-outline-width": "2.5px",
                                 "font-size": "10px",
                                 "font-family": "Inter, system-ui, sans-serif",
@@ -646,8 +646,8 @@ def create_app(
                             "selector": "node[hub = true]",
                             "style": {
                                 "border-width": "3px",
-                                "border-color": "rgba(250,204,21,0.9)",
-                                "shadow-color": "rgba(250,204,21,0.6)",
+                                "border-color": "rgba(245,158,11,0.9)",
+                                "shadow-color": "rgba(245,158,11,0.55)",
                                 "shadow-blur": 18,
                                 "shadow-opacity": 0.8,
                             },
@@ -656,8 +656,8 @@ def create_app(
                             "selector": "node:selected",
                             "style": {
                                 "border-width": 4,
-                                "border-color": "#facc15",
-                                "overlay-color": "#facc15",
+                                "border-color": "#f59e0b",
+                                "overlay-color": "#f59e0b",
                                 "overlay-padding": 6,
                                 "overlay-opacity": 0.15,
                             },
@@ -700,13 +700,13 @@ def create_app(
                         {
                             "selector": "edge",
                             "style": {
-                                "line-color": "#1e3a5f",
+                                "line-color": "#0a2540",
                                 "width": 1.2,
                                 "curve-style": "bezier",
-                                "target-arrow-color": "#2d5a8e",
+                                "target-arrow-color": "#163d60",
                                 "target-arrow-shape": "triangle",
                                 "arrow-scale": 0.75,
-                                "opacity": 0.5,
+                                "opacity": 0.55,
                                 "transition-property": "opacity, line-color, width",
                                 "transition-duration": "180ms",
                             },
@@ -714,7 +714,7 @@ def create_app(
                         {
                             "selector": "edge[perf = true]",
                             "style": {
-                                "line-color": "#0d2137",
+                                "line-color": "#061626",
                                 "curve-style": "haystack",
                                 "width": 0.5,
                                 "opacity": 0.15,
@@ -723,18 +723,18 @@ def create_app(
                         },
                         {
                             "selector": "edge:selected",
-                            "style": {"line-color": "#facc15", "target-arrow-color": "#facc15", "width": 3, "opacity": 1},
+                            "style": {"line-color": "#f59e0b", "target-arrow-color": "#f59e0b", "width": 3, "opacity": 1},
                         },
-                        {"selector": "edge[kind = 'direct']",     "style": {"line-color": "#64748b", "target-arrow-color": "#64748b", "opacity": 0.55}},
-                        {"selector": "edge[kind = 'reaches']",    "style": {"line-color": "#4ade80", "target-arrow-color": "#4ade80", "opacity": 0.65}},
-                        {"selector": "edge[kind = 'import']",     "style": {"line-color": "#60a5fa", "target-arrow-color": "#60a5fa", "line-style": "dashed", "opacity": 0.65}},
-                        {"selector": "edge[kind = 'apiset']",     "style": {"line-color": "#a855f7", "target-arrow-color": "#a855f7", "line-style": "dotted", "width": 1.5, "opacity": 0.65}},
-                        {"selector": "edge[kind = 'forwarder']",  "style": {"line-color": "#fb923c", "target-arrow-color": "#fb923c", "line-style": "dashed", "opacity": 0.65}},
-                        {"selector": "edge[kind = 'projection']", "style": {"line-color": "#22d3ee", "target-arrow-color": "#22d3ee", "opacity": 0.7}},
-                        {"selector": "edge[kind = 'syscall']",    "style": {"line-color": "#f43f5e", "target-arrow-color": "#f43f5e", "width": 1.5, "opacity": 0.8}},
+                        {"selector": "edge[kind = 'direct']",     "style": {"line-color": "#475569", "target-arrow-color": "#475569", "opacity": 0.5}},
+                        {"selector": "edge[kind = 'reaches']",    "style": {"line-color": "#22c55e", "target-arrow-color": "#22c55e", "opacity": 0.65}},
+                        {"selector": "edge[kind = 'import']",     "style": {"line-color": "#14b8a6", "target-arrow-color": "#14b8a6", "line-style": "dashed", "opacity": 0.7}},
+                        {"selector": "edge[kind = 'apiset']",     "style": {"line-color": "#6366f1", "target-arrow-color": "#6366f1", "line-style": "dotted", "width": 1.5, "opacity": 0.65}},
+                        {"selector": "edge[kind = 'forwarder']",  "style": {"line-color": "#f59e0b", "target-arrow-color": "#f59e0b", "line-style": "dashed", "opacity": 0.65}},
+                        {"selector": "edge[kind = 'projection']", "style": {"line-color": "#06b6d4", "target-arrow-color": "#06b6d4", "opacity": 0.7}},
+                        {"selector": "edge[kind = 'syscall']",    "style": {"line-color": "#ef4444", "target-arrow-color": "#ef4444", "width": 1.8, "opacity": 0.85}},
                         {
                             "selector": "edge[path_highlight = true]",
-                            "style": {"line-color": "#f97316", "target-arrow-color": "#facc15", "width": 3.5, "opacity": 1},
+                            "style": {"line-color": "#f97316", "target-arrow-color": "#f59e0b", "width": 3.5, "opacity": 1},
                         },
                     ],
                 ),
@@ -1313,7 +1313,7 @@ def create_app(
         ext = "png" if triggered_id == "export-png" else "svg"
         stamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         filename = f"{Path(path_value).stem}_{stamp}.{ext}"
-        return {"type": ext, "action": "download", "filename": filename, "options": {"bg": "#010b15", "full": True, "scale": 2}}
+        return {"type": ext, "action": "download", "filename": filename, "options": {"bg": "#030d1a", "full": True, "scale": 2}}
 
     app.index_string = """<!DOCTYPE html>
 <html>
@@ -1323,12 +1323,24 @@ def create_app(
 {%favicon%}
 {%css%}
 <style>
+  /* ── Theme: Deep Navy + Teal ───────────────────────────────────
+     bg:      #030d1a  (deep navy)
+     surface: #040e1c  (sidebar)
+     panel:   #081428  (cards)
+     accent:  #14b8a6  (teal)
+     second:  #6366f1  (indigo — selection / paths)
+     amber:   #f59e0b  (hubs / forwarders)
+     red:     #ef4444  (syscall edges only)
+     text:    #cdd9e5  (primary)
+     muted:   #4a6280  (secondary)
+     dim:     #1e3a52  (very dim)
+  ─────────────────────────────────────────────────────────────── */
   *, *::before, *::after { box-sizing: border-box; }
 
   body {
     margin: 0;
-    background: #010b15;
-    color: #e2e8f0;
+    background: #030d1a;
+    color: #cdd9e5;
     font-family: 'Inter', system-ui, sans-serif;
     font-size: 14px;
     line-height: 1.5;
@@ -1345,8 +1357,8 @@ def create_app(
   /* ── Sidebar ──────────────────────────────────────────────── */
   .sidebar {
     padding: 0 0 1rem 0;
-    background: #060e1a;
-    border-right: 1px solid rgba(56, 189, 248, 0.08);
+    background: #040e1c;
+    border-right: 1px solid rgba(20, 184, 166, 0.08);
     display: flex;
     flex-direction: column;
     gap: 0;
@@ -1356,13 +1368,13 @@ def create_app(
 
   .sidebar::-webkit-scrollbar { width: 3px; }
   .sidebar::-webkit-scrollbar-track { background: transparent; }
-  .sidebar::-webkit-scrollbar-thumb { background: rgba(56, 189, 248, 0.2); border-radius: 99px; }
+  .sidebar::-webkit-scrollbar-thumb { background: rgba(20, 184, 166, 0.2); border-radius: 99px; }
 
   /* ── Graph panel ──────────────────────────────────────────── */
   .graph-panel {
-    background: #010b15;
+    background: #030d1a;
     background-image:
-      radial-gradient(rgba(56, 189, 248, 0.03) 1px, transparent 1px);
+      radial-gradient(rgba(20, 184, 166, 0.03) 1px, transparent 1px);
     background-size: 28px 28px;
     position: relative;
     overflow: hidden;
@@ -1379,15 +1391,15 @@ def create_app(
   /* ── Header ───────────────────────────────────────────────── */
   .header {
     padding: 1rem 1rem 0.85rem;
-    border-bottom: 1px solid rgba(56, 189, 248, 0.1);
-    background: linear-gradient(180deg, rgba(56,189,248,0.04) 0%, transparent 100%);
+    border-bottom: 1px solid rgba(20, 184, 166, 0.1);
+    background: linear-gradient(180deg, rgba(20,184,166,0.06) 0%, transparent 100%);
   }
 
   .title {
     margin: 0;
     font-size: 1rem;
     font-weight: 700;
-    color: #38bdf8;
+    color: #14b8a6;
     letter-spacing: -0.01em;
     display: flex;
     align-items: center;
@@ -1399,7 +1411,7 @@ def create_app(
     display: inline-block;
     width: 3px;
     height: 1em;
-    background: linear-gradient(180deg, #38bdf8, #6366f1);
+    background: linear-gradient(180deg, #14b8a6, #6366f1);
     border-radius: 2px;
   }
 
@@ -1423,9 +1435,9 @@ def create_app(
     font-weight: 700;
     padding: 0.12rem 0.55rem;
     border-radius: 9999px;
-    background: rgba(56, 189, 248, 0.1);
-    border: 1px solid rgba(56, 189, 248, 0.35);
-    color: #38bdf8;
+    background: rgba(20, 184, 166, 0.1);
+    border: 1px solid rgba(20, 184, 166, 0.35);
+    color: #14b8a6;
     letter-spacing: 0.08em;
     text-transform: uppercase;
   }
@@ -1474,7 +1486,7 @@ def create_app(
     font-size: 0.62rem;
     letter-spacing: 0.12em;
     text-transform: uppercase;
-    color: #38bdf8;
+    color: #14b8a6;
     font-weight: 700;
     opacity: 0.75;
     display: flex;
@@ -1496,7 +1508,7 @@ def create_app(
 
   /* ── Stats panels ─────────────────────────────────────────── */
   .stats {
-    background: rgba(15, 23, 42, 0.5);
+    background: rgba(8, 18, 36, 0.5);
     border: 1px solid rgba(255,255,255,0.05);
     border-radius: 8px;
     padding: 0.6rem;
@@ -1510,8 +1522,8 @@ def create_app(
   }
 
   .metric {
-    background: rgba(6, 14, 26, 0.8);
-    border: 1px solid rgba(56, 189, 248, 0.07);
+    background: rgba(4, 10, 22, 0.8);
+    border: 1px solid rgba(20, 184, 166, 0.07);
     border-radius: 6px;
     padding: 0.35rem 0.5rem;
     display: flex;
@@ -1553,7 +1565,7 @@ def create_app(
   }
 
   details {
-    background: rgba(6, 14, 26, 0.6);
+    background: rgba(4, 10, 22, 0.6);
     border: 1px solid rgba(255,255,255,0.05);
     border-radius: 7px;
     padding: 0.32rem 0.5rem;
@@ -1583,7 +1595,7 @@ def create_app(
     gap: 0.28rem;
     padding: 0.2rem 0.55rem;
     border-radius: 9999px;
-    background: rgba(15, 23, 42, 0.9);
+    background: rgba(8, 18, 36, 0.9);
     border: 1px solid rgba(71, 85, 105, 0.5);
     color: #94a3b8 !important;
     cursor: pointer;
@@ -1601,23 +1613,23 @@ def create_app(
   }
 
   .chip-group label:has(input:checked) {
-    background: rgba(56, 189, 248, 0.15);
-    border-color: rgba(56, 189, 248, 0.55);
-    color: #bae6fd !important;
+    background: rgba(20, 184, 166, 0.15);
+    border-color: rgba(20, 184, 166, 0.55);
+    color: #99f6e4 !important;
     font-weight: 500 !important;
   }
 
   /* ── Checklist ────────────────────────────────────────────── */
   .checklist { display: flex; flex-direction: column; gap: 0.28rem; }
-  .checklist input { accent-color: #38bdf8; }
+  .checklist input { accent-color: #14b8a6; }
 
   /* ── Radio ────────────────────────────────────────────────── */
   .radio-control { display: flex; flex-wrap: wrap; gap: 0.55rem; }
-  .radio-control input { accent-color: #38bdf8; }
+  .radio-control input { accent-color: #14b8a6; }
 
   /* ── Dropdowns ────────────────────────────────────────────── */
   .dropdown-control .Select-control {
-    background: rgba(6, 14, 26, 0.98);
+    background: rgba(3, 9, 20, 0.98);
     border: 1px solid rgba(71, 85, 105, 0.5);
     border-radius: 7px;
     min-height: 36px;
@@ -1628,15 +1640,15 @@ def create_app(
   .dropdown-control .Select-value-label { color: #cbd5e1 !important; font-size: 0.82rem; }
   .dropdown-control .Select-arrow { border-top-color: #475569; }
   .dropdown-control .Select-menu-outer {
-    background: #060e1a;
+    background: #040e1c;
     border: 1px solid rgba(71, 85, 105, 0.6);
     box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8);
     border-radius: 8px;
     z-index: 3000;
   }
   .dropdown-control .Select-option { background-color: transparent; color: #94a3b8; font-size: 0.82rem; padding: 0.45rem 0.75rem; }
-  .dropdown-control .Select-option.is-focused { background-color: rgba(56, 189, 248, 0.12); color: #e2e8f0; }
-  .dropdown-control .Select-option.is-selected { background-color: rgba(56, 189, 248, 0.2); color: #38bdf8; }
+  .dropdown-control .Select-option.is-focused { background-color: rgba(20, 184, 166, 0.12); color: #e2e8f0; }
+  .dropdown-control .Select-option.is-selected { background-color: rgba(20, 184, 166, 0.2); color: #14b8a6; }
 
   /* ── Text inputs ──────────────────────────────────────────── */
   .text-input {
@@ -1644,7 +1656,7 @@ def create_app(
     padding: 0.38rem 0.6rem;
     border-radius: 7px;
     border: 1px solid rgba(71, 85, 105, 0.5);
-    background: rgba(6, 14, 26, 0.98);
+    background: rgba(3, 9, 20, 0.98);
     color: #e2e8f0;
     font-family: inherit;
     font-size: 0.82rem;
@@ -1653,15 +1665,15 @@ def create_app(
   }
 
   .text-input:focus {
-    border-color: rgba(56, 189, 248, 0.55);
-    box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.08);
+    border-color: rgba(20, 184, 166, 0.55);
+    box-shadow: 0 0 0 3px rgba(20, 184, 166, 0.08);
   }
   .text-input::placeholder { color: #1e293b; }
 
   /* ── Buttons ──────────────────────────────────────────────── */
   .ui-button {
     border: 1px solid rgba(71, 85, 105, 0.5);
-    background: rgba(15, 23, 42, 0.9);
+    background: rgba(8, 18, 36, 0.9);
     color: #64748b;
     padding: 0.32rem 0.65rem;
     border-radius: 6px;
@@ -1674,9 +1686,9 @@ def create_app(
   }
 
   .ui-button:hover {
-    border-color: rgba(56, 189, 248, 0.5);
-    background: rgba(56, 189, 248, 0.1);
-    color: #7dd3fc;
+    border-color: rgba(20, 184, 166, 0.5);
+    background: rgba(20, 184, 166, 0.1);
+    color: #5eead4;
   }
 
   .export-row { display: flex; gap: 0.4rem; flex-wrap: wrap; }
@@ -1694,7 +1706,7 @@ def create_app(
     color: #475569;
     line-height: 1.55;
     padding: 0.38rem 0.5rem;
-    background: rgba(6, 14, 26, 0.7);
+    background: rgba(4, 10, 22, 0.7);
     border: 1px solid rgba(255,255,255,0.04);
     border-radius: 6px;
   }
@@ -1703,7 +1715,7 @@ def create_app(
     width: 100%;
     border-collapse: collapse;
     font-size: 0.73rem;
-    background: rgba(6, 14, 26, 0.8);
+    background: rgba(4, 10, 22, 0.8);
     border: 1px solid rgba(255,255,255,0.05);
     border-radius: 8px;
     overflow: hidden;
@@ -1716,7 +1728,7 @@ def create_app(
     letter-spacing: 0.09em;
     text-transform: uppercase;
     color: #1e293b;
-    background: rgba(15, 23, 42, 0.95);
+    background: rgba(8, 18, 36, 0.95);
     border-bottom: 1px solid rgba(255,255,255,0.05);
   }
 
@@ -1726,8 +1738,8 @@ def create_app(
     vertical-align: top;
   }
 
-  .path-cell--source { font-weight: 600; color: #7dd3fc; max-width: 100px; word-break: break-word; }
-  .path-cell--hops { width: 2.6rem; text-align: center; font-variant-numeric: tabular-nums; color: #38bdf8; font-weight: 600; }
+  .path-cell--source { font-weight: 600; color: #5eead4; max-width: 100px; word-break: break-word; }
+  .path-cell--hops { width: 2.6rem; text-align: center; font-variant-numeric: tabular-nums; color: #14b8a6; font-weight: 600; }
   .path-cell--path { color: #334155; font-size: 0.68rem; }
 
   .path-table-empty {
@@ -1741,7 +1753,7 @@ def create_app(
   .footnote { font-size: 0.68rem; color: #1e293b; }
 
   /* ── Loading overlay ──────────────────────────────────────── */
-  ._dash-loading { color: #38bdf8 !important; }
+  ._dash-loading { color: #14b8a6 !important; }
 
   /* ── Hover tooltip ─────────────────────────────────────────── */
   .node-tooltip {
@@ -1751,7 +1763,7 @@ def create_app(
     max-width: 260px;
     min-width: 160px;
     background: rgba(3, 8, 18, 0.97);
-    border: 1px solid rgba(56, 189, 248, 0.28);
+    border: 1px solid rgba(20, 184, 166, 0.28);
     border-radius: 10px;
     padding: 0.65rem 0.8rem;
     font-family: 'Inter', system-ui, sans-serif;
@@ -1760,18 +1772,18 @@ def create_app(
     -webkit-backdrop-filter: blur(14px);
     box-shadow:
       0 8px 32px rgba(0, 0, 0, 0.75),
-      0 0 0 1px rgba(56, 189, 248, 0.06),
-      0 0 24px rgba(56, 189, 248, 0.04);
+      0 0 0 1px rgba(20, 184, 166, 0.06),
+      0 0 24px rgba(20, 184, 166, 0.04);
   }
 
   .tt-name {
     font-size: 0.82rem;
     font-weight: 600;
-    color: #7dd3fc;
+    color: #5eead4;
     word-break: break-all;
     padding-bottom: 0.4rem;
     margin-bottom: 0.4rem;
-    border-bottom: 1px solid rgba(56, 189, 248, 0.12);
+    border-bottom: 1px solid rgba(20, 184, 166, 0.12);
     line-height: 1.35;
   }
 
